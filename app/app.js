@@ -12,6 +12,7 @@ const home = require("./src/routes/home"); // home 폴더 안에 있는 자바�
 // 앱세팅
 app.set("views", "./src/views");
 app.set("view engine", "ejs");
+app.use(express.static(`${__dirname}/src/public`)); // dirname은 현재 있는 파일의 위치를 반환함 그 위치 안에 있는 파일(src/public)에 정적 경로로 추가해준다
 
 app.use("/", home); // use -> 미들웨어를 등록해주는 메서드.
 
