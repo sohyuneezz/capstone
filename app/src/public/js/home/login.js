@@ -14,6 +14,7 @@ function login() {
         id: id.value,
         psword: psword.value,
     };
+
     // 서버랑 프론트를 어떤 경로로 전달할 건지 지정해줘야함
     fetch("/login", {
         method: "POST",
@@ -21,5 +22,8 @@ function login() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(req), //문자열 객체로 저장됨
-    });
+    })
+    .then((res) => res.json())
+    .then((res) => console.log(res));
+
 }
