@@ -11,7 +11,7 @@
     "capstone": "bin/www.js"
   },
   "scripts": {
-    "start": "node ./bin/www.js",
+    "start": "nodemon ./bin/www.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -21,5 +21,8 @@
   "repository": {
     "type": "git",
     "url": ""
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }

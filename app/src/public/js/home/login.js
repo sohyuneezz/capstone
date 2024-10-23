@@ -33,7 +33,7 @@ function login() {
         }
     });
     // 에러 발생 시 에러 처리
-    .catch((err) => {
-        console.error("로그인 중 에러 발생");
-    });
+    // .catch((err) => {
+    //     console.error("로그인 중 에러 발생");
+    // });
 }
