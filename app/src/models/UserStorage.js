@@ -17,6 +17,15 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
         }, {});
         return newUsers;
     }
+    static getUserInfo(id) {
+        const users = this.#users;
+        const idx = users.id.indexOf(id);
+        const usersKeys = Objects.keys(users); // => [id, psword, name]
+        const userInfo = usersKeys.redue((newUser, info) => {
+            newUser[info] = users[info][idx];
+            return newUser;
+        }, {});
+    }
 }
 
 module.exports = UserStorage;
