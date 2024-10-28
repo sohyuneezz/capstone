@@ -1,0 +1,260 @@
+@charset "UTF-8";
+/*************************************************
+스포츠월드 - 메인
+**************************************************/
+.container {
+    padding-top: 5rem;
+}
+.main-sec .tit-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+.main-sec .tit-wrap .link {
+    font-size: 1rem;
+    color: var(--black2);
+    text-decoration: underline;
+}
+.main-sec .more {
+    position: relative;
+    padding-right: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--black2);
+}
+.main-sec .more::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 0.6rem;
+    height: 0.6rem;
+    /* background: url(../../../../images/main/ico_more.svg) no-repeat 0 0 / 100%; */
+    transform: var(--y50);
+}
+.main-sec.main-banner {
+    position: relative;
+}
+/* 나에게 맞는 운동 */
+.main-sec.main-banner .my-sports {
+    position: absolute;
+    top: 5rem;
+    left: 50%;
+    z-index: 998; 
+    width: 390px; 
+    height: auto; 
+    margin-left: -195px;
+    padding: 1.2rem;
+    border-radius: 1rem;
+    background-color:#897e7e;
+    box-shadow: var(--boxshadow1);
+    transform: none; 
+    opacity: 1; /* Swiper가 보이도록 설정 */
+    transition: opacity 500ms;
+}
+
+.main-sec.main-banner .my-sports .swiper {
+    width: 100%; 
+    height: 400px; /* 고정된 높이를 지정 */
+    border-radius: 1rem; 
+    overflow: hidden;
+    position: relative;
+}
+
+.main-sec.main-banner .my-sports .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-align: center;
+    height: 100%; /* 고정된 부모 높이를 상속받음 */
+    border-radius: 1rem;
+}
+
+
+.main-sec.main-banner .my-sports .swiper-pagination {
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.main-sec.main-banner .my-sports .swiper-pagination-bullet {
+    background-color: #007aff;
+}
+
+.main-sec.main-banner .my-sports .swiper-pagination-bullet-active {
+    background-color: #ff5f5f;
+}
+
+
+/* 빅배너 */
+.swiper.sports-main-banner .img {
+    overflow: hidden;
+    position: relative;
+    height: 33rem;
+}
+.swiper.sports-main-banner .img img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    max-width: none;
+    height: 100%;
+    transform: var(--x50);
+}
+.swiper.sports-main-banner .img .mo {
+    display: none;
+ }
+.swiper.sports-main-banner .inner-con {
+    display: flex;
+    position: absolute;
+    top: 9.2rem;
+    left: 50%;
+    width: 100%;
+    padding: 0 4rem;
+    transform: var(--x50);
+
+}
+.swiper.sports-main-banner .detail {
+    max-width: 28rem;
+}
+.swiper.sports-main-banner .tit {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
+    min-height: 5.75rem;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    opacity: 0;
+}
+.swiper.sports-main-banner .con {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
+    margin: 0.8rem 0;
+    font-size: 1.2rem;
+    color: var(--white);
+    text-overflow: ellipsis;
+    opacity: 0;
+}
+.swiper.sports-main-banner .btn {
+    font-weight: 400;
+    opacity: 0;
+}
+.swiper.sports-main-banner .swiper-slide.swiper-slide-active .tit {
+    animation: slideTxtMove 1s .2s both;
+}
+.swiper.sports-main-banner .swiper-slide.swiper-slide-active .con {
+    animation: slideTxtMove 1s .2s both;
+    animation-delay: .2s;
+}
+.swiper.sports-main-banner .swiper-slide.swiper-slide-active .btn {
+    animation: slideTxtMove 1s .2s both;
+    animation-delay: .4s;
+}
+.swiper.sports-main-banner .slide-bottom {
+    position: absolute;
+    bottom: 9rem;
+    left: 50%;
+    z-index: 20;
+    width: 100%;
+    padding: 0 4rem;
+    max-width: var(--conwidth);
+    transform: var(--x50);
+}
+.swiper.sports-main-banner .slide-bottom .swiper-pagination {
+    white-space: nowrap;
+}
+.swiper.sports-main-banner .swiper-button-next, 
+.swiper.sports-main-banner .swiper-button-prev {
+    top: -153px;
+    width: 30px;
+    height: 60px;
+    margin-top: 0;
+}
+.swiper.sports-main-banner .swiper-button-next {
+    right: 0;
+}
+.swiper.sports-main-banner .swiper-button-prev {
+    left: 0;
+}
+.swiper.sports-main-banner .swiper-button-next::after, 
+.swiper.sports-main-banner .swiper-button-prev::after {
+    display: none;
+}
+.swiper.sports-main-banner .swiper-button-next::before, 
+.swiper.sports-main-banner .swiper-button-prev::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url(../../../../images/main/banner_arrow.svg) no-repeat 0 0 / 100%;
+}
+.swiper.sports-main-banner .swiper-button-prev::before {
+    transform: rotate(-180deg);
+}
+/* 화면 너비가 960px 이상일 때 적용되는 .con01 스타일 */
+@media only screen and (min-width: 960px) {
+
+.mm {width:100%;max-width:1380px;margin:0 auto;padding: 0 40px;}
+    
+    /* con01 */
+    .rowgroup				{width: 100%;background: url('/mydata/_img/pc/main/rowgroup_bg.png');background-position: center;position: relative;padding-bottom: 75px;z-index: 0;}
+    .rowgroup::before		{content: '';display: inline-block;width: 278px;height: 221px;background: url('/mydata/_img/pc/main/main_bg.png')no-repeat 50% 50%;position: absolute;top: 0px;right: 0px;z-index: -2;}
+    .rowgroup::after		{content: '';display: inline-block;width: 171px;height: 257px;background: url('/mydata/_img/pc/comn/cont_cc02.png')no-repeat 50% 50%;position: absolute;bottom: -88px;right: 3%;z-index: -1;}
+    .con01					{display:grid;grid-template-columns:36.15% calc(63.85% - 50px);column-gap:50px;row-gap:40px;padding: 60px 40px 100px;}
+    .banner_wrap			{grid-row: 1 / 3; position:relative; margin-bottom:-13px}
+    .banner_wrap .banner-play-button {display:block;width: 9px;height: 13px;background: url(/mydata/_img/pc/main/stop.png)no-repeat 50% 50%;font-size:0;/* position:absolute; */left: 10px;bottom:-38px;opacity:0.8;transform: translateY(23px);margin-left: 10px;}
+    .banner_wrap .banner-play-button.play {background: url(/mydata/_img/pc/main/play.png)no-repeat 50% 50%;}
+    .banner .slick-slide	{ }
+    .banner .slick-slide a {display:block; border-radius:30px; overflow:hidden;}
+    .banner .slick-slide a:focus {margin:2px}
+    .banner .slick-slide a img {width:100%; height:100%}
+    .banner .slick-slide a img.mobile {display:none !important}
+    .banner	.slick-arrow			{display:none !important}
+    .banner .slick-dots				{text-align:center;margin-top:10px;position: absolute;left: 35px;top: auto;}
+    .banner .slick-dots li			{display: inline-block !important;}
+    .banner .slick-dots li + li		{margin-left:15px}
+    .banner .slick-dots li button	{display:inline-block; width:10px; height:10px; background:#d5d5d5; border-radius:50%; font-size:0}
+    .banner .slick-dots li.slick-active button {background:#0E81A0 }
+    
+    .banner .ban {display:block !important}
+    
+    
+    .search_area			{margin-top:10px}
+    .search_area > p		{display:flex;align-items: center; position:relative}
+    .search_area > p span	{font:500 22px/22px "Poppins", "Noto Sans KR", sans-serif;color:#1F4E9C;margin-right: 15px;}
+    .search_area > p input	{height:66px; border:2px solid  #1F4E9C; background:#fff; border-radius:5px; padding:0 25px; font:400 17px/22px "Poppins", "Noto Sans KR", sans-serif; width:100%; color:#444}
+    .search_area > p a		{display: inline-block; background:  #1F4E9C url('/mydata/_img/pc/cont/search_btn.png')no-repeat 50% 50%; width:65px; height:65px; transition: all 0.2s; font-size:0; position:absolute; right:0; top:0;  border-radius:0 5px 5px 0; }
+    .search_area > p a:hover {background-color: #1F4E9C}
+    
+    .search_area .search_ul		 {padding: 12px 0 0 17%;}
+    .search_area .search_ul li   {display:inline-block; margin-right:20px}
+    .search_area .search_ul li a {font:400 17px/22px "Poppins", "Noto Sans KR", sans-serif; color:#72949b}
+    .search_area .search_ul li a:hover {text-decoration:underline}
+    
+    .quick					{display:grid;grid-template-columns: repeat(3, 1fr); border-radius:15px; box-shadow: 0px 10px 20px 6px rgba(0,0,0,0.07);background: #fff;}
+    .quick li a				{display:flex;font:400 18px/22px "Poppins", "Noto Sans KR", sans-serif;color:#111;width:100%;height:100%;position:relative;transition:all 0.2s;align-items: center;padding: 12% 5%;/* white-space: nowrap; */word-break: keep-all;}
+    .quick li a::after		{display:inline-block; content:''; width:1px; height:60px; background:#eee; position:absolute; right:0; }
+    .quick li a::before		{display:inline-block;content:'';width: 90px;height: 90px;background: url('/mydata/_img/pc/main/quick01.png')no-repeat 70% 50%;transition:all 0.2s;}
+    .quick li a span.text	{display:block; font:300 15px/20px "Poppins", "Noto Sans KR", sans-serif;color:#888;word-break: keep-all;}
+    .quick li:nth-child(-n+3) a			{border-bottom:1px solid #eee;}
+    .quick li:nth-child(3n) a::after	{display:none}
+    
+    .quick li:nth-child(2) a:before {background:url('/mydata/_img/pc/main/quick02.png')no-repeat 50% 50%}
+    .quick li:nth-child(3) a:before {background:url('/mydata/_img/pc/main/quick03.png')no-repeat 50% 50%}
+    .quick li:nth-child(4) a:before {background:url('/mydata/_img/pc/main/quick04.png')no-repeat 65% 50%;}
+    .quick li:nth-child(5) a:before {background:url('/mydata/_img/pc/main/quick05.png')no-repeat 50% 50%}
+    .quick li:nth-child(6) a:before {background:url('/mydata/_img/pc/main/quick06.png')no-repeat 50% 50%} 
+    .quick li a:hover				{color: #008859;background-color: #f3fcf8;}
+    .quick li a:hover:before		{background-position-y:38%;}
+    .quick li a:hover span.text		{color:#008859}
+}

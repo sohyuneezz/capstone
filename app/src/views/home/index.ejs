@@ -3,9 +3,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>지식on대진</title>
+            <link rel="icon" type="image/x-icon" href="">
+            <link rel="icon" type="image/svg+xml" href="">
+            <link rel="stylesheet" type="text/css" href="/css/home/common.css">
+            <link rel="stylesheet" type="text/css" href="/css/home/reset.css">
+            <link rel="stylesheet" type="text/css" href="/css/home/main.css">
+            <link rel="stylesheet" type="text/css" href="/css/home/sub.css">
+            <link rel="stylesheet" type="text/css" href="/css/home/swiper-bundle.min.css">
+    <script src="/js/home/login.js" defer></script> 
 </head>
-<body>
-    여기는 루트입니다.
+
+<body class="kbs-sports vsc-initialized">
+	<div class="wrap">
+	<!--==============================headerstart===========================-->
+
+		<aside id="following-content" class="following" style="top: 150px;">
+			<ul>
+				<li style="list-style: none;">
+					<a href="#" style="width: 100px;">연계사이트</a>
+				</li>   
+				<li style="list-style: none;">
+					<a id="a1" href="https://www.daejin.ac.kr/daejin/index.do" target="_blank" style="width: 100px;">
+						대진대학교
+					</a>
+				</li>
+				<li style="list-style: none;">
+					<a id="a2" href="https://library.daejin.ac.kr/main_main.mir" target="_blank" style="width: 100px;">
+						중앙도서관
+					</a>
+				</li>
+				<li style="list-style: none;">
+					<a id="a3" href="https://job.daejin.ac.kr/clientMain/a/t/main.do" target="_blank" style="width: 100px;">
+						취업지원센터
+					</a>
+				</li>
+				<li style="list-style: none;">
+					<a id="a4" href="https://together.daejin.ac.kr/clientMain/a/t/main.do" target="_blank" style="width: 100px;">
+						트윈
+					</a>
+				</li>
+				<li style="list-style: none;">
+					<a id="a5" href="https://www.work24.go.kr/cm/main.do" target="_blank" style="width: 100px;">
+						고용 24
+					</a>
+				</li>
+				<li style="list-style: none;">
+					<a id="a6" href="https://lms.jobaba.net/gjf/home.do?callback=empty" target="_blank" style="width: 100px;">
+						잡아바 러닝센터
+					</a>
+				</li>
+			<li class="close">
+			<a id="toggle-button" href="javascript:void(0);" onclick="toggleContent();" style="width: 100px;">닫힘</a>
+			</li>
+			</ul>
+		</aside>
+
+		<script>
+            function toggleContent() {
+             var items = document.querySelectorAll("#following-content ul li:not(.close)");
+             var button = document.getElementById("toggle-button");
+
+             if (items[0].style.display === "none") {
+               items.forEach(function(item) {
+                  item.style.display = "list-item";
+               });
+               button.textContent = "닫힘";
+            } else {
+               items.forEach(function(item) {
+                  item.style.display = "none";
+               });
+               button.textContent = "열림";
+            }
+         }
+
+        </script>
+
+<script>
+	function getCookie(cname) {
+ 	  var name = cname + "=";
+ 	  var decodedCookie = decodeURIComponent(document.cookie);
+ 	  var ca = decodedCookie.split(';');
+ 	  for(var i = 0; i <ca.length; i++) {
+ 	    var c = ca[i];
+ 	    while (c.charAt(0) == ' ') {
+ 	      c = c.substring(1);
+ 	    }
+ 	    if (c.indexOf(name) == 0) {
+ 	      return c.substring(name.length, c.length);
+ 	    }
+ 	  }
+ 	  return "";
+ 	}
+  
+  	function pad(n, width) {
+  	  n = n + '';
+  	  return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+  	}
+  
+	var objLeftTime;
+	var objClickInfo;
+	var latestTime;
+	var expireTime;
+	var timeInterval = 1000; // 1초 간격 호출
+	var firstLocalTime = 0;
+	var elapsedLocalTime = 0;
+	var stateExpiredTime = false;
+	var logoutUrl = "/auth/actionLogout.do";
+	var timer;
+  
+	function init() {
+		objLeftTime = document.getElementById("leftTimeInfo");
+		
+		if (objLeftTime == null) {
+			return;
+		}
+		objClickInfo = document.getElementById("clickInfo");
+
+		latestTime = getCookie("egovLatestServerTime");
+		expireTime = getCookie("egovExpireSessionTime");
+		
+		elapsedTime = 0;
+		firstLocalTime = (new Date()).getTime();
+		showRemaining();
+		
+		timer = setInterval(showRemaining, timeInterval); // 1초 간격 호출
+	}
+
+	function showRemaining() {
+		elapsedLocalTime = (new Date()).getTime() - firstLocalTime;
+		
+		var timeRemaining = expireTime - latestTime - elapsedLocalTime;
+		if ( timeRemaining < timeInterval ) {
+			clearInterval(timer);
+			objLeftTime.innerHTML = "00:00:00";
+			objClickInfo.text = '시간만료'; //시간만료
+			stateExpiredTime = true;
+			alert('로그인 세션시간이 만료 되었습니다.');//로그인 세션시간이 만료 되었습니다.
+			// reload content main page
+			$("#sessionInfo").hide();
+
+			parent.frames["_content"].location.href = logoutUrl;
+			//parent.frames["_content"].location.reload();
+
+			return;
+		}
+		var timeHour = Math.floor(timeRemaining/1000/60 / 60); 
+		var timeMin = Math.floor((timeRemaining/1000/60) % 60);
+		var timeSec = Math.floor((timeRemaining/1000) % 60);
+		//objLeftTime.textContent = pad(timeHour,2) +":"+ pad(timeMin,2) +":"+ pad(timeSec,2);
+		//objLeftTime.outerText = pad(timeHour,2) +":"+ pad(timeMin,2) +":"+ pad(timeSec,2);
+		objLeftTime.innerHTML = pad(timeHour,2) +":"+ pad(timeMin,2) +":"+ pad(timeSec,2);
+	}
+  
+	function reqTimeAjax() {
+	  	
+	  	if (stateExpiredTime==true) {
+	  		alert('시간을 연장할수 없습니다.');
+	  		return;
+	  	}
+	  	
+		$.ajax({
+		    url:'/uat/uia/refreshSessionTimeout.do', //request 보낼 서버의 경로
+		    type:'get', // 메소드(get, post, put 등)
+		    data:{}, //보낼 데이터
+		    success: function(data) {
+		        //서버로부터 정상적으로 응답이 왔을 때 실행
+	        	latestTime = getCookie("egovLatestServerTime");
+	        	expireTime = getCookie("egovExpireSessionTime");
+	        	init();
+		        //alert("정상수신 , data = "+data);
+		    },
+		    error: function(err) {
+		    	alert("err : "+err);
+		        //서버로부터 응답이 정상적으로 처리되지 못햇을 때 실행
+		    	//alert("오류발생 , error="+err.state());
+		    }
+		});
+		return false;
+	}
+	
+	function logout() {
+	    if(!confirm("로그아웃을 진행 하시겠습니까?")) {
+	    	return;
+	    }
+		location.href = logoutUrl;
+	}
+</script>
+
+    <header id="header" class="header">
+        <!-- <div id="skip_nav"><a href="#content">본문 바로가기</a></div> -->
+
+        <div class="top-wrap">
+            <div class="flex-fs">
+                <button type="button" class="all-menu"><span class="hidden">전체메뉴</span></button>
+                <a href="/index.do" class="home-logo">대진On지식</a>
+
+                <nav class="gnb-wrap">
+                    <div class="flex-sb">
+                        <ul class="gnb-menu">
+							
+								<li>
+									<a href="employment_info.html" class="depth1 hover"><strong class="left_title_strong"><strong class="top_title_strong">취업정보</strong></strong></a>
+									<ul class="sub-list" style="display: none;">
+										
+											<li>
+												<a href="employment_info.html" class="depth2"> 취업사이트</a>
+											</li>
+										
+											<li>
+												<a href="careerMap.html" class="depth2"> 취업로드맵</a>
+											</li>
+
+											<li>
+												<a href="/smokp/noticeList.do" class="depth2"> 취업지원 </a>
+											</li>
+									</ul>
+								</li>
+				
+							
+								<li>
+									<a href="/spwd/CourseInfo/getCntrCnts.do?fclt_code=SPWD&amp;cnts_clss=CNTS&amp;cnts_type=USED" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">연구정보</strong></strong></a>
+									<ul class="sub-list" style="display: none;">
+										
+											<li>
+												<a href="/spwd/CourseInfo/getCntrCnts.do?fclt_code=SPWD&amp;cnts_clss=CNTS&amp;cnts_type=USED" class="depth2"> 학회일정 </a>
+											</li>
+										
+											<li>
+												<a href="/notice/noticeList.do" class="depth2"> 공모전일정 </a>
+											</li>
+										
+											<li>
+												<a href="/spwd/CourseInfo/courseRegistrationView.do" class="depth2"> 학술사이트 </a>
+											</li>
+									</ul>
+								</li>
+				
+								<li>
+									<a href="qna/qna.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">커뮤니티</strong></strong></a>
+									<ul class="sub-list" style="display: none;">
+									   
+										  <li>
+											 <a href="qna/qna.html" class="depth2"> Q&A </a>
+										  </li>
+									   
+										  <li>
+											 <a href="qna/notice.html" class="depth2"> 공지사항 </a>
+										  </li>
+									   
+										  <li>
+											 <a href="qna/data.html" class="depth2"> 자료실 </a>
+										  </li>
+		 
+													 <li>
+											 <a href="qna/share.html" class="depth2"> 주제공유 </a>
+										  </li>
+									</ul>
+								</li>
+
+                                <li>
+									<a href="/notice/noticeList.do" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">상담</strong></strong></a>
+									<ul class="sub-list" style="display: none;">
+
+									<li>
+										<a href="counsel/counsel.html" class="depth2"> 신청 </a>
+									</li>
+
+									<li>
+										<a href="counsel/list.html" class="depth2"> 내역 </a>
+									</li>
+									</ul>
+								</li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="gnb-bg" style="display: none;">
+                    <div class="flex-sb">
+                        <p class="txt-info"><strong class="stress2"></strong></p>
+                        <ul class="mypage-menu">
+                            <li>
+                                <a href="/util/myPage/currentSituation.do" class="depth1">마이페이지</a>
+                                <ul class="">
+                                    <li><a href="/util/myPage/myInfoEdit.do" class="depth2">내정보 수정 </a></li>
+                                    <li><a href="/util/myPage/currentSituation.do" class="depth2">목표리스트</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="util-menu">
+                    <li class="mypage"><a href="/util/myPage/currentSituation.do" class="ico"><span class="hidden">마이페이지</span></a></li>
+                    <li class="search"><a href="search.html" class="ico"><span class="hidden">검색</span></a></li>
+                    		<li class="login"><a href="login.html" class="btn sm">로그인</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+	<!--==============================headerend=============================-->
+	    
+    <!-- content -->
+    <main id="container" class="container">
+        <div class="mm con01">
+			<div class="banner_wrap">
+				<div class="swiper mySwiper">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<a href="https://kdata.or.kr/mydata/www/contents/introduction/view.do">
+								<img src="../../../../image/img_1.jpg" alt="슬라이드 1" />
+							</a>
+						</div>
+						<div class="swiper-slide">
+							<a href="https://www.kdata.or.kr/mydata/www/contents/mydata_itr/view.do">
+								<img src="../../../../image/img_2.jpg" alt="슬라이드 2" />
+							</a>
+						</div>
+					</div>
+					<!-- 페이지네이션 -->
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+			
+				<div class="search_area">
+					<p>
+						<span>SEARCH</span>
+						<input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" onkeyup="fnKeyUp();">
+						<label for="searchKeyword">통합검색</label>
+						<a href="javascript:search();" class="search_btn">검색</a>
+					</p>
+					<ul class="search_ul">
+						<li><a href="javascript:keywordSearch('데이터');">#데이터</a></li>
+						<li><a href="javascript:keywordSearch('API소재 정보');">#API소재 정보</a></li>
+						<li><a href="javascript:keywordSearch('마이데이터');">#마이데이터</a></li>
+						<li><a href="javascript:keywordSearch('활용제도');">#활용제도</a></li>
+					</ul>
+				</div><!-- //search_area -->
+				
+				<ul class="quick">
+					<li>
+						<a href="">
+							<span>
+								<span class="tt">가이드북</span>
+								<span class="text">대진On지식 활용법</span>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="careerMap.html">
+							<span>
+								<span class="tt">CareeMap</span>
+								<span class="text">취업 로드맵 제공</span>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<span class="tt">AI 학습플래너</span>
+								<span class="text">AI가 도와주는 학습계획</span>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="employment_info.html">
+							<span>
+								<span class="tt">취업사이트</span>
+								<span class="text">취업 관련 사이트</span>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<span class="tt">주제공유</span>
+								<span class="text">학우들의 지식 공유</span>
+							</span>
+						</a>
+					</li>
+					<li>
+						 <a href=""> 
+							<span>
+								<span class="tt">일정</span>
+								<span class="text">학회,공모전 일정</span>
+							</span>
+						</a>
+					</li>
+				</ul>
+		</div>
+	</main>
+    <!-- //content -->
+	    
+	<!--===================================bottom=start==========================-->
+
+	<footer id="footer" class="footer">
+        <div class="util-wrap">
+            <div class="info-menu">
+                <span class="txt">대한민국</span>
+                <span class="txt">만든이: 김명진 이가은 최소현 최재원</span>
+            </div>
+        </div>
+        <p class="copyright">
+            COPYRIGHTS 2024 K.L.C.C ALL RIGHTS RESERVED.
+        </p>
+    </footer>
+
+	<!--===================================bottom=end============================-->
+	</div>
 </body>
 </html>

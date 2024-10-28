@@ -11,6 +11,9 @@ const output = {
     login: (req, res) => { // 앞에 슬래시(루트) 뺴먹으면 작동 안됨
         res.render("home/login");
     },
+    register: (req, res) => {
+        res.render("home/register");
+    }
 };
 
 
