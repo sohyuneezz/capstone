@@ -5,7 +5,7 @@
 // DOM을 이용해서 자바스크립트에서 html을 제어할 수 있게 함
 const id = document.querySelector("#id"), // 태그 정보를 개발자 임의로 선택자로 부여
     psword = document.querySelector("#psword"),
-    loginBtn = document.querySelector("button");
+    loginBtn = document.querySelector("#button");
 
 loginBtn.addEventListener("click", login);
 

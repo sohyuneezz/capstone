@@ -4,7 +4,7 @@ const id = document.querySelector("#id"),
     name = document.querySelector("#name"),
     psword = document.querySelector("#psword"),
     confirmPsword = document.querySelector("#confirm-psword"),
-    registerBtn = document.querySelector("#btnregister");
+    registerBtn = document.querySelector("#button");
 
 registerBtn.addEventListener("click", register);
 
@@ -15,7 +15,7 @@ function register() {
         psword: psword.value,
         confirmPsword: confirmPsword.value,
     };
-    
+    console.log(req);
     // 서버랑 프론트를 어떤 경로로 전달할 건지 지정해줘야함
     fetch("/register", {
         method: "POST",
@@ -34,7 +34,7 @@ function register() {
         }
     });
     // 에러 발생 시 에러 처리
-    // .catch((err) => {
-    //     console.error("로그인 중 에러 발생");
-    // });
+    .catch((err) => {
+        console.error("회원가입 중 에러 발생");
+    });
 }
