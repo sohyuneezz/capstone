@@ -35,9 +35,9 @@ function register() {
         } else {
             alert(res.msg); // 실패할 시 서버에서 보내는 메시지 띄움
         }
-    });
+    })
     // 에러 발생 시 에러 처리
-    // .catch((err) => {
-    //     console.error("회원가입 중 에러 발생");
-    // });
+    .catch((err) => {
+        console.error("회원가입 중 에러 발생");
+    });
 }

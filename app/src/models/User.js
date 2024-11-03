@@ -1,5 +1,6 @@
 "use strict";
 
+const { response } = require("express");
 const UserStorage = require("./UserStorage");
 
 class User {
@@ -8,9 +9,9 @@ class User {
     }
     
     // 로그인 메서드
-    login() {
+    async login() {
         const client = this.body;
-        const { id, psword } = UserStorage.getUserInfo(client.id);
+        const {id, psword} = await UserStorage.getUserInfo(client.id);
         
         if (id) {
             if (id === client.id && psword === client.psword) {
