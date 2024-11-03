@@ -28,6 +28,14 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
 
         return userInfo;
     }
+
+    static save(userInfo) {
+        const users = this.#users;
+        users.id.push(userInfo.id);
+        users.name.push(userInfo.name);
+        users.psword.push(userInfo.psword);
+        return { success: true };
+    }
 }
 
 module.exports = UserStorage;
