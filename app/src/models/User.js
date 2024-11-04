@@ -1,3 +1,4 @@
+// UserStorage 데이터 검증 및 조작
 "use strict";
 
 const { response } = require("express");
@@ -11,16 +12,19 @@ class User {
     // 로그인 메서드
     async login() {
         const client = this.body;
-        const {id, psword} = await UserStorage.getUserInfo(client.id);
+        try {
+            const {id, psword} = await UserStorage.getUserInfo(client.id);
         
-        if (id) {
-            if (id === client.id && psword === client.psword) {
-                return { success: true };
+            if (id) {
+                if (id === client.id && psword === client.psword) {
+                    return { success: true };
+                }
+                return { success: false, msg: "비밀번호가 틀렸습니다."};
             }
-            return { success: false, msg: "비밀번호가 틀렸습니다."};
-        }
         return { success: false, msg: "존재하지 않는 아이디입니다."};
-
+        } catch(err) {
+            return { success: false, mag: err };
+        }
     }
     async register() {
         const client = this.body;
