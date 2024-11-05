@@ -1,27 +1,105 @@
-<!-- 로그인 
-아이디, 패스워드에 아이디값 부여 -> js 연결
-login.js에서 로그인 버튼 button -> #btnLogin 으로 수정 -->
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="/css/home/login.css">
-    <script src="/js/home/login.js" defer></script>
-    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="">
+    <link rel="icon" type="image/svg+xml" href="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>지식on대진 - 로그인</title>
+    <link rel="stylesheet" type="text/css" href="../css/home/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/sub.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/swiper-bundle.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="../js/home/common.js"></script>
+    <script src="/js/swiper-bundle.min.js"></script>
+    <script src="../js/home/login.js" defer></script> <!-- login.js 연결 -->
 </head>
-<body>
-    <div class="login-page">
-        <div class="form">
-          <form class="login-form">
-            <input id="id" type="text" placeholder="아이디"/>
-            <input id="psword" type="password" placeholder="비밀번호"/>
-            <p id="button">login</p>
-            <p class="message">Not registered? <a href="/register">Create an account</a></p>
-          </form>
-        </div>
-      </div>
+<body onload="fnInit();" class="kbs-sports footer-visible vsc-initialized">
+
+    <div class="wrap">
+        <!--============================== Header =============================-->
+        <header id="header" class="header">
+            <div class="top-wrap">
+                <div class="flex-fs">
+                    <button type="button" class="all-menu"><span class="hidden">전체메뉴</span></button>
+                    <a href="/index.do" class="home-logo">대진On지식</a>
+                    <nav class="gnb-wrap">
+                        <div class="flex-sb">
+                            <ul class="gnb-menu">
+                                <li>
+                                    <a href="employment_info.html" class="depth1 hover"><strong class="left_title_strong"><strong class="top_title_strong">취업정보</strong></strong></a>
+                                    <ul class="sub-list" style="display: none;">
+                                        <li><a href="employment_info.html" class="depth2"> 취업사이트</a></li>
+                                        <li><a href="careerMap.html" class="depth2"> 취업로드맵</a></li>
+                                        <li><a href="noticeList.do" class="depth2"> 취업지원 </a></li>
+                                    </ul>
+                                </li>
+                                <!-- 나머지 메뉴 항목 생략 -->
+                            </ul>
+                        </div>
+                    </nav>
+                    <ul class="util-menu">
+                        <li class="mypage"><a href="/util/myPage/currentSituation.do" class="ico"><span class="hidden">마이페이지</span></a></li>
+                        <li class="search"><a href="search.html" class="ico"><span class="hidden">검색</span></a></li>
+                        <li class="login"><a href="/login" class="btn sm">로그인</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <!--============================== Header End =============================-->
+
+        <!--============================== Content =============================-->
+        <main id="container" class="container">
+            <form name="loginForm" id="loginForm" class="login-form">
+                <section id="content" class="content">
+                    <header class="tit-area">
+                        <h1 class="tit-type1">로그인</h1>
+                    </header>
+                    <section class="login-wrap">
+                        <fieldset>
+                            <legend>로그인 정보</legend>
+                            <div class="form-area">
+                                <input id="id" type="text" class="input" name="id" title="아이디 입력" placeholder="아이디를 입력해주세요.">
+                                <p class="error" style="display:none;">입력값을 확인해주세요</p> <!-- 오류 메시지 -->
+                            </div>
+                            <div class="form-area">
+                                <input id="psword" type="password" class="input" name="password" onkeypress="fn_enter_key_in(event)" title="비밀번호 입력" placeholder="비밀번호를 입력해주세요.">
+                            </div>
+                            <div class="check-area">
+                                <span class="check-con">
+                                    <input type="checkbox" name="checkId" id="typeGender1" onclick="javascript:saveid(document.loginForm);">
+                                    <label for="typeGender1" class="txt">아이디저장</label>
+                                </span>
+                            </div>
+                            <input id="btnLogin" type="button" class="btn" value="로그인">
+                            <div class="find-area">
+                                <a href="javascript:goFindId();">아이디 찾기</a>
+                                <a href="javascript:goFindPw();">비밀번호 찾기</a>
+                            </div>
+                            <div class="join-area">
+                                <p class="txt">아직 회원이 아니신가요?</p>
+                                <a href="/register" class="btn sm info">회원가입</a>
+                            </div>
+                        </fieldset>
+                    </section>
+                </section>
+            </form>
+        </main>
+        <!--============================== Content End =============================-->
+
+        <!--============================== Footer =============================-->
+        <footer id="footer" class="footer">
+            <div class="util-wrap">
+                <div class="info-menu">
+                    <span class="txt">대한민국</span>
+                    <span class="txt">만든이: 김명진 이가은 최소현 최재원</span>
+                </div>
+            </div>
+            <p class="copyright">COPYRIGHTS 2024 K.L.C.C ALL RIGHTS RESERVED.</p>
+        </footer>
+    </div>
 </body>
 </html>

@@ -5,11 +5,22 @@
 // DOM을 이용해서 자바스크립트에서 html을 제어할 수 있게 함
 const id = document.querySelector("#id"), // 태그 정보를 개발자 임의로 선택자로 부여
     psword = document.querySelector("#psword"),
-    loginBtn = document.querySelector("#button");
+    loginBtn = document.querySelector("#btnLogin");
 
+// 로그인 버튼 클릭 시 login 함수 호출
 loginBtn.addEventListener("click", login);
 
 function login() {
+    // 아이디, 비밀번호 입력 확인
+    if (!id.value) {
+        alert("아이디를 입력하세요");
+        return;
+    }
+    if (!psword.value) {
+        alert("비밀번호를 입력하세요");
+        return;
+    }
+
     const req = {
         id: id.value,
         psword: psword.value,
@@ -23,13 +34,14 @@ function login() {
         },
         body: JSON.stringify(req), //문자열 객체로 저장됨
     })
+
     //로그인 인증 기능 
     .then((res) => res.json())
     .then((res) => {
-        if (res.success) { // res 가 트루이면 링크로 이동시키기
-            location.href = "/"; // 이동할 링크 걸기(지금은 루트경로)
+        if (res.success) { 
+            location.href = "/"; //로그인 성공 시 메인 페이지로 이동
         } else {
-            alert(res.msg); // 실패할 시 서버에서 보내는 메시지 띄움
+            alert(res.msg); // 실패할 시 서버 메시지
         }
     })
     // 에러 발생 시 에러 처리
