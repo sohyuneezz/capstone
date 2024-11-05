@@ -31,9 +31,16 @@ class User {
     async register() {
         const client = this.body;
         try {
-        const response = await UserStorage.save(client);
+            const userInfo = {
+                id: client.id,
+                name: client.name,
+                psword: client.psword,
+                grade: client.grade,    // 추가된 부분
+                email: client.email     // 추가된 부분
+            };
+            const response = await UserStorage.save(client);
         
-        return response;
+            return response;
         } catch (err) {
             return { success: false, msg: err };
         }

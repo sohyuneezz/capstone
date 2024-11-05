@@ -29,13 +29,19 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
 
     static async save(userInfo) {
         return new Promise((resolve, reject) => {
-            const query = "INSERT INTO users(id, name, psword) VALUES(?, ?, ?)";
+            const query = "INSERT INTO users(id, name, psword, grade, email) VALUES(?, ?, ?, ?, ?)";
             db.query(
                 query,
-                [userInfo.id, userInfo.name, userInfo.psword], 
-                (err) => {
-                    if (err) reject(`${err}`);
+                [userInfo.id, userInfo.name, userInfo.psword, userInfo.grade, userInfo.email], 
+                (err, result) => { // 쿼리 결과를 확인
+                    if (err) {
+                        return reject(`${err}`);
+                    }
+            
                     resolve({ success: true });
+                    // (err) => {
+                //     if (err) reject(`${err}`);
+                //     resolve({ success: true });
             });
         });
     }
