@@ -30,6 +30,11 @@ const process = {
         return res.json(response);
 
     },
+    checkId: async (req, res) => { // 아이디 중복 확인 API
+        const user = new User(req.body);
+        const response = await user.checkId();
+        return res.json(response);
+    },
 };
 
 // 객체를 꼭 모듈로 내보내줘야 함 그래야 밖에서 사용 가능

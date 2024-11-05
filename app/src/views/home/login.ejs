@@ -6,15 +6,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
-    <title>지식on대진 - 로그인</title>
+    <title>지식on대진 로그인</title>
     <link rel="stylesheet" type="text/css" href="../css/home/common.css">
     <link rel="stylesheet" type="text/css" href="../css/home/reset.css">
     <link rel="stylesheet" type="text/css" href="../css/home/main.css">
     <link rel="stylesheet" type="text/css" href="../css/home/sub.css">
     <link rel="stylesheet" type="text/css" href="../css/home/swiper-bundle.min.css">
-    <script src="/js/jquery.min.js"></script>
+    <script src="../js/home/jquery.min.js"></script>
     <script src="../js/home/common.js"></script>
-    <script src="/js/swiper-bundle.min.js"></script>
+    <script src="../js/home/swiper-bundle.min.js"></script>
     <script src="../js/home/login.js" defer></script> <!-- login.js 연결 -->
 </head>
 <body onload="fnInit();" class="kbs-sports footer-visible vsc-initialized">
@@ -25,7 +25,8 @@
             <div class="top-wrap">
                 <div class="flex-fs">
                     <button type="button" class="all-menu"><span class="hidden">전체메뉴</span></button>
-                    <a href="/index.do" class="home-logo">대진On지식</a>
+                    <a href="/" class="home-logo">대진On지식</a>
+                    <!-- 네비시작  -->
                     <nav class="gnb-wrap">
                         <div class="flex-sb">
                             <ul class="gnb-menu">
@@ -37,10 +38,49 @@
                                         <li><a href="noticeList.do" class="depth2"> 취업지원 </a></li>
                                     </ul>
                                 </li>
-                                <!-- 나머지 메뉴 항목 생략 -->
+                                <li>
+                                    <a href="/spwd/CourseInfo/getCntrCnts.do?fclt_code=SPWD&amp;cnts_clss=CNTS&amp;cnts_type=USED" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">연구정보</strong></strong></a>
+                                    <ul class="sub-list" style="display: none;">
+                                        <li><a href="/spwd/CourseInfo/getCntrCnts.do?fclt_code=SPWD&amp;cnts_clss=CNTS&amp;cnts_type=USED" class="depth2"> 학회일정 </a></li>
+                                        <li><a href="/notice/noticeList.do" class="depth2"> 공모전일정 </a></li>
+                                        <li><a href="/spwd/CourseInfo/courseRegistrationView.do" class="depth2"> 학술사이트 </a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="faq.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">커뮤니티</strong></strong></a>
+                                    <ul class="sub-list" style="display: none;">
+                                        <li><a href="faq.html" class="depth2"> FAQ </a></li>
+                                        <li><a href="notice.html" class="depth2"> 공지사항 </a></li>
+                                        <li><a href="document.html" class="depth2"> 자료실 </a></li>
+                                        <li><a href="share.html" class="depth2"> 주제공유 </a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="counsel.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">취업준비</strong></strong></a>
+                                    <ul class="sub-list" style="display: none;">
+                                    <li><a href="counsel.html" class="depth2"> 상담 </a></li>
+                                    <li><a href="test.html" class="depth2"> 검사 </a></li>
+                                    </ul>
+                                </li>
+                        </ul>
+                    </div>
+                    </nav>
+                    <!-- 네비 끝 -->
+
+                    <div class="gnb-bg" style="display: none;">
+                        <div class="flex-sb">
+                            <p class="txt-info"><strong class="stress2"></strong></p>
+                            <ul class="mypage-menu">
+                                <li>
+                                    <a href="/util/myPage/currentSituation.do" class="depth1">마이페이지</a>
+                                    <ul class="">
+                                        <li><a href="/util/myPage/myInfoEdit.do" class="depth2">내정보 수정 </a></li>
+                                        <li><a href="/util/myPage/currentSituation.do" class="depth2">목표리스트</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
-                    </nav>
+                    </div>
                     <ul class="util-menu">
                         <li class="mypage"><a href="/util/myPage/currentSituation.do" class="ico"><span class="hidden">마이페이지</span></a></li>
                         <li class="search"><a href="search.html" class="ico"><span class="hidden">검색</span></a></li>

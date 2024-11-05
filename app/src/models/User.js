@@ -26,6 +26,8 @@ class User {
             return { success: false, mag: err };
         }
     }
+
+    // 회원가입 메서드
     async register() {
         const client = this.body;
         try {
@@ -36,6 +38,19 @@ class User {
             return { success: false, msg: err };
         }
     }
+     // 아이디 중복 확인 메서드
+     async checkId() {
+        const client = this.body;
+        try {
+            const isIdExist = await UserStorage.checkUserId(client.id);
+            if (isIdExist) {
+                return { success: false, msg: "이미 사용 중인 아이디입니다." };
+            }
+            return { success: true, msg: "사용 가능한 아이디입니다." };
+        } catch (err) {
+            return { success: false, msg: "서버 오류가 발생했습니다." };
+        }
+     }
 }
 
 module.exports = User;

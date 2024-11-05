@@ -80,7 +80,7 @@
     .search_area > p		{display:flex;align-items: center; position:relative}
     .search_area > p span	{font-size: 1.1rem ;color:#1F4E9C;margin-right: 15px;}
     .search_area > p input	{height:66px; border:2px solid  #1F4E9C; background:#fff; border-radius:5px; padding:0 25px; font-size: 0.9rem; width:100%; color:#444}
-    .search_area > p a		{display: inline-block; background:  #1F4E9C url(../image/search_btn.png)no-repeat 50% 50%; width:65px; height:65px; transition: all 0.2s; font-size:0; position:absolute; right:0; top:0;  border-radius:0 5px 5px 0; }
+    .search_area > p a		{display: inline-block; background:  #1F4E9C url(/image/search_btn.png)no-repeat 50% 50%; width:65px; height:65px; transition: all 0.2s; font-size:0; position:absolute; right:0; top:0;  border-radius:0 5px 5px 0; }
     .search_area > p a:hover {background-color: #1F4E9C}
     
     .search_area .search_ul		 {padding: 12px 0 0 17%;}
@@ -91,16 +91,16 @@
     .quick					{display:grid;grid-template-columns: repeat(3, 1fr); border-radius:15px; box-shadow: 0px 10px 20px 6px rgba(0,0,0,0.07);background: #fff;}
     .quick li a				{display:flex;font:400 18px/22px "Poppins", "Noto Sans KR", sans-serif;color:#111;width:100%;height:100%;position:relative;transition:all 0.2s;align-items: center;padding: 12% 5%;/* white-space: nowrap; */word-break: keep-all;}
     .quick li a::after		{display:inline-block; content:''; width:1px; height:60px; background:#eee; position:absolute; right:0; }
-    .quick li a::before		{display:inline-block;content:'';width: 90px;height: 90px;background: url(../image/quick01.png)no-repeat 70% 50%;transition:all 0.2s;}
+    .quick li a::before		{display:inline-block;content:'';width: 90px;height: 90px;background: url(/image/quick01.png)no-repeat 70% 50%;transition:all 0.2s;}
     .quick li a span.text	{display:block; font:300 15px/20px "Poppins", "Noto Sans KR", sans-serif;color:#888;word-break: keep-all;}
     .quick li:nth-child(-n+3) a			{border-bottom:1px solid #eee;}
     .quick li:nth-child(3n) a::after	{display:none}
     
-    .quick li:nth-child(2) a:before {background:url(../image/quick02.png)no-repeat 50% 50%}
-    .quick li:nth-child(3) a:before {background:url(../image/quick03.png)no-repeat 50% 50%}
-    .quick li:nth-child(4) a:before {background:url(../image/quick04.png)no-repeat 65% 50%;}
-    .quick li:nth-child(5) a:before {background:url(../image/quick05.png)no-repeat 50% 50%}
-    .quick li:nth-child(6) a:before {background:url(../image/quick06.png)no-repeat 50% 50%} 
+    .quick li:nth-child(2) a:before {background:url(/image/quick02.png)no-repeat 50% 50%}
+    .quick li:nth-child(3) a:before {background:url(/image/quick03.png)no-repeat 50% 50%}
+    .quick li:nth-child(4) a:before {background:url(/image/quick04.png)no-repeat 65% 50%;}
+    .quick li:nth-child(5) a:before {background:url(/image/quick05.png)no-repeat 50% 50%}
+    .quick li:nth-child(6) a:before {background:url(/image/quick06.png)no-repeat 50% 50%} 
     .quick li a:hover				{color: #1F4E9C;background-color: #edf3fc;}
     .quick li a:hover:before		{background-position-y:38%;}
     .quick li a:hover span.text		{color:#1F4E9C}

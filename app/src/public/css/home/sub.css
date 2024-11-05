@@ -959,7 +959,7 @@ Common - Swiper
     padding: 0 2.2rem 0 0.8rem;
     border: 1px solid var(--gray4);
     border-radius: 0.4rem;
-    background: url(../image/select-arrow.svg) no-repeat right 0.6rem top 50% var(--white);
+    background: url(/image/select-arrow.svg) no-repeat right 0.6rem top 50% var(--white);
     font-size: 0.8rem;
     color: var(--gray3);
     line-height: 2rem;
@@ -1173,7 +1173,7 @@ Common - Swiper
     box-shadow: none;
 }
 .form-area .input.calendar {
-    background: url(../images/common/ico_calendar.svg) no-repeat right 0.25rem top 50% / 1.6rem;
+    background: url(/images/common/ico_calendar.svg) no-repeat right 0.25rem top 50% / 1.6rem;
     background-color: var(--white);
 }
 .form-area .textarea {
@@ -1391,7 +1391,7 @@ Common - Swiper
     width: 2rem;
     height: 2rem;
     margin-top: -1rem;
-    background: url(../image/search_icon.png) no-repeat 0 0 / 100%;
+    background: url(/image/search_icon.png) no-repeat 0 0 / 100%;
 }
 .search-result {
     margin-top: 3rem;

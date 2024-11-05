@@ -3,23 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="/css/home/login.css">
-    <script src="/js/home/register.js" defer></script>
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../css/home/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/sub.css">
+    <link rel="stylesheet" type="text/css" href="../css/home/swiper-bundle.min.css">
+    
+    <script src="../js/home/jquery.min.js"></script>
+    <script src="../js/home/common.js"></script>
+    <script src="../js/home/swiper-bundle.min.js"></script>
+    <script src="../js/home/register.js" defer></script>
+    <title>대진On지식 회원가입</title>
 </head>
-<body>
-    <div class="login-page">
-        <div class="form">
-          <form class="login-form">
-            <input id="id" type="text" placeholder="아이디"/>
-            <input id="name" type="text" placeholder="이름"/>
-            <input id="psword" type="password" placeholder="비밀번호"/>
-            <input id="confirm-psword" type="password" placeholder="비밀번호 확인"/>
-            <p id="button">SIGN UP</p>
-            <p class="message">Already registered? <a href="/login">login</a></p>
-          </form>
-        </div>
-      </div>
+<body class="kbs-sports">
+    <div class="wrap">
+        <header id="header" class="header">
+            <div class="top-wrap">
+                <div class="flex-fs">
+                    <button type="button" class="all-menu"><span class="hidden">전체메뉴</span></button>
+                    <a href="/" class="home-logo">대진On지식</a>
+                    <!-- 네비시작 -->
+                    <nav class="gnb-wrap">
+                        <div class="flex-sb">
+                            <ul class="gnb-menu">
+                              <li>
+                                <a href="employment_info.html" class="depth1 hover"><strong class="left_title_strong"><strong class="top_title_strong">취업정보</strong></strong></a>
+                                <ul class="sub-list" style="display: none;">
+                                    <li><a href="employment_info.html" class="depth2"> 취업사이트</a></li>
+                                    <li><a href="careerMap.html" class="depth2"> 취업로드맵</a></li>
+                                    <li><a href="noticeList.do" class="depth2"> 취업지원 </a></li>
+                                </ul>
+                              </li>
+                              <li>
+                                <a href="/spwd/CourseInfo/getCntrCnts.do?fclt_code=SPWD&amp;cnts_clss=CNTS&amp;cnts_type=USED" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">연구정보</strong></strong></a>
+                                <ul class="sub-list" style="display: none;">
+                                    <li><a href="/spwd/CourseInfo/getCntrCnts.do?fclt_code=SPWD&amp;cnts_clss=CNTS&amp;cnts_type=USED" class="depth2"> 학회일정 </a></li>
+                                    <li><a href="/notice/noticeList.do" class="depth2"> 공모전일정 </a></li>
+                                    <li><a href="/spwd/CourseInfo/courseRegistrationView.do" class="depth2"> 학술사이트 </a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="faq.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">커뮤니티</strong></strong></a>
+                                <ul class="sub-list" style="display: none;">
+                                    <li><a href="faq.html" class="depth2"> FAQ </a></li>
+                                    <li><a href="notice.html" class="depth2"> 공지사항 </a></li>
+                                    <li><a href="document.html" class="depth2"> 자료실 </a></li>
+                                    <li><a href="share.html" class="depth2"> 주제공유 </a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="counsel.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">취업준비</strong></strong></a>
+                                <ul class="sub-list" style="display: none;">
+                                    <li><a href="counsel.html" class="depth2"> 상담 </a></li>
+                                    <li><a href="test.html" class="depth2"> 검사 </a></li>
+                                </ul>
+                            </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <!-- 네비 끝 -->
+                    <div class="gnb-bg" style="display: none;">
+                        <div class="flex-sb">
+                            <p class="txt-info"><strong class="stress2"></strong></p>
+                            <ul class="mypage-menu">
+                                <li>
+                                    <a href="/util/myPage/currentSituation.do" class="depth1">마이페이지</a>
+                                    <ul class="">
+                                        <li><a href="/util/myPage/myInfoEdit.do" class="depth2">내정보 수정 </a></li>
+                                        <li><a href="/util/myPage/currentSituation.do" class="depth2">목표리스트</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <ul class="util-menu">
+                        <li class="mypage"><a href="/util/myPage/currentSituation.do" class="ico"><span class="hidden">마이페이지</span></a></li>
+                        <li class="search"><a href="search.html" class="ico"><span class="hidden">검색</span></a></li>
+                        <li class="login"><a href="login.html" class="btn sm">로그인</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main id="container" class="container">
+            <form id="frm" method="post" action="" enctype="multipart/form-data">
+                <section id="content" class="content">
+                    <header class="tit-area">
+                        <h1 class="tit-type1">회원가입</h1>
+                    </header>
+                    <section class="join-wrap">
+                        <h2 class="tit-type3">개인정보입력</h2>
+                        <p class="tit-sub">회원가입을 위해 아래의 양식에 내용을 입력해주세요</p>
+                        <dl class="join-form">
+                            <dt>이름(실명)</dt>
+                            <dd>
+                                <div class="form-area">
+                                    <input type="text" class="input focused" title="이름 입력" id="name" placeholder="이름을 입력해주세요">
+                                </div>
+                            </dd>
+
+                            <dt>학력</dt>
+                            <dd>
+                                <div class="form-area">
+                                    <select class="select" title="학력 선택" id="grade-select">
+                                        <option value="directly" selected="">선택</option>
+                                        <option value="1">1학년</option>
+                                        <option value="2">2학년</option>
+                                        <option value="3">3학년</option>
+                                        <option value="4">4학년</option>
+                                        <option value="대학원생">대학원생</option>
+                                    </select>
+                                </div>
+                            </dd>
+                        
+                            <dt>아이디</dt>
+                            <dd>
+                                <div class="form-area">
+                                    <input type="text" class="input id-input" title="아이디 입력" placeholder="아이디 입력" id="id" autocomplete="new-password">
+                                    <button id="idchk" type="button" class="btn info">중복확인</button>
+                                </div>
+                            </dd>
+
+                            <dt>비밀번호</dt>
+                            <dd>
+                                <div class="form-area">
+                                    <input type="password" class="input" title="비밀번호 입력" placeholder="비밀번호를 입력해주세요" id="psword" autocomplete="new-password">
+                                </div>
+                            </dd>
+
+                            <dt>비밀번호 확인</dt>
+                            <dd>
+                                <div class="form-area">
+                                    <input type="password" class="input" title="비밀번호 확인 입력" placeholder="비밀번호를 다시 입력해주세요" id="confirm-psword" autocomplete="new-password">
+                                </div>
+                            </dd>
+
+                            <dt>이메일</dt>
+                            <dd>
+                                <div class="form-area email">
+                                    <input type="text" class="input id" title="이메일 아이디 입력" id="emailId" placeholder="이메일 아이디">
+                                    <input type="text" class="input address" title="이메일 주소 입력" id="domain" placeholder="이메일 주소">
+                                    <select class="select" title="이메일 주소 선택" id="select">
+                                        <option value="directly" selected="">직접입력</option>
+                                        <option value="naver.com">naver.com</option>
+                                        <option value="daum.net">daum.net</option>
+                                        <option value="gmail.com">gmail.com</option>
+                                        <option value="nate.com">nate.com</option>
+                                    </select>
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="btn-area">
+                            <button id="register" href="#" class="btn">회원가입</button>
+                        </div>
+                    </section>
+                </section>
+            </form>
+        </main>
+
+        <footer id="footer" class="footer">
+            <div class="util-wrap">
+                <div class="info-menu">
+                    <span class="txt">대한민국</span>
+                    <span class="txt">만든이: 김명진 이가은 최소현 최재원</span>
+                </div>
+            </div>
+            <p class="copyright">COPYRIGHTS 2024 K.L.C.C ALL RIGHTS RESERVED.</p>
+        </footer>
+    </div>
 </body>
 </html>

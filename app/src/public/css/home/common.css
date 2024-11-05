@@ -464,10 +464,10 @@ a:-webkit-any-link {
 }
 
 .top-wrap .search .ico {
-  background-image: url(../image/search_icon.png);
+  background-image: url('/image/search_icon.png');
 }
 .top-wrap .mypage .ico {
-  background-image: url(../image/user_icon.png);
+  background-image: url('/image/user_icon.png');
 }
 .top-wrap .btn.sm {
   min-width: 4.5rem;

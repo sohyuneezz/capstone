@@ -2,7 +2,6 @@
 
 const express = require("express");
 const router = express.Router();
-
 const ctrl = require("./home.ctrl");
 
 // router 는 클라이언트의 요청을 연결해주는 부분
@@ -17,6 +16,7 @@ router.get("/register", ctrl.output.register);
 
 router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);
+router.post("/check-id", ctrl.process.checkId); // 아이디 중복 확인 라우트 추가
 
 module.exports = router;
  
