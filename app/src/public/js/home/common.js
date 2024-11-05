@@ -486,3 +486,17 @@ function onlyCarNum(carNum) { //차량번호 정규식
 	var carRegex = /^[0-9]{2,3}[가-힣][0-9]{4}$/;
 	return carRegex.test(carNum);
 }
+// slider.js (Swiper 슬라이드 초기화 전용 파일)
+document.addEventListener("DOMContentLoaded", function () {
+    const swiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+});
