@@ -91,7 +91,7 @@ function register(event) {
     .then((res) => res.json())
     .then((res) => {
         if (res.success) {
-            location.href = "/"; // 회원가입 성공 시 홈으로 이동
+            location.href = "/welcome"; // 회원가입 성공 시 완료 창으로 이동
         } else {
             alert(res.msg); // 회원가입 실패 시 서버에서 보내는 메시지 표시
         }

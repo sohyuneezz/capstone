@@ -14,6 +14,8 @@ router.get("/", ctrl.output.home);
 router.get("/login", ctrl.output.login);
 router.get("/register", ctrl.output.register);
 router.get("/logout", ctrl.process.logout); // 로그아웃 경로 설정
+router.get("/welcome", ctrl.output.welcome); // 회원가입 완료 페이지 추가
+
 
 router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);

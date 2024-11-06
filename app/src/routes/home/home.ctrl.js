@@ -17,6 +17,9 @@ const output = {
     register: (req, res) => {
         res.render("home/register");
     },
+    welcome: (req, res) => { // 회원가입 성공 페이지 렌더링
+        res.render("home/welcome");
+    },
 };
 
 
