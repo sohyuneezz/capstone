@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 세션 설정 추가
 app.use(session({
-    secret: process.env.SESSION_SECRET, // 세션 암호화를 위한 키, 환경 변수로 설정하는 것이 좋습니다.
+    secret: process.env.SESSION_SECRET, // 세션 암호화를 위한 키
     resave: false,             // 세션을 항상 저장할지 여부 (false 권장)
     saveUninitialized: true,   // 초기화되지 않은 세션을 저장할지 여부
     cookie: { secure: false }  // HTTPS를 사용할 경우 true로 설정 (개발 환경에서는 false)

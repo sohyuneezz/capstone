@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <link rel="icon" type="image/x-icon" href="">
+        <link rel="icon" type="image/svg+xml" href="">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>지식On대진</title>
+        <link rel="stylesheet" type="text/css" href="css/common.css">
+        <link rel="stylesheet" type="text/css" href="css/reset.css">
+        <link rel="stylesheet" type="text/css" href="css/main_DJ.css">
+        <link rel="stylesheet" type="text/css" href="css/sub.css">
+        <link rel="stylesheet" type="text/css" href="css/swiper-bundle.min.css">
+        <link rel="stylesheet" type="text/css" href="css/slick.css">
+
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/slick.js"></script>
+        <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </head>
+
+    <body class="counsel">
+        <div class="wrap">
+            <script type="text/javaScript" language="javascript">
+                function getCookie(cname) {
+                   var name = cname + "=";
+                   var decodedCookie = decodeURIComponent(document.cookie);
+                   var ca = decodedCookie.split(';');
+                   for(var i = 0; i <ca.length; i++) {
+                     var c = ca[i];
+                     while (c.charAt(0) == ' ') {
+                       c = c.substring(1);
+                     }
+                     if (c.indexOf(name) == 0) {
+                       return c.substring(name.length, c.length);
+                     }
+                   }
+                   return "";
+                 }
+              
+                  function pad(n, width) {
+                    n = n + '';
+                    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+                  }
+              
+                var objLeftTime;
+                var objClickInfo;
+                var latestTime;
+                var expireTime;
+                var timeInterval = 1000; // 1초 간격 호출
+                var firstLocalTime = 0;
+                var elapsedLocalTime = 0;
+                var stateExpiredTime = false;
+                var logoutUrl = "/auth/actionLogout.do";
+                var timer;
+              
+                function init() {
+                    objLeftTime = document.getElementById("leftTimeInfo");
+                    
+                    if (objLeftTime == null) {
+                        return;
+                    }
+                    objClickInfo = document.getElementById("clickInfo");
+            
+                    latestTime = getCookie("egovLatestServerTime");
+                    expireTime = getCookie("egovExpireSessionTime");
+                    
+                    elapsedTime = 0;
+                    firstLocalTime = (new Date()).getTime();
+                    showRemaining();
+                    
+                    timer = setInterval(showRemaining, timeInterval); // 1초 간격 호출
+                }
+            
+                function showRemaining() {
+                    elapsedLocalTime = (new Date()).getTime() - firstLocalTime;
+                    
+                    var timeRemaining = expireTime - latestTime - elapsedLocalTime;
+                    if ( timeRemaining < timeInterval ) {
+                        clearInterval(timer);
+                        objLeftTime.innerHTML = "00:00:00";
+                        objClickInfo.text = '시간만료'; //시간만료
+                        stateExpiredTime = true;
+                        alert('로그인 세션시간이 만료 되었습니다.');//로그인 세션시간이 만료 되었습니다.
+                        // reload content main page
+                        $("#sessionInfo").hide();
+            
+                        parent.frames["_content"].location.href = logoutUrl;
+                        //parent.frames["_content"].location.reload();
+            
+                        return;
+                    }
+                    var timeHour = Math.floor(timeRemaining/1000/60 / 60); 
+                    var timeMin = Math.floor((timeRemaining/1000/60) % 60);
+                    var timeSec = Math.floor((timeRemaining/1000) % 60);
+                    //objLeftTime.textContent = pad(timeHour,2) +":"+ pad(timeMin,2) +":"+ pad(timeSec,2);
+                    //objLeftTime.outerText = pad(timeHour,2) +":"+ pad(timeMin,2) +":"+ pad(timeSec,2);
+                    objLeftTime.innerHTML = pad(timeHour,2) +":"+ pad(timeMin,2) +":"+ pad(timeSec,2);
+                }
+              
+                function reqTimeAjax() {
+                      
+                      if (stateExpiredTime==true) {
+                          alert('시간을 연장할수 없습니다.');
+                          return;
+                      }
+                      
+                    $.ajax({
+                        url:'/uat/uia/refreshSessionTimeout.do', //request 보낼 서버의 경로
+                        type:'get', // 메소드(get, post, put 등)
+                        data:{}, //보낼 데이터
+                        success: function(data) {
+                            //서버로부터 정상적으로 응답이 왔을 때 실행
+                            latestTime = getCookie("egovLatestServerTime");
+                            expireTime = getCookie("egovExpireSessionTime");
+                            init();
+                            //alert("정상수신 , data = "+data);
+                        },
+                        error: function(err) {
+                            alert("err : "+err);
+                            //서버로부터 응답이 정상적으로 처리되지 못햇을 때 실행
+                            //alert("오류발생 , error="+err.state());
+                        }
+                    });
+                    return false;
+                }
+                
+                function logout() {
+                    if(!confirm("로그아웃을 진행 하시겠습니까?")) {
+                        return;
+                    }
+                    location.href = logoutUrl;
+                }
+            </script>
+
+            <header id="header" class="header">
+
+                <div class="top-wrap">
+                    <div class="flex-fs">
+                        <button type="button" class="all-menu"><span class="hidden">전체메뉴</span></button>
+                        <a href="main.html" class="home-logo">대진 On 정보</a>
+
+                        <nav class="gnb-wrap">
+                            <div class="flex-sb">
+                                <ul class="gnb-menu">
+                                    
+                                        <li>
+                                            <a href="employment_info.html" class="depth1 hover"><strong class="left_title_strong"><strong class="top_title_strong">취업정보</strong></strong></a>
+                                            <ul class="sub-list" style="display: none;">
+                                                
+                                                    <li>
+                                                        <a href="employment_info.html" class="depth2"> 취업사이트</a>
+                                                    </li>
+                                                
+                                                    <li>
+                                                        <a href="/spwd/intro/spwdIntroView.do#training" class="depth2"> 취업로드맵</a>
+                                                    </li>
+
+                                            </ul>
+                                        </li>
+                        
+                                        <li>
+                                            <a href="research_contest.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">연구정보</strong></strong></a>
+                                            <ul class="sub-list" style="display: none;">
+                                                
+                                                    <li>
+                                                        <a href="research_contest.html" class="depth2"> 학회일정 </a>
+                                                    </li>
+                                                
+                                                    <li>
+                                                        <a href="" class="depth2"> 공모전일정 </a>
+                                                    </li>
+                                                
+                                                    <li>
+                                                        <a href="academic.html" class="depth2"> 학술사이트 </a>
+                                                    </li>
+                                            </ul>
+                                        </li>
+                        
+                                        <li>
+                                            <a href="notice.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">커뮤니티</strong></strong></a>
+                                            <ul class="sub-list" style="display: none;">
+                                                
+                                                    <li>
+                                                        <a href="notice.html" class="depth2"> 공지사항 </a>
+                                                    </li>
+                                                
+                                                    <li>
+                                                        <a href="document.html" class="depth2"> 자료실 </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="share.html" class="depth2"> 주제공유 </a>
+                                                    </li>
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            <a href="counsel.html" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">취업준비</strong></strong></a>
+                                            <ul class="sub-list" style="display: none;">
+
+                                                <li>
+                                                    <a href="counsel.html" class="depth2"> 상담 </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="test.html" class="depth2"> 검사 </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                </ul>
+                            </div>
+                        </nav>
+                        <div class="gnb-bg" style="display: none;">
+                            <div class="flex-sb">
+                                <p class="txt-info"><strong class="stress2"></strong></p>
+                                <ul class="mypage-menu">
+                                    <li>
+                                        <a href="/util/myPage/currentSituation.do" class="depth1">마이페이지</a>
+                                        <ul class="">
+                                            <li><a href="/util/myPage/myInfoEdit.do" class="depth2">내 정보 수정 </a></li>
+                                            <li><a href="/util/myPage/currentSituation.do" class="depth2">학습 진척도</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="util-menu">
+                            <li class="login"><a href="login.html" class="btn sm">로그인</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <main id="container" class="container">
+
+                <section id="content" class="content">
+                    <header class="tit-area">
+                        <h1 class="tit-type1">취업준비</h1>
+                    </header>
+
+                    <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
+                        <div class="swiper-wrapper">
+                            <a href="counsel.html" class="swiper-slide current swiper-slide-active">
+                                <span class="txt">상담</span>
+                            </a>
+                            <a href="test.html" class="swiper-slide swiper-slide-next">
+                                <span class="txt">검사</span>
+                            </a>
+                        </div>
+                        <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
+                    </div>
+
+                        <br>
+                        <br>
+
+                        <div class="tab-con on">
+                            <ul class="sports-list counsel-list">
+                                <li>
+                                    <a href="https://job.daejin.ac.kr/clientMain/a/t/main.do" class="plus center" target="_blank">
+                                        <figure class="img">
+                                            <img src="image/counselbg.png" alt="대진대취업지원">
+                                        </figure>
+                                        <div class="con">
+                                            <h2 class="tit">대학 일자리<br>플러스센터</h2>
+                                            <p class="txt">#대진대학교</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youthcenter.go.kr/jobConslt/jobConsltMain.do" class="plus center" target="_blank">
+                                        <figure class="img">
+                                            <img src="image/counselbg.png" alt="온통청년">
+                                        </figure>
+                                        <div class="con">
+                                            <h2 class="tit">온통청년<br>청년상담실</h2>
+                                            <p class="txt">#청년 정책 안내</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.jobaba.net/psychology/mainList.do" class="plus center" target="_blank">
+                                        <figure class="img">
+                                            <img src="image/counselbg.png" alt="잡아바">
+                                        </figure>
+                                        <div class="con">
+                                            <h2 class="tit">잡아바<br>취업 상담</h2>
+                                            <p class="txt">#진로 취업 컨설팅</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.career.go.kr/cnet/front/counsel/counselMain.do" class="plus center" target="_blank">
+                                        <figure class="img">
+                                            <img src="image/counselbg.png" alt="커리어넷">
+                                        </figure>
+                                        <div class="con">
+                                            <h2 class="tit">커리어넷<br>진로 상담</h2>
+                                            <p class="txt">#진로 고민 상담</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.dream.go.kr/dream/index.do#" class="plus center" target="_blank">
+                                        <figure class="img">
+                                            <img src="image/counselbg.png" alt="꿈 날개">
+                                        </figure>
+                                        <div class="con">
+                                            <h2 class="tit">꿈 날개<br>취업 상담</h2>
+                                            <p class="txt">#경력 개발 센터</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.worldjob.or.kr/new_index.do" class="plus center" target="_blank">
+                                        <figure class="img">
+                                            <img src="image/counselbg.png" alt="월드잡플러스">
+                                        </figure>
+                                        <div class="con">
+                                            <h2 class="tit">월드잡플러스<br>해외 취업</h2>
+                                            <p class="txt">#해외 취업 상담</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+            </main>
+
+            <footer id="footer" class="footer">
+                <div class="util-wrap">
+                    <div class="info-menu">
+                        <span class="txt">대한민국</span>
+                        <span class="txt">만든이: 김명진 이가은 최소현 최재원</span>
+                    </div>
+                </div>
+                <p class="copyright">
+                    COPYRIGHTS 2024 K.L.C.C ALL RIGHTS RESERVED.
+                </p>
+            </footer>
+
+        </div>
+    </body>
+</html>

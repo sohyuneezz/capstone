@@ -21,5 +21,25 @@ router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);
 router.post("/check-id", ctrl.process.checkId); // 아이디 중복 확인 라우트 추가
 
+// 메뉴 라우팅
+router.get("/employment_info", ctrl.output.employmentInfo);
+router.get("/careerMap", ctrl.output.careerMap);
+router.get("/employment_support", ctrl.output.employmentSupport);
+
+router.get("/research_info", ctrl.output.researchInfo);
+router.get("/conference_schedule", ctrl.output.conferenceSchedule);
+router.get("/contest_schedule", ctrl.output.contestSchedule);
+router.get("/academic_sites", ctrl.output.academicSites);
+
+router.get("/community", ctrl.output.community);
+router.get("/faq", ctrl.output.faq);
+router.get("/notice", ctrl.output.notice);
+router.get("/resources", ctrl.output.resources);
+router.get("/topic_share", ctrl.output.topicShare);
+
+router.get("/job_pre", ctrl.output.jobPreparation);
+router.get("/counsel", ctrl.output.counsel);
+router.get("/test", ctrl.output.test);
+
 module.exports = router;
  
