@@ -90,7 +90,9 @@ const output = {
         res.render("home/employment_info", { jobSites, isLoggedIn }); // 데이터를 EJS에 전달
     },
     careerMap: (req, res) => {
-        res.render("home/careerMap");
+        res.render("home/careerMap", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
     employmentSupport: (req, res) => {
         res.render("home/employment_support");
