@@ -1,5 +1,3 @@
-// 전체 주석 ctrl + / , 주석 해제 ctrl + k -> ctrl + u
-//라우팅 해보기
 "use strict";
 
 // 모듈
@@ -7,6 +5,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session"); // 세션 모듈
 const dotenv = require("dotenv");
+const cors = require("cors"); // 외부 API 접근을 위한 CORS 설정
+
 dotenv.config(); // dotenv 모듈을 사용하면 어떤 OS를 사용하든 동일하게 환경변수 등록하고 가져올수 있게 함
 
 const app = express();
@@ -19,6 +19,7 @@ app.set("views", "./src/views");
 app.set("view engine", "ejs");
 app.use(express.static(`${__dirname}/src/public`)); // dirname은 현재 있는 파일의 위치를 반환함 그 위치 안에 있는 파일(src/public)에 정적 경로로 추가해준다
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // URL을 통해 전달되는 데이터에 한글, 공백 등과 같은 문자가 포함될 경우 제대로 인식되지 않는 문제 해결
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,6 +31,9 @@ app.use(session({
     saveUninitialized: true,   // 초기화되지 않은 세션을 저장할지 여부
     cookie: { secure: false }  // HTTPS를 사용할 경우 true로 설정 (개발 환경에서는 false)
 }));
+
+// CORS 설정
+app.use(cors());
 
 // 라우터 연결
 app.use("/", home); // use -> 미들웨어를 등록해주는 메서드.

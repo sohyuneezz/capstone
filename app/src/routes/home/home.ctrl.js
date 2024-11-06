@@ -96,7 +96,7 @@ const output = {
         res.render("home/employment_support");
     },
     researchInfo: (req, res) => {
-        res.render("home/research_info");
+        res.render("home/research_info", { title: "연구정보-지식on대진", isLoggedIn: req.session.isLoggedIn || false });
     },
     conferenceSchedule: (req, res) => {
         res.render("home/conference_schedule");
@@ -107,6 +107,7 @@ const output = {
     academicSites: (req, res) => {
         res.render("home/academic_sites");
     },
+    //커뮤니티
     community: (req, res) => {
         const isLoggedIn = req.session.isLoggedIn || false; // 세션에서 로그인 상태를 확인
         const notices = [
@@ -127,8 +128,11 @@ const output = {
     topicShare: (req, res) => {
         res.render("home/topic_share");
     },
+    //취업준비
     jobPreparation: (req, res) => {
-        res.render("home/job_pre");
+        res.render("home/job_pre", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
     counsel: (req, res) => {
         res.render("home/counsel");

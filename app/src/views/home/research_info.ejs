@@ -1,138 +1,60 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <link rel="icon" type="image/x-icon" href="<%= faviconUrl || '' %>">
-    <link rel="icon" type="image/svg+xml" href="<%= faviconSvgUrl || '' %>">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="format-detection" content="telephone=no">
-    <title><%= pageTitle || '연구정보-지식on대진' %></title>
-    <link rel="stylesheet" type="text/css" href="/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="/css/main_DJ.css">
-    <link rel="stylesheet" type="text/css" href="/css/sub.css">
-    <link rel="stylesheet" type="text/css" href="/css/swiper-bundle.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/Calendar.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/swiper-bundle.min.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
-    <script type="text/javascript" src="/js/Calendar.js"></script>
-</head>
-<body class="kbs-sports footer-visible vsc-initialized">
-    <div class="wrap">
-        
-        <header id="header" class="header">
-            <div class="top-wrap">
-                <div class="flex-fs">
-                    <button type="button" class="all-menu"><span class="hidden">전체메뉴</span></button>
-                    <a href="/index.do" class="home-logo">대진On지식</a>
-                    <nav class="gnb-wrap">
-                        <div class="flex-sb">
-                            <ul class="gnb-menu">
-                                <li>
-                                    <a href="employment_info.html" class="depth1 hover"><strong>취업정보</strong></a>
-                                    <ul class="sub-list">
-                                        <li><a href="employment_info.html" class="depth2">취업사이트</a></li>
-                                        <li><a href="careerMap.html" class="depth2">취업로드맵</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="research_contest.html" class="depth1"><strong>연구정보</strong></a>
-                                    <ul class="sub-list">
-                                        <li><a href="research_contest.html" class="depth2">학회일정</a></li>
-                                        <li><a href="#" class="depth2">공모전일정</a></li>
-                                        <li><a href="academic.html" class="depth2">학술사이트</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="notice.html" class="depth1"><strong>커뮤니티</strong></a>
-                                    <ul class="sub-list">
-                                        <li><a href="notice.html" class="depth2">공지사항</a></li>
-                                        <li><a href="document.html" class="depth2">자료실</a></li>
-                                        <li><a href="share.html" class="depth2">주제공유</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="counsel.html" class="depth1"><strong>취업준비</strong></a>
-                                    <ul class="sub-list">
-                                        <li><a href="counsel.html" class="depth2">상담</a></li>
-                                        <li><a href="test.html" class="depth2">검사</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                    <ul class="util-menu">
-                        <% if (userLoggedIn) { %>
-                            <li><a href="/logout" class="btn sm">로그아웃</a></li>
-                        <% } else { %>
-                            <li class="login"><a href="/login" class="btn sm">로그인</a></li>
-                        <% } %>
-                    </ul>
-                </div>
-            </div>
+<%- include('../partials/header', { title: '연구정보-지식on대진' }) %>
+
+<main id="container" class="container">
+    <section id="content" class="content">
+        <header class="tit-area">
+            <h1 class="tit-type1">연구정보</h1>
         </header>
-        
-        <main id="container" class="container">
-            <section id="content" class="content">
-                <header class="tit-area">
-                    <h1 class="tit-type1">연구정보</h1>
-                </header>
-                <div class="swiper tab type1">
-                    <div class="swiper-wrapper">
-                        <a href="research_contest.html" class="swiper-slide current"><span class="txt">공모전 일정</span></a>
-                        <a href="#" class="swiper-slide"><span class="txt">학회 일정</span></a>
-                        <a href="#" class="swiper-slide"><span class="txt">학술사이트</span></a>
-                    </div>
-                </div>
-                <div class="wrapper">
-                    <header>
-                        <div class="nav">
-                            <button id="prev" class="material-icons"> chevron_left </button>
-                            <p class="current-date"></p>
-                            <button id="next" class="material-icons"> chevron_right </button>
-                        </div>
-                    </header>
-                    <div class="calendar">
-                        <ul class="weeks">
-                            <li>Sun</li><li>Mon</li><li>Tue</li><li>Wed</li><li>Thu</li><li>Fri</li><li>Sat</li>
-                        </ul>
-                        <ul class="days"></ul>
-                    </div>
-                </div>
-                <div class="contest-schedule-box">
-                    <h3>공모전 일정</h3>
-                    <table id="contestTable">
-                        <thead>
-                            <tr><th>공모전 이름</th><th>시작일</th><th>종료일</th></tr>
-                        </thead>
-                        <tbody>
-                            <% contestData.forEach(contest => { %>
-                                <tr>
-                                    <td><%= contest.name %></td>
-                                    <td><%= contest.startDate %></td>
-                                    <td><%= contest.endDate %></td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
-        
-        <footer id="footer" class="footer">
-            <div class="util-wrap">
-                <div class="info-menu">
-                    <span class="txt">대한민국</span>
-                    <span class="txt">만든이: 김명진 이가은 최소현 최재원</span>
-                </div>
+
+        <div class="swiper tab type1">
+            <div class="swiper-wrapper">
+                <a href="research_contest.html" class="swiper-slide current"><span class="txt">공모전 일정</span></a>
+                <a href="" class="swiper-slide"><span class="txt">학회 일정</span></a>
+                <a href="" class="swiper-slide"><span class="txt">학술사이트</span></a>
             </div>
-            <p class="copyright">
-                COPYRIGHTS 2024 K.L.C.C ALL RIGHTS RESERVED.
-            </p>
-        </footer>
-    </div>
-</body>
-</html>
+            <div class="swiper-button-next"></div>
+        </div>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <div class="wrapper">
+            <header>
+                <div class="nav">
+                    <button id="prev" class="material-icons"> chevron_left </button>
+                    <p class="current-date"></p>
+                    <button id="next" class="material-icons"> chevron_right </button>
+                </div>
+            </header>
+            <div class="calendar">
+                <ul class="weeks">
+                    <li>Sun</li>
+                    <li>Mon</li>
+                    <li>Tue</li>
+                    <li>Wed</li>
+                    <li>Thu</li>
+                    <li>Fri</li>
+                    <li>Sat</li>
+                </ul>
+                <ul class="days"></ul>
+            </div>
+        </div>
+
+        <div class="contest-schedule-box">
+            <h3>공모전 일정</h3>
+            <table id="contestTable">
+                <thead>
+                    <tr>
+                        <th>공모전 이름</th>
+                        <th>시작일</th>
+                        <th>종료일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- API로부터 데이터를 받아 여기에 추가할 예정 -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<%- include('../partials/footer') %>
