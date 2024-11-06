@@ -20,7 +20,7 @@
 @font-face {
     font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
-    src: url('/font/SpoqaHanSansNeo-Medium.wof') format('woff');
+    src: url('/font/SpoqaHanSansNeo-Medium.woff') format('woff');
     font-display: swap
 }
 
@@ -44,7 +44,6 @@ time,mark,audio,video{
     line-height: 1.3;
     letter-spacing:-0.02em;
     box-sizing:border-box;
-    word-break:break-all;
 }
 article,aside,details,figcaption,figure,
 footer,header,hgroup,menu,nav,section{

@@ -1,52 +1,194 @@
-<%- include('../partials/header', { title: '취업정보-지식on대진' }) %>
+<%- include('../partials/header', { title: '대진 On 정보 - 취업정보' }) %>
 
+
+<!-- content 시작 -->
 <main id="container" class="container">
     <section id="content" class="content">
         <header class="tit-area">
             <h1 class="tit-type1">취업정보</h1>
         </header>
-
-        <!-- 취업 사이트 탭 메뉴 -->
-        <div class="swiper tab type1">
+        <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
             <div class="swiper-wrapper">
-                <a href="/employment_info" class="swiper-slide current"><span class="txt">취업사이트</span></a>
-                <a href="/careerMap" class="swiper-slide"><span class="txt">취업로드맵</span></a>
+              <a href="/employment_info" class="swiper-slide current swiper-slide-active"><span class="txt">취업사이트</span></a>
+              <a href="/careerMap" class="swiper-slide"><span class="txt">취업로드맵</span></a>
             </div>
+            <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
         </div>
-
-        <!-- 취업 사이트 안내 -->
+        
         <h3 class="tit-type2">취업사이트 안내</h3>
         <table class="tbl-view">
             <caption>국내 리스트</caption>
-            <colgroup>
-                <col style="width: 110px;">
-                <col style="width: 200px;">
-                <col>
-            </colgroup>
+            <colgroup class="hidden-xs">
+                    <col style="width: 110px;">
+                    <col style="width:200px;">
+                </colgroup>
             <thead>
                 <tr>
-                    <th>번호</th>
+                    <th>로고</th>
                     <th>사이트</th>
-                    <th>내용</th>
+                    <th>소개</th>
                 </tr>
             </thead>
-            <tbody>
-                <% jobSites.forEach((site, index) => { %>
-                    <tr class="banner_list">
-                        <th><img src="<%= site.image %>" alt="<%= site.name %>"></th>
-                        <th>
-                            <a href="<%= site.link %>" target="_blank">
-                                <span class="banner_title"><%= site.name %></span>
-                            </a>
-                        </th>
-                        <td><%= site.description %></td>
-                    </tr>
-                <% }) %>
+            <tbody> 
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/cleaneyejob.jpg" class="ebannerimg" alt="클린아이 잡플러스">
+                    </th>
+                    <th>
+                        <a href="https://job.cleaneye.go.kr/" target="_blank">
+                        <span class="banner_title">클린아이 잡플러스</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 지방공공기관의 채용정보를 구직자들에게 알기 쉽고 투명하게 제공하기 위해 구축하여 운영하는 '통합채용정보포털'입니다.</span>
+                        <br>
+                        <span>▸ 통합채용정보 제공 / 지방공공기관 특성 반영 / 구직자 중심 채용정보 제공</span>
+                        </strong>
+                    </td>
+
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/designerjob.png" class="ebannerimg" alt="디자이너잡">
+                    </th>
+                    <th>
+                        <a href="https://www.designerjob.co.kr/" target="_blank">
+                        <span class="banner_title">디자이너잡</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 국내 최대 디자인 채용·이력서 정보를 보유한 디자인, IT, 마케팅 분야 취업 포털입니다.</span>
+                        <br>
+                        <span>▸ 디자인, IT, 마케팅 분야 취업 포털 NO.1</span>
+                        </strong>
+                    </td>
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/RnDjob.png" class="ebannerimg" alt="이공계인력중개센터">
+                    </th>
+                    <th>
+                        <a href="https://www.rndjob.or.kr/" target="_blank">
+                        <span class="banner_title">이공계인력중개센터</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 국가과학기술 경쟁력 강화를 위해 설립된 이공계 취업 활동 지원 전문 기관입니다.</span>
+                        <br>
+                        <span>▸ 직종별 취업정보 수집 분석 제공 및 상담 / 실시간 구인·구직 정보 제공</span>
+                        </strong>
+                    </td> 
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/jobkorea.png" class="ebannerimg" alt="잡코리아">
+                    </th>
+                    <th>
+                        <a href="https://www.jobkorea.co.kr/" target="_blank">
+                        <span class="banner_title">잡코리아</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 대한민국 대표 AI기반 종합 커리어 플랫폼입니다.</span>
+                        <br>
+                        <span>▸ 인채 추천·공고 검색 기반 매칭 서비스 / 헤드 헌팅 의뢰</span>
+                        </strong>
+                    </td>
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/saramin.png" class="ebannerimg" alt="사람인">
+                    </th>
+                    <th>
+                        <a href="https://www.saramin.co.kr/zf_user/" target="_blank">
+                        <span class="banner_title">사람인</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 인공지능·빅데이터 분석 기술력 바탕의 커리어 매칭 플랫폼입니다.</span>
+                        <br>
+                        <span>▸ 인적성 검사 / 기업 리뷰 / 연봉 정보 / Ai 자소서 코칭</span>
+                        </strong>
+                    </td>
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/jobplanet.png" class="ebannerimg" alt="잡플래닛">
+                    </th>
+                    <th>
+                        <a href="https://www.jobplanet.co.kr/welcome/index" target="_blank">
+                        <span class="banner_title">잡플래닛</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 함께 만드는 프리미엄 기업 정보, 채용 공고를 제공하는 플랫폼입니다.</span>
+                        <br>
+                        <span>▸ 기업 전문 뉴스 / 기업 리뷰·정보 / 면접 후기 / 연봉·복지 정보 / 맞춤 채용정보</span>
+                        </strong>
+                    </td>  
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/nara.png" class="ebannerimg" alt="나라일터">
+                    </th>
+                    <th>
+                        <a href="https://www.gojobs.go.kr/mainIndex.do" target="_blank">
+                        <span class="banner_title">나리일터</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 정부 부처나 공공기관, 교육청 등의 일자리 정보를 실시간으로 제공하는 플랫폼입니다.</span>
+                        <br>
+                        <span>▸ 공무원 구인광고 / 인사교류 / 대체인력뱅크</span>
+                        </strong>
+                    </td>
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/goyong24.png" class="ebannerimg" alt="고용24">
+                    </th>
+                    <th>
+                        <a href="https://www.work24.go.kr/cm/main.do" target="_blank">
+                        <span class="banner_title">고용24</span>
+                        </a>
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 근로자와 기업을 위한 통합 고용 서비스 포털로 기존 일자리 및 고용 관련 9개의 홈페이지를 통합했습니다.</span>
+                        <br>
+                        <span>▸ 채용 행사 / 일자리 찾기 / 취업 역량 강화</span>
+                        </strong>
+                    </td> 
+                </tr>	
+                <tr class="banner_list">
+                    <th>
+                        <img src="image/Qnet.png" class="ebannerimg" alt="큐넷">
+                    </th>
+                    <th>
+                        <a href="https://www.q-net.or.kr/man001.do?gSite=Q" target="_blank">
+                        <span class="banner_title">큐넷</span>
+                        </a>	
+                    </th>
+                    <td>	
+                        <strong style="font-size: 14px;">
+                        <span>▸ 493종의 국가기술자격과 37종의 국가전문자격 서비스를 제공하는 국가자격 대표 포털입니다.</span>
+                        <br>
+                        <span>▸ 원서 접수 / 자격증 발급</span>
+                        </strong>
+                    </td> 
+                </tr>		
             </tbody>
         </table>
+        
     </section>
 </main>
-<!-- //content -->
+<!-- content 끝 -->
 
 <%- include('../partials/footer') %>
-<script src="../../public/js/home/session.js"></script>

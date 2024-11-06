@@ -34,8 +34,10 @@ router.get("/document", ctrl.output.document);
 router.get("/share", ctrl.output.topicShare);
 
 router.get("/job_pre", ctrl.output.jobPreparation);
-router.get("/counsel", ctrl.output.counsel);
 router.get("/test", ctrl.output.test);
+
+router.get("/guide", ctrl.output.guide);
+
 
 module.exports = router;
  

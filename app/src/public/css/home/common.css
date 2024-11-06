@@ -368,8 +368,11 @@ a:-webkit-any-link {
   transition: var(--transition);
 }
 .top-wrap .home-logo {
-  padding: 1.7rem 0;
+  width: 180px;
+  height: 80px;
+  object-fit: cover;
 }
+
 .gnb-wrap {
   flex: 1;
 }
@@ -450,6 +453,13 @@ a:-webkit-any-link {
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 100%;
+}
+
+.top-wrap .search .ico {
+  background-image: url(/image/search_icon.png);
+}
+.top-wrap .mypage .ico {
+  background-image: url(/image/user_icon.png);
 }
 .top-wrap .btn.sm {
   min-width: 4.5rem;
@@ -798,12 +808,14 @@ a:-webkit-any-link {
   color: var(--red1);
 }
 /* Button */
-.btn.btnj { /* 수정함 - join 회원가입 버튼 흐림 */
+.btn.btnj, .btn.btne { /* 수정함 - join 회원가입, editProfile 수정 버튼 흐림 */
   transition: opacity 0.3s;
 }
-.btnj:hover { /* 수정함 - join 회원가입 버튼 흐림 */
+
+.btnj:hover, .btne:hover { /* 수정함 - join 회원가입, editProfile 수정 버튼 흐림 */
   opacity: 0.8;
 }
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -1176,12 +1188,16 @@ a:-webkit-any-link {
   padding: 0.8rem 0.5rem;
   border-right: 1px solid var(--gray9);
   border-bottom: 1px solid var(--gray9);
-  background-color: var(--gray8);
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--black2);
   text-align: center;
   word-break: keep-all;
+  vertical-align: middle;
+}
+.tbl-view tbody th img { /* 취업 사이트 중앙 정렬 */
+  display: block;
+  margin: 0 auto;
 }
 .tbl-view tbody td {
   padding: 0.8rem;
