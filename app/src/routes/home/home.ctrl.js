@@ -16,7 +16,7 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    register: (req, res) => {
+    register: (req, res) => { // 회원가입
         res.render("home/register", { 
             isLoggedIn: req.session.isLoggedIn || false 
         });
@@ -27,8 +27,7 @@ const output = {
         });
     },
     // 메뉴 렌더링
-    //취업정보
-    employmentInfo: (req, res) => {
+    employmentInfo: (req, res) => { // 취업정보
         const jobSites = [
             {
                 name: "클린아이잡",
@@ -96,33 +95,27 @@ const output = {
         res.render("home/employment_info", { 
             jobSites, isLoggedIn }); // 데이터를 EJS에 전달
     },
-    careerMap: (req, res) => {
+    careerMap: (req, res) => { // 로드맵
         res.render("home/careerMap", { 
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    employmentSupport: (req, res) => {
-        res.render("home/employment_support");
-    },
     //연구정보
-    researchInfo: (req, res) => {
+    researchInfo: (req, res) => { // 공모전일정
         res.render("home/research_info", { 
             title: "연구정보-지식on대진", 
             isLoggedIn: req.session.isLoggedIn || false });
     },
-    conferenceSchedule: (req, res) => {
-        res.render("home/conference_schedule");
-    },
-    contestSchedule: (req, res) => {
+    contestSchedule: (req, res) => { // 학회일정
         res.render("home/contest_schedule");
     },
-    academicSites: (req, res) => {
+    academicSites: (req, res) => { //학술 사이트
         res.render("home/academic", { 
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
     //커뮤니티
-    community: (req, res) => {
+    community: (req, res) => { //공지사항
         const isLoggedIn = req.session.isLoggedIn || false; // 세션에서 로그인 상태를 확인
         const notices = [
             { title: "회원 퇴출 규칙", url: "/notice/1", date: "2024-11-05" },
@@ -130,17 +123,15 @@ const output = {
         ];
         res.render("home/community", { isLoggedIn, notices }); // isLoggedIn과 notices 전달
     },  
-    faq: (req, res) => {
-        res.render("home/faq");
+    document: (req, res) => { //자료실
+        res.render("home/document", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
-    notice: (req, res) => {
-        res.render("home/notice");
-    },
-    resources: (req, res) => {
-        res.render("home/resources");
-    },
-    topicShare: (req, res) => {
-        res.render("home/topic_share");
+    topicShare: (req, res) => { //주제공유
+        res.render("home/share", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
     //취업준비
     jobPreparation: (req, res) => {
