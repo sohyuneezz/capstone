@@ -451,13 +451,6 @@ a:-webkit-any-link {
   background-position: 50% 50%;
   background-size: 100%;
 }
-
-.top-wrap .search .ico {
-  background-image: url(/image/search_icon.png);
-}
-.top-wrap .mypage .ico {
-  background-image: url(/image/user_icon.png);
-}
 .top-wrap .btn.sm {
   min-width: 4.5rem;
   transition: opacity 0.3s; /* 수정함요 */
