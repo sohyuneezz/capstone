@@ -1,146 +1,37 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <link rel="icon" type="image/x-icon" href="">
-    <link rel="icon" type="image/svg+xml" href="">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="format-detection" content="telephone=no">
-    <title>지식on대진 로그인</title>
-    <link rel="stylesheet" type="text/css" href="../css/home/common.css">
-    <link rel="stylesheet" type="text/css" href="../css/home/reset.css">
-    <link rel="stylesheet" type="text/css" href="../css/home/main.css">
-    <link rel="stylesheet" type="text/css" href="../css/home/sub.css">
-    <link rel="stylesheet" type="text/css" href="../css/home/swiper-bundle.min.css">
-    <script src="../js/home/jquery.min.js"></script>
-    <script src="../js/home/common.js"></script>
-    <script src="../js/home/swiper-bundle.min.js"></script>
-    <script src="../js/home/auth.js" defer></script>
+<%- include('../partials/header', { title: '로그인 - 대진on정보' }) %>
 
-</head>
-<body onload="fnInit();" class="kbs-sports footer-visible vsc-initialized">
-
-    <div class="wrap">
-        <!--============================== Header =============================-->
-        <header id="header" class="header">
-            <div class="top-wrap">
-                <div class="flex-fs">
-                    <button type="button" class="all-menu"><span class="hidden">전체메뉴</span></button>
-                    <a href="/" class="home-logo">대진On지식</a>
-                    <!-- 네비시작  -->
-                    <nav class="gnb-wrap">
-                        <div class="flex-sb">
-                            <ul class="gnb-menu">
-                                <li>
-                                    <a href="/employment_info" class="depth1 hover"><strong class="left_title_strong"><strong class="top_title_strong">취업정보</strong></strong></a>
-                                    <ul class="sub-list" style="display: none;">
-                                        <li><a href="/employment_info" class="depth2"> 취업사이트</a></li>
-                                        <li><a href="/careerMap" class="depth2"> 취업로드맵</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="/research_info" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">연구정보</strong></strong></a>
-                                    <ul class="sub-list" style="display: none;">
-                                        <li><a href="/spwd/CourseInfo/getCntrCnts.do?fclt_code=SPWD&amp;cnts_clss=CNTS&amp;cnts_type=USED" class="depth2"> 학회일정 </a></li>
-                                        <li><a href="/notice/noticeList.do" class="depth2"> 공모전일정 </a></li>
-                                        <li><a href="/spwd/CourseInfo/courseRegistrationView.do" class="depth2"> 학술사이트 </a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="/community" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">커뮤니티</strong></strong></a>
-                                    <ul class="sub-list" style="display: none;">
-                                        <li><a href="faq.html" class="depth2"> FAQ </a></li>
-                                        <li><a href="notice.html" class="depth2"> 공지사항 </a></li>
-                                        <li><a href="document.html" class="depth2"> 자료실 </a></li>
-                                        <li><a href="share.html" class="depth2"> 주제공유 </a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="/job_pre" class="depth1"><strong class="left_title_strong"><strong class="top_title_strong">취업준비</strong></strong></a>
-                                    <ul class="sub-list" style="display: none;">
-                                    <li><a href="counsel.html" class="depth2"> 상담 </a></li>
-                                    <li><a href="test.html" class="depth2"> 검사 </a></li>
-                                    </ul>
-                                </li>
-                        </ul>
+<main id="container" class="container">
+    <form name="loginForm" id="loginForm" class="login-form">
+        <section id="content" class="content">
+            <header class="tit-area">
+                <h1 class="tit-type1">로그인</h1>
+            </header>
+            <section class="login-wrap">
+                <fieldset>
+                    <legend>로그인 정보</legend>
+                    <div class="form-area">
+                        <input id="id" type="text" class="input" name="id" title="아이디 입력" placeholder="아이디를 입력해주세요.">
+                        <p class="error" style="display:none;">입력값을 확인해주세요</p> <!-- 오류 메시지 -->
                     </div>
-                    </nav>
-                    <!-- 네비 끝 -->
-
-                    <div class="gnb-bg" style="display: none;">
-                        <div class="flex-sb">
-                            <p class="txt-info"><strong class="stress2"></strong></p>
-                            <ul class="mypage-menu">
-                                <li>
-                                    <a href="/util/myPage/currentSituation.do" class="depth1">마이페이지</a>
-                                    <ul class="">
-                                        <li><a href="/util/myPage/myInfoEdit.do" class="depth2">내정보 수정 </a></li>
-                                        <li><a href="/util/myPage/currentSituation.do" class="depth2">목표리스트</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="form-area">
+                        <input id="psword" type="password" class="input" name="password" onkeypress="fn_enter_key_in(event)" title="비밀번호 입력" placeholder="비밀번호를 입력해주세요.">
                     </div>
-                    <ul class="util-menu">
-                        <li class="login"><a href="/login" class="btn sm">로그인</a></li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-        <!--============================== Header End =============================-->
+                    <div class="check-area">
+                        <span class="check-con">
+                            <input type="checkbox" name="checkId" id="typeGender1" onclick="javascript:saveid(document.loginForm);">
+                            <label for="typeGender1" class="txt">아이디저장</label>
+                        </span>
+                    </div>
+                    <input id="btnLogin" type="button" class="btn" value="로그인">
+                    <br><br><br>
+                    <div class="join-area">
+                        <p class="txt">아직 회원이 아니신가요?</p>
+                        <a href="/register" class="btn sm info">회원가입</a>
+                    </div>
+                </fieldset>
+            </section>
+        </section>
+    </form>
+</main>
 
-        <!--============================== Content =============================-->
-        <main id="container" class="container">
-            <form name="loginForm" id="loginForm" class="login-form">
-                <section id="content" class="content">
-                    <header class="tit-area">
-                        <h1 class="tit-type1">로그인</h1>
-                    </header>
-                    <section class="login-wrap">
-                        <fieldset>
-                            <legend>로그인 정보</legend>
-                            <div class="form-area">
-                                <input id="id" type="text" class="input" name="id" title="아이디 입력" placeholder="아이디를 입력해주세요.">
-                                <p class="error" style="display:none;">입력값을 확인해주세요</p> <!-- 오류 메시지 -->
-                            </div>
-                            <div class="form-area">
-                                <input id="psword" type="password" class="input" name="password" onkeypress="fn_enter_key_in(event)" title="비밀번호 입력" placeholder="비밀번호를 입력해주세요.">
-                            </div>
-                            <div class="check-area">
-                                <span class="check-con">
-                                    <input type="checkbox" name="checkId" id="typeGender1" onclick="javascript:saveid(document.loginForm);">
-                                    <label for="typeGender1" class="txt">아이디저장</label>
-                                </span>
-                            </div>
-                            <input id="btnLogin" type="button" class="btn" value="로그인">
-                            <!-- <div class="find-area">
-                                <a href="javascript:goFindId();">아이디 찾기</a>
-                                <a href="javascript:goFindPw();">비밀번호 찾기</a>
-                            </div> -->
-                            <br>
-                            <br>
-                            <br>
-                            <div class="join-area">
-                                <p class="txt">아직 회원이 아니신가요?</p>
-                                <a href="/register" class="btn sm info">회원가입</a>
-                            </div>
-                        </fieldset>
-                    </section>
-                </section>
-            </form>
-        </main>
-        <!--============================== Content End =============================-->
-
-        <!--============================== Footer =============================-->
-        <footer id="footer" class="footer">
-            <div class="util-wrap">
-                <div class="info-menu">
-                    <span class="txt">대한민국</span>
-                    <span class="txt">만든이: 김명진 이가은 최소현 최재원</span>
-                </div>
-            </div>
-            <p class="copyright">COPYRIGHTS 2024 K.L.C.C ALL RIGHTS RESERVED.</p>
-        </footer>
-    </div>
-</body>
-</html>
+<%- include('../partials/footer') %>

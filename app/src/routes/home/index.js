@@ -29,7 +29,7 @@ router.get("/employment_support", ctrl.output.employmentSupport);
 router.get("/research_info", ctrl.output.researchInfo);
 router.get("/conference_schedule", ctrl.output.conferenceSchedule);
 router.get("/contest_schedule", ctrl.output.contestSchedule);
-router.get("/academic_sites", ctrl.output.academicSites);
+router.get("/academic", ctrl.output.academicSites);
 
 router.get("/community", ctrl.output.community);
 router.get("/faq", ctrl.output.faq);

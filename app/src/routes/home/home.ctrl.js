@@ -12,13 +12,19 @@ const output = {
         });
     },
     login: (req, res) => { // 앞에 슬래시(루트) 뺴먹으면 작동 안됨
-        res.render("home/login");
+        res.render("home/login", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
     register: (req, res) => {
-        res.render("home/register");
+        res.render("home/register", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
     welcome: (req, res) => { // 회원가입 성공 페이지 렌더링
-        res.render("home/welcome");
+        res.render("home/welcome", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
     // 메뉴 렌더링
     //취업정보
@@ -87,7 +93,8 @@ const output = {
             
         ];
         const isLoggedIn = req.session.isLoggedIn || false; // 로그인 상태 확인
-        res.render("home/employment_info", { jobSites, isLoggedIn }); // 데이터를 EJS에 전달
+        res.render("home/employment_info", { 
+            jobSites, isLoggedIn }); // 데이터를 EJS에 전달
     },
     careerMap: (req, res) => {
         res.render("home/careerMap", { 
@@ -97,8 +104,11 @@ const output = {
     employmentSupport: (req, res) => {
         res.render("home/employment_support");
     },
+    //연구정보
     researchInfo: (req, res) => {
-        res.render("home/research_info", { title: "연구정보-지식on대진", isLoggedIn: req.session.isLoggedIn || false });
+        res.render("home/research_info", { 
+            title: "연구정보-지식on대진", 
+            isLoggedIn: req.session.isLoggedIn || false });
     },
     conferenceSchedule: (req, res) => {
         res.render("home/conference_schedule");
@@ -107,7 +117,9 @@ const output = {
         res.render("home/contest_schedule");
     },
     academicSites: (req, res) => {
-        res.render("home/academic_sites");
+        res.render("home/academic", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
     },
     //커뮤니티
     community: (req, res) => {
