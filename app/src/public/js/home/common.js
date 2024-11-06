@@ -102,13 +102,6 @@ function gnbAction() {
         $topWrap.addClass("hover"); // 탑 랩 활성화 효과 추가
     });
 
-    // util-menu에서 마우스가 떠났을 때 서브메뉴 숨기기
-    $utilMenu.on("mouseleave", function () {
-        $gnbBg.hide();      // 서브 메뉴 배경 숨기기
-        $gnbSubList.hide(); // 서브 메뉴 숨기기
-        $topWrap.removeClass("hover"); // 탑 랩 비활성화 효과 제거
-    });
-
     // home-logo에 마우스 포커스를 맞췄을 때 서브메뉴 숨기기
     $(".home-logo").on("mouseenter focusin", function () {
         $gnbBg.hide();

@@ -46,7 +46,7 @@ class User {
         }
     }
      // 아이디 중복 확인 메서드
-     async checkId() {
+    async checkId() {
         const client = this.body;
         try {
             const isIdExist = await UserStorage.checkUserId(client.id);
@@ -57,7 +57,7 @@ class User {
         } catch (err) {
             return { success: false, msg: "서버 오류가 발생했습니다." };
         }
-     }
+    }
 }
 
 module.exports = User;

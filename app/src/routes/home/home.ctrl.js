@@ -86,6 +86,22 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
+    //마이페이지
+    myPage: (req, res) => {
+        res.render("home/mypage", { // 마이페이지
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
+    },
+    myPosts: (req, res) => {
+        res.render("home/myposts", { // 나의 기록
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
+    },
+    editProfile: (req, res) => {
+        res.render("home/editprofile", { // 내 정보 수정
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
+    },
 };
 
 

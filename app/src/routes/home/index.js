@@ -37,7 +37,9 @@ router.get("/job_pre", ctrl.output.jobPreparation);
 router.get("/test", ctrl.output.test);
 
 router.get("/guide", ctrl.output.guide);
+router.get("/mypage", ctrl.output.myPage);
+router.get("/myposts", ctrl.output.myPosts);
+router.get("/editprofile", ctrl.output.editProfile);
 
 
 module.exports = router;
- 
