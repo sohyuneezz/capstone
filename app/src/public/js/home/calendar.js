@@ -1,4 +1,4 @@
-// public/js/calendar.js
+
 let competitionSchedule = [];  // 공모전 일정을 저장할 전역 변수
 
 document.addEventListener("DOMContentLoaded", async () => {

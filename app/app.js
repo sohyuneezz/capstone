@@ -21,8 +21,6 @@ app.use(express.static(`${__dirname}/src/public`)); // dirname은 현재 있는 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// URL을 통해 전달되는 데이터에 한글, 공백 등과 같은 문자가 포함될 경우 제대로 인식되지 않는 문제 해결
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // 세션 설정 추가
 app.use(session({
@@ -34,6 +32,27 @@ app.use(session({
 
 // CORS 설정
 app.use(cors());
+
+// API 프록시 라우트 추가
+app.get("/api/contest", async (req, res) => {
+    const numOfRows = req.query.numOfRows || 10;
+    const pageNo = req.query.pageNo || 1;
+    const apiUrl = `https://www.chungnam.go.kr/cnbbs/openApiMainFxList.do?numOfRows=${numOfRows}&pageNo=${pageNo}`;
+
+    try {
+        const fetch = (await import("node-fetch")).default; // 동적 import 사용
+        let textData = await (await fetch(apiUrl)).text();
+
+        textData = textData.replace(/"sdate":([^,}]+)/g, '"sdate":"$1"');
+        textData = textData.replace(/"edate":([^,}]+)/g, '"edate":"$1"');
+
+        const data = JSON.parse(textData);
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching data from external API:', error.message);
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+});
 
 // 라우터 연결
 app.use("/", home); // use -> 미들웨어를 등록해주는 메서드.
