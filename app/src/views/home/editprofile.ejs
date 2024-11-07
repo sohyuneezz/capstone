@@ -1,4 +1,5 @@
 <%- include('../partials/header', { title: '대진 On 정보-내정보수정' }) %>
+<!-- content 시작 -->
 <main id="container" class="container">
     <section id="content" class="content">
         <header class="tit-area">
@@ -6,9 +7,9 @@
         </header>
         <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
             <div class="swiper-wrapper">
-                <a href="/mypage" class="swiper-slide"><span class="txt">학습 진척도</span></a>
-                <a href="/myposts" class="swiper-slide"><span class="txt">나의 기록</span></a>
-                <a href="/editprofile" class="swiper-slide current swiper-slide-active"><span class="txt">내 정보 수정</span></a>
+            <a href="/mypage" class="swiper-slide"><span class="txt">학습 진척도</span></a>
+            <a href="/myposts" class="swiper-slide"><span class="txt">나의 기록</span></a>
+            <a href="/editprofile" class="swiper-slide current swiper-slide-active"><span class="txt">내 정보 수정</span></a>
             </div>
             <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
         </div>
@@ -64,8 +65,7 @@
                     <dt>신규 비밀번호 입력</dt>
                     <dd>
                         <div class="form-area">
-                            <input type="password" class="input" title="신규 비밀번호 입력" name="pswd" id="userPw" onkeydown="pswdChk()" placeholder="9~20자 이하의 영문 + 숫자 + 특수문자 조합" autocomplete="new-password" disabled="">
-                            <p id="regex_check" class="unit red">9~20자 이하의 영문+숫자+특수문자 조합으로 사용</p>
+                            <input type="password" class="input" title="신규 비밀번호 입력" name="pswd" id="userPw" onkeydown="pswdChk()" placeholder="" autocomplete="new-password" disabled="">
                         </div>
                     </dd>
                     <dt>비밀번호 재확인</dt>
@@ -86,5 +86,7 @@
         
     </section>
 </main>
+<!-- content 끝-->
+
 
 <%- include('../partials/footer') %>
