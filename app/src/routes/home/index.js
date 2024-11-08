@@ -22,7 +22,7 @@ router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);
 router.post("/check-id", ctrl.process.checkId); // 아이디 중복 확인 라우트 추가
 router.post("/update-profile", ctrl.process.updateProfile);
-router.post("/submitPost", ctrl.process.submitPost);
+router.post("/submit", ctrl.process.submitPost);
 
 // 메뉴 라우팅
 router.get("/employment_info", ctrl.output.employmentInfo);
@@ -36,6 +36,10 @@ router.get("/community", ctrl.output.community);
 router.get("/document", ctrl.output.document);
 router.get("/share", ctrl.output.topicShare);
 router.get("/write", ctrl.output.write);
+router.get("/share/:id", ctrl.output.viewPost);
+router.get("/delete/:id", ctrl.process.deletePost); // 삭제 라우트 추가
+router.get("/edit/:id", ctrl.output.editPost); // 수정 페이지 로드
+router.post("/edit/:id", ctrl.process.updatePost); // 수정 요청 처리
 
 router.get("/job_pre", ctrl.output.jobPreparation);
 router.get("/test", ctrl.output.test);

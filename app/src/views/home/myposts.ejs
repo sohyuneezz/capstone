@@ -14,31 +14,36 @@
         </div>
         <h2 class="tit-type2">나의 게시물</h2>
         
-        <!-- 게시물 테이블 -->
-        <table class="tbl-view">
-            <thead>
+    <!-- 게시물 테이블 -->
+    <table class="tbl-view">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>날짜</th>
+                <th>수정/삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (posts && posts.length > 0) { %>
+                <% posts.forEach((post, index) => { %>
+                    <tr class="banner_list">
+                        <td><%= index + 1 %></td>
+                        <td><a href="/share/<%= post.id %>"><%= post.title %></a></td>
+                        <td><%= post.created_at %></td>
+                        <td>
+                            <a href="/edit/<%= post.id %>">수정</a> /
+                            <a href="/delete/<%= post.id %>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
                 <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                    <th>수정/삭제</th>
+                    <td colspan="4" style="text-align: center;">작성한 게시글이 없습니다.</td>
                 </tr>
-            </thead>
-            <tbody>
-                <!-- 예시 행 -->
-                <tr class="banner_list">
-                    <th>1</th>
-                    <th><a href="#">게시물 제목 예시</a></th>
-                    <th>2024-11-06</th>
-                    <th>
-                        <a href="#" class="edit-link">수정</a> / 
-                        <a href="#" class="delete-link">삭제</a>
-                    </th>
-                </tr>
-                <!-- 추가 게시물 행은 여기에 동적으로 생성될 수 있습니다. -->
-            </tbody>
-        </table>
-
+            <% } %>
+        </tbody>
+    </table>
     </section>
 </main>
 <%- include('../partials/footer') %>

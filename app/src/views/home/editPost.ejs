@@ -1,27 +1,27 @@
 <%- include('../partials/header', { title: '대진 On 정보-검사' }) %>
 <main class="writeb">
-    <form action="/submit" method="post" onsubmit="return handleSubmit()">
+    <form action="/edit/<%= post.id %>" method="post" onsubmit="return handleSubmit()">
         <table class="writet">
             <tr>
-                <td class="w1">글 쓰기</td>
+                <td class="w1">글 수정</td>
             </tr>
             <tr>
                 <td class="w2">Title</td>
             </tr>
             <tr>
-                <td class="w3"><input type="text" placeholder="제목을 입력하세요" name="title" required></td>
+                <td class="w3"><input type="text" value="<%= post.title %>" placeholder="제목을 입력하세요" name="title" required></td>
             </tr>
             <tr>
                 <td class="w4">Comment</td>
             </tr>
             <tr>
                 <td class="w5">
-                    <textarea placeholder="내용을 입력하세요" name="contents" required></textarea>
+                    <textarea placeholder="내용을 입력하세요" name="contents" required><%= post.contents %></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="w6">
-                    <button type="submit" class="submit-button">등록</button>
+                    <button type="submit" class="submit-button">수정 완료</button>
                 </td>
             </tr>
         </table>

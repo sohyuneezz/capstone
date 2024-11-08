@@ -56,13 +56,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            <% posts.forEach((post, index) => { %>
                                 <tr>
-                                    <td class="list-num">1</td>
-                                    <td class="list-tit"><a href="">1</a></td>
-                                    <td class="list-date">2024-07-04</td>
+                                    <td class="list-num"><%= index + 1 %></td>
+                                    <td class="list-tit" style="padding-left: 150px;"><a href="/share/<%= post.id %>"><%= post.title %></a></td>
+                                    <td class="list-date"><%= post.created_at %></td>
                                 </tr>
-                            
+                            <% }) %>
                         </tbody>
                     </table>
                     
