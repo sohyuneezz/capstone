@@ -16,12 +16,13 @@ router.get("/register", ctrl.output.register);
 router.get("/logout", ctrl.process.logout); // 로그아웃 경로 설정
 router.get("/welcome", ctrl.output.welcome); // 회원가입 완료 페이지 추가
 
+router.get("/deletePost/:id", ctrl.process.deletePost);
 
 router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);
 router.post("/check-id", ctrl.process.checkId); // 아이디 중복 확인 라우트 추가
 router.post("/update-profile", ctrl.process.updateProfile);
-
+router.post("/submitPost", ctrl.process.submitPost);
 
 // 메뉴 라우팅
 router.get("/employment_info", ctrl.output.employmentInfo);

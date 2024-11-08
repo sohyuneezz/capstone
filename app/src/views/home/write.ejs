@@ -1,6 +1,6 @@
 <%- include('../partials/header', { title: '대진 On 정보-검사' }) %>
 <main class="writeb">
-    <form action="share.html" method="post" onsubmit="return handleSubmit()">
+    <form action="/submit" method="post">
         <table class="writet">
             <tr>
                 <td class="w1">글 쓰기</td>
@@ -16,12 +16,12 @@
             </tr>
             <tr>
                 <td class="w5">
-                    <textarea placeholder="내용을 입력하세요" name="detail"></textarea>
+                    <textarea placeholder="내용을 입력하세요" name="contents"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="w6">
-                    <button type="submit" class="submit-button">등록</button>
+                    <button type="submit" class="submit-button" onclick="return handleSubmit()">등록</button>
                 </td>
             </tr>
         </table>
@@ -30,8 +30,7 @@
     <script>
         function handleSubmit() {
             alert('작성 완료!');
-            window.history.back();
-            return false;
+            return true; // 폼 제출을 허용
         }
     </script>
 </main>

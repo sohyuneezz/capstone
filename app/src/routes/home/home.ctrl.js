@@ -1,7 +1,8 @@
-// 컨트롤러 분리하기
 "use strict";
 
 const User = require("../../models/User");
+const Board = require("../../models/BoardStoage");
+const db = require("../../config/db");
 
 // API 구축
 const output = {
@@ -87,9 +88,10 @@ const output = {
         });
     },
     write:(req, res) => { //글작성
-        res.render("home/write", { 
-            isLoggedIn: req.session.isLoggedIn || false 
-        });
+        if (!req.session.isLoggedIn) {
+            return res.redirect("/login");
+        }
+        res.render("home/write", { isLoggedIn: true });
     },
     //취업준비
     jobPreparation: (req, res) => { // 상담
@@ -116,14 +118,18 @@ const output = {
                 isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    myPosts: (req, res) => {
-        if (!req.session.isLoggedIn) {
-            return res.redirect("/login");
+    myPosts: async (req, res) => {
+        if (!req.session.isLoggedIn) return res.redirect("/login");
+
+        const userId = req.session.username;
+        try {
+            const posts = await BoardStorage.getPostsByUserId(userId);
+            res.render("home/myposts", { isLoggedIn: true, posts });
+        } catch (err) {
+            console.error("게시글 조회 오류:", err);
+            res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
-        res.render("home/myposts", { // 나의 기록
-            isLoggedIn: req.session.isLoggedIn || false 
-        });
-    },
+    }
 };
 
 
@@ -174,6 +180,34 @@ const process = {
             res.status(500).json({ success: false, message: "회원정보 수정에 실패하였습니다." });
         }
     },
+    submitPost: (req, res) => {
+        const { title, contents } = req.body;
+        const userId = req.session.username;
+
+        if (!title || !contents) {
+            return res.status(400).send("제목과 내용을 모두 입력하세요.");
+        }
+
+        const query = "INSERT INTO posts (user_id, title, contents) VALUES (?, ?, ?)";
+        db.query(query, [userId, title, contents], (err, result) => {
+            if (err) {
+                console.error("게시글 저장 오류:", err);
+                return res.status(500).send("서버 오류로 인해 게시글을 작성하는 데 실패했습니다.");
+            }
+            res.redirect("/myposts");
+        });
+    },
+    deletePost: (req, res) => {
+        const postId = req.params.id;
+        const query = "DELETE FROM posts WHERE id = ?";
+        db.query(query, [postId], (err, result) => {
+            if (err) {
+                console.error("게시글 삭제 오류:", err);
+                return res.status(500).send("게시글을 삭제하는 데 실패했습니다.");
+            }
+            res.redirect("/myposts");
+        });
+    }
 };
 
 // 객체를 꼭 모듈로 내보내줘야 함 그래야 밖에서 사용 가능
