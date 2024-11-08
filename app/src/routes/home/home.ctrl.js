@@ -70,6 +70,11 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
+    write:(req, res) => { //글작성
+        res.render("home/write", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
+    },
     //취업준비
     jobPreparation: (req, res) => { // 상담
         res.render("home/job_pre", { 

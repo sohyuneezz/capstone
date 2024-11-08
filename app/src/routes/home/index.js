@@ -32,6 +32,7 @@ router.get("/academic", ctrl.output.academicSites);
 router.get("/community", ctrl.output.community);
 router.get("/document", ctrl.output.document);
 router.get("/share", ctrl.output.topicShare);
+router.get("/write", ctrl.output.write);
 
 router.get("/job_pre", ctrl.output.jobPreparation);
 router.get("/test", ctrl.output.test);

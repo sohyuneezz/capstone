@@ -1,0 +1,38 @@
+<%- include('../partials/header', { title: '대진 On 정보-검사' }) %>
+<main class="writeb">
+    <form action="share.html" method="post" onsubmit="return handleSubmit()">
+        <table class="writet">
+            <tr>
+                <td class="w1">글 쓰기</td>
+            </tr>
+            <tr>
+                <td class="w2">Title</td>
+            </tr>
+            <tr>
+                <td class="w3"><input type="text" placeholder="제목을 입력하세요" name="title"></td>
+            </tr>
+            <tr>
+                <td class="w4">Comment</td>
+            </tr>
+            <tr>
+                <td class="w5">
+                    <textarea placeholder="내용을 입력하세요" name="detail"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="w6">
+                    <button type="submit" class="submit-button">등록</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function handleSubmit() {
+            alert('작성 완료!');
+            window.history.back();
+            return false;
+        }
+    </script>
+</main>
+<%- include('../partials/footer') %>

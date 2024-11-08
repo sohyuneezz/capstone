@@ -1,92 +1,77 @@
 <%- include('../partials/header', { title: '대진 On 정보-내정보수정' }) %>
-<!-- content 시작 -->
 <main id="container" class="container">
     <section id="content" class="content">
         <header class="tit-area">
             <h1 class="tit-type1">마이페이지</h1>
         </header>
-        <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
-            <div class="swiper-wrapper">
-            <a href="/mypage" class="swiper-slide"><span class="txt">학습 진척도</span></a>
-            <a href="/myposts" class="swiper-slide"><span class="txt">나의 기록</span></a>
-            <a href="/editprofile" class="swiper-slide current swiper-slide-active"><span class="txt">내 정보 수정</span></a>
-            </div>
-            <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
-        </div>
         <h2 class="tit-type2">내정보수정</h2>
-            <ul class="txt-list">
-                <li>내정보가 변경된 경우 최신으로 수정 해주세요.</li>
-            </ul>
-            <div class="myinfo-wrap">
-                <div class="photo-modify">
-                    <p class="name-area">
-                        <span class="name">이름</span>
-                        <span class="grade">학력</span>
-                        <span class="id">ID:</span>
-                    </p>
-                </div>
-                <dl class="join-form">
+        <ul class="txt-list">
+            <li>내정보가 변경된 경우 최신으로 수정 해주세요.</li>
+        </ul>
+        <div class="myinfo-wrap">
+            <div class="photo-modify">
+                <p class="name-area">
+                    <span class="name">이름: <%= user.name %></span>
+                    <span class="grade">학력: <%= user.grade %></span>
+                    <span class="id">ID: <%= user.id %></span>
+                    <input type="hidden" id="userId" value="<%= user.id %>"> <!-- 숨겨진 ID 필드 추가 -->
 
+                </p>
+            </div>
+            <form id="editForm">
+                <dl class="join-form">
                     <dt>이메일</dt>
                     <dd>
                         <div class="form-area email">
-                            <input type="text" class="input id focused" title="이메일 아이디 입력" onchange="onlyNumEn" onkeyup="onlyNumEn(this)" id="email" name="email_id" value="">
+                            <input type="text" class="input id focused" title="이메일 아이디 입력" id="email" name="email" value="<%= user.email.split('@')[0] %>">
                             @
-                            <input type="text" class="input address focused" title="이메일 주소 입력" name="email_addr" id="domain" value="" onchange="onlyNumDot(this)" onkeyup="onlyNumDot(this)">
+                            <input type="text" class="input address focused" title="이메일 주소 입력" id="domain" name="email_domain" value="<%= user.email.split('@')[1] %>">
                             <select class="select" title="이메일 주소 선택" id="domainSelect" name="domainSelect">
-                            <option value="">직접입력</option>
-                                <option value="naver.com" selected="selected">naver.com</option>
-                                <option value="daum.net">daum.net</option>
-                                <option value="gmail.com">gmail.com</option>
-                                <option value="nate.com">nate.com</option>
-                                <option value="korea.com">korea.com</option>
-                                
+                                <option value="">직접입력</option>
+                                <option value="naver.com" <%= user.email.includes('naver.com') ? 'selected' : '' %>>naver.com</option>
+                                <option value="daum.net" <%= user.email.includes('daum.net') ? 'selected' : '' %>>daum.net</option>
+                                <option value="gmail.com" <%= user.email.includes('gmail.com') ? 'selected' : '' %>>gmail.com</option>
+                                <option value="nate.com" <%= user.email.includes('nate.com') ? 'selected' : '' %>>nate.com</option>
+                                <option value="korea.com" <%= user.email.includes('korea.com') ? 'selected' : '' %>>korea.com</option>
                             </select>
                         </div>
                     </dd>
 
                     <dt>학력</dt>
-                        <dd>
-                            <div class="form-area">
-                                <select class="select" title="학력 선택" id="grade-select" name="grade">
-                                    <option value="directly" selected="">선택</option>
-                                    <option value="1">1학년</option>
-                                    <option value="2">2학년</option>
-                                    <option value="3">3학년</option>
-                                    <option value="4">4학년</option>
-                                    <option value="대학원생">대학원생</option>
-                                </select>
-
-                            </div>
-                        </dd>
+                    <dd>
+                        <div class="form-area">
+                            <select class="select" title="학력 선택" id="grade-select" name="grade">
+                                <option value="directly" <%= user.grade === 'directly' ? 'selected' : '' %>>선택</option>
+                                <option value="1" <%= user.grade === '1' ? 'selected' : '' %>>1학년</option>
+                                <option value="2" <%= user.grade === '2' ? 'selected' : '' %>>2학년</option>
+                                <option value="3" <%= user.grade === '3' ? 'selected' : '' %>>3학년</option>
+                                <option value="4" <%= user.grade === '4' ? 'selected' : '' %>>4학년</option>
+                                <option value="대학원생" <%= user.grade === '대학원생' ? 'selected' : '' %>>대학원생</option>
+                            </select>
+                        </div>
+                    </dd>
 
                     <dt></dt>
                     <dd><button type="button" class="btn info" onclick="fn_input_password()">비밀번호변경</button></dd>
                     <dt>신규 비밀번호 입력</dt>
                     <dd>
                         <div class="form-area">
-                            <input type="password" class="input" title="신규 비밀번호 입력" name="pswd" id="userPw" onkeydown="pswdChk()" placeholder="" autocomplete="new-password" disabled="">
+                            <input type="password" class="input" title="신규 비밀번호 입력" name="pswd" id="userPw" placeholder="" autocomplete="new-password" disabled>
                         </div>
                     </dd>
                     <dt>비밀번호 재확인</dt>
                     <dd>
                         <div class="form-area">
-                            <input type="password" class="input" title="비밀번호 재확인 입력" name="userPwChk" id="userPwChk" disabled="">
+                            <input type="password" class="input" title="비밀번호 재확인 입력" name="userPwChk" id="userPwChk" disabled>
                         </div>
                     </dd>
                     <span id="same"></span>
-                    <!-- //비밀번호가 맞는경우 생성 -->
                 </dl>
-            </div>
-            
-            <div class="btn-area type1">
-                <a href="javascript:void(0);" class="btn btne" id="editInfo">수정</a>
-            </div>
-
-        
+            </form>
+        </div>
+        <div class="btn-area type1">
+            <button type="button" class="btn btne" id="editInfo">수정</button>
+        </div>
     </section>
 </main>
-<!-- content 끝-->
-
-
 <%- include('../partials/footer') %>
