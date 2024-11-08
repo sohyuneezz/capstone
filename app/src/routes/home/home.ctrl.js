@@ -109,11 +109,17 @@ const output = {
     },
     //마이페이지
     myPage: (req, res) => {
+        if (!req.session.isLoggedIn) {
+            return res.redirect("/login");
+        }
         res.render("home/mypage", { // 마이페이지
-            isLoggedIn: req.session.isLoggedIn || false 
+                isLoggedIn: req.session.isLoggedIn || false 
         });
     },
     myPosts: (req, res) => {
+        if (!req.session.isLoggedIn) {
+            return res.redirect("/login");
+        }
         res.render("home/myposts", { // 나의 기록
             isLoggedIn: req.session.isLoggedIn || false 
         });

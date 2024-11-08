@@ -150,7 +150,6 @@ function fn_input_password() {
 
 // 정보수정 함수
 function updateProfile() {
-    // const userId = document.querySelector("#userId").value;
     const email = document.querySelector("#email").value + document.querySelector("#domain").value;
     const grade = document.querySelector("#grade-select").value;
     const psword = document.querySelector("#userPw").value;
@@ -158,7 +157,6 @@ function updateProfile() {
     const req = {
         email,
         grade,
-        // psword
     };
     // 비밀번호가 입력된 경우에만 req에 추가
     if (psword) {
