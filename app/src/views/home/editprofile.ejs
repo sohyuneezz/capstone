@@ -24,9 +24,8 @@
                     <dd>
                         <div class="form-area email">
                             <input type="text" class="input id focused" title="이메일 아이디 입력" id="email" name="email" value="<%= user.email.split('@')[0] %>">
-                            @
-                            <input type="text" class="input address focused" title="이메일 주소 입력" id="domain" name="email_domain" value="<%= user.email.split('@')[1] %>">
-                            <select class="select" title="이메일 주소 선택" id="domainSelect" name="domainSelect">
+                            <input type="text" class="input address focused" title="이메일 주소 입력" id="domain" name="email_domain" value="@<%= user.email.split('@')[1] %>">
+                            <select class="select" title="이메일 주소 선택" id="select" name="select">
                                 <option value="">직접입력</option>
                                 <option value="naver.com" <%= user.email.includes('naver.com') ? 'selected' : '' %>>naver.com</option>
                                 <option value="daum.net" <%= user.email.includes('daum.net') ? 'selected' : '' %>>daum.net</option>

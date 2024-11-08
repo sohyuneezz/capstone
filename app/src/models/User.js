@@ -58,6 +58,22 @@ class User {
             return { success: false, msg: "서버 오류가 발생했습니다." };
         }
     }
+    // 아이디로 회원 정보 가져오기 메서드
+    static async findById(id) {
+        try {
+            return await UserStorage.findById(id);
+        } catch (err) {
+            throw new Error("사용자 정보를 불러오는 데 실패했습니다.");
+        }
+    }
+    // 사용자 정보 업데이트 메서드
+    static async update(id, userData) {
+        try {
+            return await UserStorage.update(id, userData);
+        } catch (err) {
+            throw new Error("사용자 정보를 업데이트하는 데 실패했습니다.");
+        }
+    }
 }
 
 module.exports = User;

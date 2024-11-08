@@ -13,7 +13,8 @@ const id = document.querySelector("#id"), // 태그 정보를 개발자 임의�
     domain = document.querySelector("#domain"),
     registerBtn = document.querySelector("#register"),
     idChkBtn = document.querySelector("#idchk"),
-    domainSelect = document.querySelector("#select"); // 이메일 도메인 선택 필드
+    domainSelect = document.querySelector("#select"), // 이메일 도메인 선택 필드
+    editInfo = document.querySelector("#editInfo"); 
 
 let isIdChecked = false; // 아이디 중복 확인 여부
 
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (registerBtn) registerBtn.addEventListener("click", register); // 회원가입 버튼 클릭 이벤트
     if (idChkBtn) idChkBtn.addEventListener("click", checkIdDuplication); // 아이디 중복 확인 버튼 클릭 이벤트
     if (domainSelect) domainSelect.addEventListener("change", updateDomain); // 이메일 도메인 자동 채우기
+    if (editInfo) editInfo.addEventListener("click", updateProfile);
 });
 
 // 로그인 함수
@@ -71,7 +73,7 @@ function register(event) {
     if (!email.value || !domain.value) return alert("이메일을 입력해주십시오.");
 
     // 이메일 주소 완성
-    const fullEmail = `${email.value}@${domain.value}`;
+    const fullEmail = `${email.value}${domain.value}`;
 
     const req = {
         id: id.value,
@@ -139,4 +141,46 @@ function updateDomain(e) {
         domain.value = "@" + e.target.value; // 선택한 도메인을 @ 뒤에 추가
         domain.disabled = true; // 자동 설정 후 수정 불가
     }
+}
+// 비밀번호
+function fn_input_password() {
+    document.getElementById("userPw").disabled = false;
+    document.getElementById("userPwChk").disabled = false;
+}
+
+// 정보수정 함수
+function updateProfile() {
+    // const userId = document.querySelector("#userId").value;
+    const email = document.querySelector("#email").value + document.querySelector("#domain").value;
+    const grade = document.querySelector("#grade-select").value;
+    const psword = document.querySelector("#userPw").value;
+
+    const req = {
+        email,
+        grade,
+        // psword
+    };
+    // 비밀번호가 입력된 경우에만 req에 추가
+    if (psword) {
+        req.psword = psword;
+    }
+    fetch(`/update-profile`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+    })
+    .then((res) => res.json())
+    .then((res) => {
+        if (res.success) {
+            alert("수정이 완료되었습니다.");
+            location.reload();
+        } else {
+            alert(res.message || "수정에 실패하였습니다.");
+        }
+    })
+    .catch((err) => {
+        console.error("수정 중 에러 발생", err);
+    });
 }

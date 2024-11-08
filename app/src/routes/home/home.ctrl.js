@@ -26,6 +26,22 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
+    editProfile: async (req, res) => {
+        if (!req.session.isLoggedIn) {
+            return res.redirect("/login");
+        }
+        const userId = req.session.username;
+        const user = await User.findById(userId); // 
+    
+        if (user) {
+            res.render("home/editprofile", { 
+                isLoggedIn: true, 
+                user 
+            }); // 
+        } else {
+            res.status(404).send("회원정보를 찾을 수 없습니다.");
+        }
+    },
     // 메뉴 렌더링
     employmentInfo: (req, res) => { // 취업정보
         res.render("home/employment_info", { 
@@ -102,11 +118,6 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    editProfile: (req, res) => {
-        res.render("home/editprofile", { // 내 정보 수정
-            isLoggedIn: req.session.isLoggedIn || false 
-        });
-    },
 };
 
 
@@ -139,6 +150,23 @@ const process = {
         const user = new User(req.body);
         const response = await user.checkId();
         return res.json(response);
+    },
+    updateProfile: async (req, res) => {
+        const userId = req.session.username;
+        const { email, grade, psword } = req.body;
+    
+        // 비밀번호가 없는 경우 기존 비밀번호를 유지
+        const userData = { email, grade };
+        if (psword) { // 비밀번호가 있을 경우에만 추가
+            userData.psword = psword;
+        }
+
+        const response = await User.update(userId, userData);
+        if (response.success) {
+            res.json({ success: true, message: "회원정보 수정이 완료되었습니다." });
+        } else {
+            res.status(500).json({ success: false, message: "회원정보 수정에 실패하였습니다." });
+        }
     },
 };
 
