@@ -122,12 +122,13 @@ class BoardStorage {
     static async getCommentsByPostId(postId) {
         const query = `
             SELECT comments.id, comments.content, 
-                DATE_FORMAT(comments.created_at, '%Y-%m-%d') AS created_at,
-                users.name AS author_name
-            FROM comments
-            JOIN users ON comments.user_id = users.id
-            WHERE comments.post_id = ?
-            ORDER BY comments.created_at DESC
+            DATE_FORMAT(comments.created_at, '%Y-%m-%d') AS created_at,
+            comments.user_id, -- 댓글 작성자의 user_id 추가
+            users.name AS author_name
+        FROM comments
+        JOIN users ON comments.user_id = users.id
+        WHERE comments.post_id = ?
+        ORDER BY comments.created_at DESC
         `;
         return new Promise((resolve, reject) => {
             db.query(query, [postId], (err, results) => {

@@ -143,7 +143,12 @@ const output = {
             const comments = await BoardStorage.getCommentsByPostId(postId); // 댓글 가져오기
     
             if (post) {
-                res.render("home/post", { post, comments, isLoggedIn: req.session.isLoggedIn });
+                res.render("home/post", { 
+                    post, 
+                    comments, 
+                    isLoggedIn: req.session.isLoggedIn, 
+                    username: req.session.username // 추가
+                });
             } else {
                 res.status(404).send("게시물을 찾을 수 없습니다.");
             }
@@ -189,7 +194,12 @@ const output = {
     
             if (post) {
                 // 게시물과 댓글을 함께 렌더링
-                res.render("home/post", { post, comments, isLoggedIn: req.session.isLoggedIn });
+                res.render("home/post", { 
+                    post, 
+                    comments, 
+                    isLoggedIn: req.session.isLoggedIn, 
+                    username: req.session.username // username 추가
+                });
             } else {
                 res.status(404).send("게시물을 찾을 수 없습니다.");
             }
@@ -197,7 +207,7 @@ const output = {
             console.error("게시글 조회 오류:", err);
             res.status(500).send("게시글과 댓글을 불러오는 데 실패했습니다.");
         }
-    }    
+    }
 };
 
 
@@ -322,29 +332,6 @@ const process = {
             res.status(500).send("댓글 작성 중 오류가 발생했습니다.");
         }
     },
-
-    // 댓글 수정
-    updateComment: async (req, res) => {
-        const commentId = req.params.commentId;
-        const { content } = req.body;
-
-        if (!content) {
-            return res.status(400).send("수정할 댓글 내용을 입력하세요.");
-        }
-
-        try {
-            const response = await BoardStorage.updateComment(commentId, content);
-            if (response.success) {
-                res.redirect("back"); // 수정 후 이전 페이지로 리다이렉트
-            } else {
-                res.status(500).send("댓글을 수정하는 데 실패했습니다.");
-            }
-        } catch (err) {
-            console.error("댓글 수정 오류:", err);
-            res.status(500).send("댓글 수정 중 오류가 발생했습니다.");
-        }
-    },
-
     // 댓글 삭제
     deleteComment: async (req, res) => {
         const commentId = req.params.commentId;
@@ -352,7 +339,7 @@ const process = {
         try {
             const response = await BoardStorage.deleteComment(commentId);
             if (response.success) {
-                res.redirect("back"); // 삭제 후 이전 페이지로 리다이렉트
+                res.redirect(req.get("Referrer") || "/"); // 삭제 후 이전 페이지로 리다이렉트 
             } else {
                 res.status(500).send("댓글을 삭제하는 데 실패했습니다.");
             }
