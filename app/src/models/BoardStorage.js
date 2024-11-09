@@ -101,7 +101,76 @@ class BoardStorage {
                 }
             });
         });
-    }    
+    } 
+    // 댓글 생성
+    static async createComment(commentData) {
+        const { postId, userId, content } = commentData;
+        const query = "INSERT INTO comments (post_id, user_id, content, created_at) VALUES (?, ?, ?, NOW())";
+        return new Promise((resolve, reject) => {
+            db.query(query, [postId, userId, content], (err, result) => {
+                if (err) {
+                    console.error("댓글 생성 오류:", err);
+                    reject({ success: false, msg: "댓글을 작성하는 데 실패했습니다." });
+                } else {
+                    resolve({ success: true, msg: "댓글이 생성되었습니다." });
+                }
+            });
+        });
+    }
+
+    // 게시물에 달린 댓글 조회
+    static async getCommentsByPostId(postId) {
+        const query = `
+            SELECT comments.id, comments.content, 
+                DATE_FORMAT(comments.created_at, '%Y-%m-%d') AS created_at,
+                users.name AS author_name
+            FROM comments
+            JOIN users ON comments.user_id = users.id
+            WHERE comments.post_id = ?
+            ORDER BY comments.created_at DESC
+        `;
+        return new Promise((resolve, reject) => {
+            db.query(query, [postId], (err, results) => {
+                if (err) {
+                    console.error("댓글 조회 오류:", err);
+                    reject("댓글을 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    // 댓글 수정
+    static async updateComment(commentId, content) {
+        const query = "UPDATE comments SET content = ?, updated_at = NOW() WHERE id = ?";
+        return new Promise((resolve, reject) => {
+            db.query(query, [content, commentId], (err, result) => {
+                if (err) {
+                    console.error("댓글 수정 오류:", err);
+                    reject({ success: false, msg: "댓글을 수정하는 데 실패했습니다." });
+                } else {
+                    resolve({ success: true, msg: "댓글이 수정되었습니다." });
+                }
+            });
+        });
+    }
+
+    // 댓글 삭제
+    static async deleteComment(commentId) {
+        const query = "DELETE FROM comments WHERE id = ?";
+        return new Promise((resolve, reject) => {
+            db.query(query, [commentId], (err, result) => {
+                if (err) {
+                    console.error("댓글 삭제 오류:", err);
+                    reject({ success: false, msg: "댓글을 삭제하는 데 실패했습니다." });
+                } else {
+                    resolve({ success: true, msg: "댓글이 삭제되었습니다." });
+                }
+            });
+        });
+    }
+
 }
 
 module.exports = BoardStorage;

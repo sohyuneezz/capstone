@@ -28,13 +28,13 @@
             <% if (posts && posts.length > 0) { %>
                 <% posts.forEach((post, index) => { %>
                     <tr class="banner_list">
-                        <td><%= index + 1 %></td>
-                        <td><a href="/share/<%= post.id %>"><%= post.title %></a></td>
-                        <td><%= post.created_at %></td>
-                        <td>
+                        <th><%= index + 1 %></th>
+                        <th><a href="/share/<%= post.id %>"><%= post.title %></a></th>
+                        <th><%= post.created_at %></th>
+                        <th>
                             <a href="/edit/<%= post.id %>">수정</a> /
                             <a href="/delete/<%= post.id %>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
-                        </td>
+                        </th>
                     </tr>
                 <% }) %>
             <% } else { %>

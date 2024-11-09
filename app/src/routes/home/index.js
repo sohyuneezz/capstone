@@ -48,6 +48,16 @@ router.get("/guide", ctrl.output.guide);
 router.get("/mypage", ctrl.output.myPage);
 router.get("/myposts", ctrl.output.myPosts);
 router.get("/editprofile", ctrl.output.editProfile);
+// 댓글 생성
+router.post("/post/:postId/comment", ctrl.process.createComment);
+
+// 댓글 수정
+router.post("/comment/:commentId?_method=PUT", ctrl.process.updateComment);
+
+// 댓글 삭제
+router.post("/comment/:commentId?_method=DELETE", ctrl.process.deleteComment);
+// 게시물 조회와 댓글 함께 보기
+router.get("/post/:id", ctrl.output.viewComments);
 
 
 module.exports = router;

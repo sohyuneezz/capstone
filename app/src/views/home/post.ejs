@@ -28,6 +28,32 @@
         <div class="btn-area">
             <a href="/share" class="btn">목록</a>
         </div>
+        <div class="board-view">
+            <h3>댓글</h3>
+            <ul class="comment-list">
+                <% (comments || []).forEach(comment => { %>
+                    <li class="comment-item">
+                        <strong><%= comment.author_name %></strong>
+                        <p><%= comment.content %></p>
+                        <small><%= comment.created_at %></small>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+
+        <!-- 댓글 작성 폼 -->
+        <% if (isLoggedIn) { %>
+            <div class="comment-form">
+                <form action="/post/<%= post.id %>/comment" method="POST">
+                    <textarea name="content" placeholder="댓글을 작성하세요" required></textarea>
+                    <button type="submit">댓글 작성</button>
+                </form>
+            </div>
+        <% } else { %>
+            <p>댓글을 작성하려면 <a href="/login">로그인</a>하세요.</p>
+        <% } %>
+    
+    
     </section>
 </main>
 

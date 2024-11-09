@@ -139,17 +139,20 @@ const output = {
     viewPost: async (req, res) => {
         const postId = req.params.id;
         try {
-            const post = await BoardStorage.getPostById(postId);
+            const post = await BoardStorage.getPostById(postId); // 게시물 정보 가져오기
+            const comments = await BoardStorage.getCommentsByPostId(postId); // 댓글 가져오기
+    
             if (post) {
-                res.render("home/post", { post, isLoggedIn: req.session.isLoggedIn });
+                res.render("home/post", { post, comments, isLoggedIn: req.session.isLoggedIn });
             } else {
                 res.status(404).send("게시물을 찾을 수 없습니다.");
             }
         } catch (err) {
             console.error("게시글 조회 오류:", err);
-            res.status(500).send("게시글을 불러오는 데 실패했습니다.");
+            res.status(500).send("게시글과 댓글을 불러오는 데 실패했습니다.");
         }
     },
+
     deletePost: async (req, res) => {
         const postId = req.params.id;
         try {
@@ -178,6 +181,23 @@ const output = {
             res.status(500).send("게시글을 불러오는 데 실패했습니다.");
         }
     },
+    viewComments: async (req, res) => {
+        const postId = req.params.id;
+        try {
+            const post = await BoardStorage.getPostById(postId); // 게시물 정보 가져오기
+            const comments = await BoardStorage.getCommentsByPostId(postId); // 해당 게시물의 댓글 가져오기
+    
+            if (post) {
+                // 게시물과 댓글을 함께 렌더링
+                res.render("home/post", { post, comments, isLoggedIn: req.session.isLoggedIn });
+            } else {
+                res.status(404).send("게시물을 찾을 수 없습니다.");
+            }
+        } catch (err) {
+            console.error("게시글 조회 오류:", err);
+            res.status(500).send("게시글과 댓글을 불러오는 데 실패했습니다.");
+        }
+    }    
 };
 
 
@@ -280,6 +300,68 @@ const process = {
             res.status(500).send("게시글을 수정하는 도중 오류가 발생했습니다.");
         }
     },
+        // 댓글 생성
+    createComment: async (req, res) => {
+        const { content } = req.body;
+        const postId = req.params.postId;
+        const userId = req.session.username; // 세션에서 사용자 ID 가져오기
+
+        if (!content) {
+            return res.status(400).send("댓글 내용을 입력하세요.");
+        }
+
+        try {
+            const response = await BoardStorage.createComment({ postId, userId, content });
+            if (response.success) {
+                res.redirect(`/post/${postId}`); // 댓글 작성 후 게시물 페이지로 리다이렉트
+            } else {
+                res.status(500).send(response.msg);
+            }
+        } catch (err) {
+            console.error("댓글 생성 오류:", err);
+            res.status(500).send("댓글 작성 중 오류가 발생했습니다.");
+        }
+    },
+
+    // 댓글 수정
+    updateComment: async (req, res) => {
+        const commentId = req.params.commentId;
+        const { content } = req.body;
+
+        if (!content) {
+            return res.status(400).send("수정할 댓글 내용을 입력하세요.");
+        }
+
+        try {
+            const response = await BoardStorage.updateComment(commentId, content);
+            if (response.success) {
+                res.redirect("back"); // 수정 후 이전 페이지로 리다이렉트
+            } else {
+                res.status(500).send("댓글을 수정하는 데 실패했습니다.");
+            }
+        } catch (err) {
+            console.error("댓글 수정 오류:", err);
+            res.status(500).send("댓글 수정 중 오류가 발생했습니다.");
+        }
+    },
+
+    // 댓글 삭제
+    deleteComment: async (req, res) => {
+        const commentId = req.params.commentId;
+
+        try {
+            const response = await BoardStorage.deleteComment(commentId);
+            if (response.success) {
+                res.redirect("back"); // 삭제 후 이전 페이지로 리다이렉트
+            } else {
+                res.status(500).send("댓글을 삭제하는 데 실패했습니다.");
+            }
+        } catch (err) {
+            console.error("댓글 삭제 오류:", err);
+            res.status(500).send("댓글 삭제 중 오류가 발생했습니다.");
+        }
+    },
+
 };
 
 // 객체를 꼭 모듈로 내보내줘야 함 그래야 밖에서 사용 가능
