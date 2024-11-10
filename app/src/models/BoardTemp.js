@@ -1,3 +1,4 @@
+// Board.js
 "use strict";
 
 const BoardStorage = require("./BoardStorage");
@@ -27,25 +28,24 @@ class Board {
         return await BoardStorage.deletePost(postId);
     }
     // 댓글 생성
-    async createComment(commentData) {
+    async createComment(postId, userId, content) {
+        const commentData = {
+            postId: postId,
+            userId: userId,
+            content: content,
+        };
         return await BoardStorage.createComment(commentData);
     }
 
-    // 특정 게시물의 댓글 조회
+    // 특정 게시글의 댓글 조회
     static async getCommentsByPostId(postId) {
         return await BoardStorage.getCommentsByPostId(postId);
     }
 
-    // 댓글 수정
-    async updateComment(commentId, content) {
-        return await BoardStorage.updateComment(commentId, content);
-    }
-
     // 댓글 삭제
-    static async deleteComment(commentId) {
-        return await BoardStorage.deleteComment(commentId);
+    static async deleteComment(commentId, userId) {
+        return await BoardStorage.deleteComment(commentId, userId);
     }
-
 }
 
 module.exports = Board;

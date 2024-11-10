@@ -29,7 +29,7 @@
                 <% posts.forEach((post, index) => { %>
                     <tr class="banner_list">
                         <th><%= index + 1 %></th>
-                        <th><a href="/share/<%= post.id %>"><%= post.title %></a></th>
+                        <th><a href="/post/<%= post.id %>"><%= post.title %></a></th>
                         <th><%= post.created_at %></th>
                         <th>
                             <a href="/edit/<%= post.id %>">수정</a> /

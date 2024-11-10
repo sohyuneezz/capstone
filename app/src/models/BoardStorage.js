@@ -23,7 +23,11 @@ class BoardStorage {
         });
     }
     static async getAllPosts() {
-        const query = "SELECT id, title, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at FROM posts ORDER BY created_at DESC";
+        // 게시글을 최신순으로 가져오는 쿼리 (created_at 내림차순 정렬)
+        const query = `
+            SELECT id, title, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at 
+            FROM posts 
+            ORDER BY created_at DESC`;  // 최신순으로 정렬 (DESC가 내림차순)
         return new Promise((resolve, reject) => {
             db.query(query, (err, results) => {
                 if (err) {
@@ -35,6 +39,7 @@ class BoardStorage {
             });
         });
     }
+
     // 게시글 조회
     static async getPostsByUserId(userId) {
         const query = "SELECT id, title, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at FROM posts WHERE user_id = ? ORDER BY created_at DESC";
@@ -101,10 +106,13 @@ class BoardStorage {
                 }
             });
         });
-    } 
+    }    
     // 댓글 생성
     static async createComment(commentData) {
         const { postId, userId, content } = commentData;
+        if (!content) {
+            return { success: false, msg: "댓글 내용을 입력하세요." };
+        }
         const query = "INSERT INTO comments (post_id, user_id, content, created_at) VALUES (?, ?, ?, NOW())";
         return new Promise((resolve, reject) => {
             db.query(query, [postId, userId, content], (err, result) => {
@@ -118,23 +126,14 @@ class BoardStorage {
         });
     }
 
-    // 게시물에 달린 댓글 조회
+    // 특정 게시글의 댓글 조회
     static async getCommentsByPostId(postId) {
-        const query = `
-            SELECT comments.id, comments.content, 
-            DATE_FORMAT(comments.created_at, '%Y-%m-%d') AS created_at,
-            comments.user_id, -- 댓글 작성자의 user_id 추가
-            users.name AS author_name
-        FROM comments
-        JOIN users ON comments.user_id = users.id
-        WHERE comments.post_id = ?
-        ORDER BY comments.created_at DESC
-        `;
+        const query = "SELECT id, user_id, content, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS created_at FROM comments WHERE post_id = ? ORDER BY created_at ASC";
         return new Promise((resolve, reject) => {
             db.query(query, [postId], (err, results) => {
                 if (err) {
                     console.error("댓글 조회 오류:", err);
-                    reject("댓글을 불러오는 데 실패했습니다.");
+                    reject("댓글 목록을 불러오는 데 실패했습니다.");
                 } else {
                     resolve(results);
                 }
@@ -142,36 +141,22 @@ class BoardStorage {
         });
     }
 
-    // 댓글 수정
-    static async updateComment(commentId, content) {
-        const query = "UPDATE comments SET content = ?, updated_at = NOW() WHERE id = ?";
-        return new Promise((resolve, reject) => {
-            db.query(query, [content, commentId], (err, result) => {
-                if (err) {
-                    console.error("댓글 수정 오류:", err);
-                    reject({ success: false, msg: "댓글을 수정하는 데 실패했습니다." });
-                } else {
-                    resolve({ success: true, msg: "댓글이 수정되었습니다." });
-                }
-            });
-        });
-    }
-
     // 댓글 삭제
-    static async deleteComment(commentId) {
-        const query = "DELETE FROM comments WHERE id = ?";
+    static async deleteComment(commentId, userId) {
+        const query = "DELETE FROM comments WHERE id = ? AND user_id = ?";
         return new Promise((resolve, reject) => {
-            db.query(query, [commentId], (err, result) => {
+            db.query(query, [commentId, userId], (err, result) => {
                 if (err) {
                     console.error("댓글 삭제 오류:", err);
                     reject({ success: false, msg: "댓글을 삭제하는 데 실패했습니다." });
+                } else if (result.affectedRows === 0) {
+                    resolve({ success: false, msg: "삭제 권한이 없거나 댓글이 존재하지 않습니다." });
                 } else {
                     resolve({ success: true, msg: "댓글이 삭제되었습니다." });
                 }
             });
         });
     }
-
 }
 
 module.exports = BoardStorage;

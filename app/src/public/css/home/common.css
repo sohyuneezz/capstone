@@ -94,14 +94,6 @@ p {
   margin-inline-end: 0px;
   unicode-bidi: isolate;
 }
-.main-sec.main-banner .my-sports .search_area {
-  html,
-  body {
-    width: 100%;
-    -webkit-font-smoothing: antialiased;
-  }
-}
-
 /* 사이드 바 틀 */
 aside#following-content {
   position: absolute;
@@ -928,6 +920,9 @@ a:-webkit-any-link {
   font-size: 0.8rem;
   text-align: left;
 }
+.custom-class .banner_list th:nth-child(2) {
+  text-align: left;
+}
 /* Board */
 .board-list {
   border-top: 2px solid var(--gray1);
@@ -1359,7 +1354,7 @@ ul.quick_list > li > a {
   font-weight: bold;
   border: 0;
   border-radius: 5px;
-  background-color: #4b79ee;
+  background-color: #1F4E9C;
   cursor: pointer;
   text-align: center;
   line-height: 40px;
@@ -1428,6 +1423,12 @@ textarea {
   font-weight: bold;
   color: #252830;
 }
+/* w6 버튼 정렬 (수정/취소) - 코드 추가 11.10 */ 
+.w6 {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽에 정렬 */
+  gap: 10px; /* 버튼 사이 간격 */
+}
 input[type="submit"] {
   width: 100px;
   height: 40px;
@@ -1449,12 +1450,12 @@ input[type="submit"]:active {
   background-color: rgb(68, 136, 244);
 }
 
-.submit-button {
+.submit-button, .cancel-button {  /*코드 수정 - 11.10 */
   width: 70px;
   height: 40px;
   font-size: 13px;
   font-weight: bold;
-  background-color: #4b79ee;
+  background-color: #1F4E9C;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1466,6 +1467,21 @@ input[type="submit"]:active {
 }
 .submit-button:active {
   background-color: #4b79ee;
+}
+
+/* 수정 버튼 - 코드 추가 - 11.10*/
+.edit-button {
+  width: 70px;
+  height: 40px;
+  font-size: 13px;
+  font-weight: bold;
+  background-color: #1F4E9C;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  color: white;
+  margin-right: 80px; /* 취소 버튼과 간격 */
 }
 .ebannerimg{    /*취업사이트 img 크기 조절*/
   height: 35px;

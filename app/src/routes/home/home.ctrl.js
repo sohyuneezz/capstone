@@ -136,25 +136,32 @@ const output = {
         }
     },
     
+    // 게시글 상세 페이지 보기
     viewPost: async (req, res) => {
-        const postId = req.params.id;
+        const postId = req.params.id;  // URL에서 게시물 ID 가져오기
         try {
-            const post = await BoardStorage.getPostById(postId); // 게시물 정보 가져오기
-            const comments = await BoardStorage.getCommentsByPostId(postId); // 댓글 가져오기
-    
+            // 게시글 정보 가져오기
+            const post = await Board.getPostById(postId);
+            // 댓글 목록 가져오기
+            const comments = await Board.getCommentsByPostId(postId);  // 댓글 목록 가져오기
+
+            // 로그인이 되어 있는지 확인
+            const isLoggedIn = req.session.isLoggedIn || false;
+            const username = req.session.username || null;  // 로그인된 사용자의 아이디
+
             if (post) {
                 res.render("home/post", { 
                     post, 
                     comments, 
-                    isLoggedIn: req.session.isLoggedIn, 
-                    username: req.session.username // 추가
+                    isLoggedIn,
+                    username  // EJS 파일에서 로그인된 사용자 확인을 위해 전달
                 });
             } else {
                 res.status(404).send("게시물을 찾을 수 없습니다.");
             }
         } catch (err) {
             console.error("게시글 조회 오류:", err);
-            res.status(500).send("게시글과 댓글을 불러오는 데 실패했습니다.");
+            res.status(500).send("게시글을 불러오는 데 실패했습니다.");
         }
     },
 
@@ -186,28 +193,6 @@ const output = {
             res.status(500).send("게시글을 불러오는 데 실패했습니다.");
         }
     },
-    viewComments: async (req, res) => {
-        const postId = req.params.id;
-        try {
-            const post = await BoardStorage.getPostById(postId); // 게시물 정보 가져오기
-            const comments = await BoardStorage.getCommentsByPostId(postId); // 해당 게시물의 댓글 가져오기
-    
-            if (post) {
-                // 게시물과 댓글을 함께 렌더링
-                res.render("home/post", { 
-                    post, 
-                    comments, 
-                    isLoggedIn: req.session.isLoggedIn, 
-                    username: req.session.username // username 추가
-                });
-            } else {
-                res.status(404).send("게시물을 찾을 수 없습니다.");
-            }
-        } catch (err) {
-            console.error("게시글 조회 오류:", err);
-            res.status(500).send("게시글과 댓글을 불러오는 데 실패했습니다.");
-        }
-    }
 };
 
 
@@ -310,45 +295,58 @@ const process = {
             res.status(500).send("게시글을 수정하는 도중 오류가 발생했습니다.");
         }
     },
-        // 댓글 생성
+    
+    // 댓글 추가
     createComment: async (req, res) => {
-        const { content } = req.body;
-        const postId = req.params.postId;
-        const userId = req.session.username; // 세션에서 사용자 ID 가져오기
+        const postId = req.params.id;  // URL에서 게시글 ID를 가져옴
+        const userId = req.session.username;  // 현재 로그인된 사용자의 ID
+        const { content } = req.body;  // 댓글 내용
+
+        if (!userId) {
+            return res.status(401).send("로그인이 필요합니다.");  // 로그인이 되어있지 않다면 에러 반환
+        }
 
         if (!content) {
-            return res.status(400).send("댓글 내용을 입력하세요.");
+            return res.status(400).send("댓글 내용을 입력하세요.");  // 댓글 내용이 없을 때 에러 반환
         }
 
         try {
-            const response = await BoardStorage.createComment({ postId, userId, content });
+            // Board 클래스의 createComment 메서드 호출
+            const board = new Board();
+            const response = await board.createComment(postId, userId, content);
+
             if (response.success) {
-                res.redirect(`/post/${postId}`); // 댓글 작성 후 게시물 페이지로 리다이렉트
+                res.redirect(`/post/${postId}`);  // 댓글 작성 후 해당 게시물로 다시 리다이렉트
             } else {
-                res.status(500).send(response.msg);
+                res.status(400).send(response.msg);
             }
-        } catch (err) {
-            console.error("댓글 생성 오류:", err);
+        } catch (error) {
+            console.error("댓글 작성 중 오류:", error);
             res.status(500).send("댓글 작성 중 오류가 발생했습니다.");
         }
     },
+
     // 댓글 삭제
     deleteComment: async (req, res) => {
-        const commentId = req.params.commentId;
+        const commentId = req.params.id;
+        const user_id = req.session.username;
+
+        if (!user_id) {
+            return res.status(401).send("로그인이 필요합니다.");
+        }
 
         try {
-            const response = await BoardStorage.deleteComment(commentId);
+            const response = await Board.deleteComment(commentId, user_id);
             if (response.success) {
-                res.redirect(req.get("Referrer") || "/"); // 삭제 후 이전 페이지로 리다이렉트 
+                res.redirect("back"); // 현재 페이지로 리다이렉트
             } else {
-                res.status(500).send("댓글을 삭제하는 데 실패했습니다.");
+                res.status(403).send(response.msg);
             }
-        } catch (err) {
-            console.error("댓글 삭제 오류:", err);
+        } catch (error) {
+            console.error("댓글 삭제 중 오류:", error);
             res.status(500).send("댓글 삭제 중 오류가 발생했습니다.");
         }
     },
-
 };
 
 // 객체를 꼭 모듈로 내보내줘야 함 그래야 밖에서 사용 가능
