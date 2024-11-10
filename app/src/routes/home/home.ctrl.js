@@ -2,8 +2,10 @@
 
 const User = require("../../models/User");
 const Board = require("../../models/BoardTemp");
+const UserStorage = require("../../models/UserStorage");  // 사용자 정보 저장소
 const BoardStorage = require("../../models/BoardStorage");
 const db = require("../../config/db");
+const { getUserInfo } = require("../../models/UserStorage");
 
 // API 구축
 const output = {
@@ -201,10 +203,22 @@ const process = {
         const user = new User(req.body);
         const response = await user.login();
         if (response.success) {
+            const userInfo = await UserStorage.getUserInfo(user.body.id); // 사용자의 모든 정보 가져오기
             req.session.isLoggedIn = true; // 로그인 상태를 세션에 저장
-            req.session.username = user.body.id; // 사용자 ID를 세션에 저장
+            req.session.username = userInfo.id; // 사용자 ID를 세션에 저장
+            req.session.isAdmin = userInfo.isAdmin; // 사용자 관리자인지 여부를 세션에 저장
+        
+            
+            // 관리자 여부에 따른 응답을 JSON 형태로 반환
+            if (userInfo.isAdmin) {
+                return res.json({ success: true, redirectUrl: "/admin" }); // 관리자는 관리자 페이지로 이동
+            } else {
+                return res.json({ success: true, redirectUrl: "/" }); // 일반 사용자는 홈 페이지로 이동
+            }
+        } else {
+            // 로그인 실패 시 JSON 형태로 응답
+            return res.json({ success: false, msg: response.msg });
         }
-        return res.json(response);
     },
     logout: (req, res) => {
         req.session.destroy((err) => {

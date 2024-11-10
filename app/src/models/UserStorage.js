@@ -76,6 +76,35 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
             });
         });
     }
+    static async getAllUsers() {
+        const query = "SELECT * FROM users";
+        return new Promise((resolve, reject) => {
+            db.query(query, (err, results) => {
+                if (err) {
+                    console.error("사용자 조회 오류:", err);
+                    reject("사용자 목록을 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    
+    static async deleteUser(userId) {
+        const query = "DELETE FROM users WHERE id = ?";
+        return new Promise((resolve, reject) => {
+            db.query(query, [userId], (err, result) => {
+                if (err) {
+                    console.error("사용자 삭제 오류:", err);
+                    reject({ success: false, msg: "사용자를 삭제하는 데 실패했습니다." });
+                } else if (result.affectedRows === 0) {
+                    resolve({ success: false, msg: "사용자를 찾을 수 없습니다." });
+                } else {
+                    resolve({ success: true, msg: "사용자가 삭제되었습니다." });
+                }
+            });
+        });
+    }
 }  
 
 module.exports = UserStorage;

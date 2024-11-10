@@ -157,6 +157,27 @@ class BoardStorage {
             });
         });
     }
+    // 모든 댓글 조회 - 추가할 부분
+    static async getAllComments() {
+        const query = `
+            SELECT comments.id, comments.content, comments.created_at, 
+                    users.name AS author_name, posts.title AS post_title 
+            FROM comments
+            JOIN users ON comments.user_id = users.id
+            JOIN posts ON comments.post_id = posts.id
+            ORDER BY comments.created_at DESC
+        `;
+        return new Promise((resolve, reject) => {
+            db.query(query, (err, results) => {
+                if (err) {
+                    console.error("댓글 조회 오류:", err);
+                    reject("댓글 목록을 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
 }
 
 module.exports = BoardStorage;

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 댓글 관리</title>
+</head>
+<body>
+<main id="container" class="container"><table>
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>등록일</th>
+            <th>관리</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% posts.forEach((post, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= post.title %></td>
+                <td><%= post.author_name %></td>
+                <td><%= post.created_at %></td>
+                <td>
+                    <!-- Delete 버튼 클릭 시 method-override를 통해 DELETE 요청을 보냄 -->
+                    <form action="/admin/posts/<%= post.id %>/delete?_method=DELETE" method="POST">
+                        <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+</main>
+</body>
+</html>

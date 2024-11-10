@@ -25,9 +25,13 @@ app.use(session({
     cookie: { secure: false }  // HTTPS를 사용할 경우 true로 설정 (개발 환경에서는 false)
 }));
 
-// 라우팅
+// 라우팅 - 사용자
 const home = require("./src/routes/home"); // home 폴더 안에 있는 자바스크립트를 읽어와줘
 app.use("/", home); // use -> 미들웨어를 등록해주는 메서드.
+
+// 라우팅 - 관리자
+const admin = require("./src/routes/admin/admin.routes");
+app.use("/admin", admin); // 관리자 전용 경로에 대해서는 admin 라우트를 사용
 
 // 앱세팅
 app.set("views", "./src/views");

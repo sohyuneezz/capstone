@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 댓글 관리</title>
+</head>
+<body>
+<main id="container" class="container">
+    <h1>댓글 관리</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>댓글 ID</th>
+                <th>게시글 ID</th>
+                <th>작성자</th>
+                <th>내용</th>
+                <th>작성일</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% comments.forEach((comment) => { %>
+                <tr>
+                    <td><%= comment.id %></td>
+                    <td><%= comment.post_id %></td>
+                    <td><%= comment.user_id %></td>
+                    <td><%= comment.content %></td>
+                    <td><%= comment.created_at %></td>
+                    <td>
+                        <form action="/admin/comment/<%= comment.id %>?_method=DELETE" method="POST">
+                            <button type="submit">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
