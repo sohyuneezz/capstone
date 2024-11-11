@@ -18,6 +18,7 @@
         
     <!-- 게시물 테이블 -->
     <table class="tbl-view">
+        <caption>나의 게시물에 대한 번호, 제목, 등록일 안내 리스트입니다.</caption>
         <thead>
             <tr>
                 <th>번호</th>
@@ -32,6 +33,38 @@
                     <tr class="banner_list">
                         <th><%= index + 1 %></th>
                         <th><a href="/post/<%= post.id %>"><%= post.title %></a></th>
+                        <th><%= post.created_at %></th>
+                        <th>
+                            <a href="/edit/<%= post.id %>">수정</a> /
+                            <a href="/delete/<%= post.id %>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                        </th>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4" style="text-align: center;">작성한 게시글이 없습니다.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <h2 class="tit-type2">나의 댓글</h2>
+    <!-- 게시물 테이블 -->
+    <table class="tbl-view">
+        <caption>나의 댓글에 대한 번호, 내용, 카테고리, 등록일 안내 리스트입니다.</caption>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>날짜</th>
+                <th>수정/삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (posts && posts.length > 0) { %>
+                <% posts.forEach((post, index) => { %>
+                    <tr class="banner_list">
+                        <th><%= index + 1 %></th>
+                        <th><a href="/commets/<%= post.id %>"><%= post.title %></a></th>
                         <th><%= post.created_at %></th>
                         <th>
                             <a href="/edit/<%= post.id %>">수정</a> /
