@@ -4,7 +4,7 @@
 const db = require("../config/db");
 
 
-class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필요없음
+class UserStorage {
 
     static getUserInfo(id) {
         return new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
         });
     }
 
- // 아이디 중복 확인 메서드 
+    // 아이디 중복 확인 
     static checkUserId(id) {
         return new Promise((resolve, reject) => {
             const query = "SELECT id FROM users WHERE id = ?";
@@ -27,7 +27,7 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
         });
     }
 
-    // 회원정보 저장 메서드
+    // 회원정보 저장
     static async save(userInfo) {
         return new Promise((resolve, reject) => {
             const query = "INSERT INTO users(id, name, psword, grade, email) VALUES(?, ?, ?, ?, ?)";
@@ -46,7 +46,7 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
             });
         });
     }
-    // ID로 사용자 조회 메서드
+    // ID로 사용자 조회
     static findById(id) {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM users WHERE id = ?";
@@ -56,7 +56,7 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
             });
         });
     }
-
+    // 사용자 정보 업데이트
     static update(id, { email, grade, psword }) {
         return new Promise((resolve, reject) => {
             let query = "UPDATE users SET email = ?, grade = ?";
@@ -76,6 +76,7 @@ class UserStorage { // class 안에 변수 선언 시 const 같은 선언자 필
             });
         });
     }
+    
     static async getAllUsers() {
         const query = "SELECT * FROM users";
         return new Promise((resolve, reject) => {

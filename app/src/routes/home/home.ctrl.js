@@ -2,7 +2,7 @@
 
 const User = require("../../models/User");
 const Board = require("../../models/BoardTemp");
-const UserStorage = require("../../models/UserStorage");  // 사용자 정보 저장소
+const UserStorage = require("../../models/UserStorage"); 
 const BoardStorage = require("../../models/BoardStorage");
 const db = require("../../config/db");
 const { getUserInfo } = require("../../models/UserStorage");
@@ -35,7 +35,7 @@ const output = {
             return res.redirect("/login");
         }
         const userId = req.session.username;
-        const user = await User.findById(userId); // 
+        const user = await User.findById(userId); 
     
         if (user) {
             res.render("home/editprofile", { 
@@ -72,13 +72,13 @@ const output = {
         });
     },
     //커뮤니티
-    community: (req, res) => { //공지사항
+    community: (req, res) => { //자유게시판
         const isLoggedIn = req.session.isLoggedIn || false; // 세션에서 로그인 상태를 확인
         const notices = [
             { title: "회원 퇴출 규칙", url: "/notice/1", date: "2024-11-05" },
             { title: "대진 On 정보 이용 수칙", url: "/notice/2", date: "2024-11-04" }
         ];
-        res.render("home/community", { isLoggedIn, notices }); // isLoggedIn과 notices 전달
+        res.render("home/community", { isLoggedIn, notices });
     },  
     document: (req, res) => { //자료실
         res.render("home/document", { 
@@ -94,6 +94,7 @@ const output = {
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
     },
+    //글쓰기
     write: (req, res) => {
         if (!req.session.isLoggedIn) {
             return res.redirect("/login");
@@ -117,18 +118,19 @@ const output = {
         });
     },
     //마이페이지
-    myPage: (req, res) => {
+    myPage: (req, res) => { // 학습진척도 - 수정예정
         if (!req.session.isLoggedIn) {
             return res.redirect("/login");
         }
-        res.render("home/mypage", { // 마이페이지
+        res.render("home/mypage", { 
                 isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    myPosts: async (req, res) => {
+
+    myPosts: async (req, res) => {  // 나의 기록
         if (!req.session.isLoggedIn) return res.redirect("/login");
 
-        const userId = req.session.username; // 세션에서 사용자 ID 가져오기
+        const userId = req.session.username; 
         try {
             const posts = await BoardStorage.getPostsByUserId(userId);
             res.render("home/myposts", { isLoggedIn: true, posts });
@@ -142,21 +144,17 @@ const output = {
     viewPost: async (req, res) => {
         const postId = req.params.id;  // URL에서 게시물 ID 가져오기
         try {
-            // 게시글 정보 가져오기
             const post = await Board.getPostById(postId);
-            // 댓글 목록 가져오기
             const comments = await Board.getCommentsByPostId(postId);  // 댓글 목록 가져오기
-
-            // 로그인이 되어 있는지 확인
             const isLoggedIn = req.session.isLoggedIn || false;
-            const username = req.session.username || null;  // 로그인된 사용자의 아이디
+            const username = req.session.username || null;  
 
             if (post) {
                 res.render("home/post", { 
                     post, 
                     comments, 
                     isLoggedIn,
-                    username  // EJS 파일에서 로그인된 사용자 확인을 위해 전달
+                    username  
                 });
             } else {
                 res.status(404).send("게시물을 찾을 수 없습니다.");
@@ -184,7 +182,7 @@ const output = {
     editPost: async (req, res) => {
         const postId = req.params.id;
         try {
-            const post = await BoardStorage.getPostById(postId); // 게시글 정보를 불러옴
+            const post = await BoardStorage.getPostById(postId);
             if (post) {
                 res.render("home/editPost", { post, isLoggedIn: req.session.isLoggedIn });
             } else {
@@ -235,7 +233,7 @@ const process = {
         return res.json(response);
 
     },
-    checkId: async (req, res) => { // 아이디 중복 확인 API
+    checkId: async (req, res) => { // 아이디 중복 확인 
         const user = new User(req.body);
         const response = await user.checkId();
         return res.json(response);
@@ -270,7 +268,7 @@ const process = {
             const board = new Board({ userId, title, contents });
             const response = await board.create();
             if (response.success) {
-                res.redirect("/share"); // 글 작성 후 주제공유 페이지로 리다이렉트
+                res.redirect("/share"); // 리다이렉트
             } else {
                 res.status(500).send(response.msg);
             }
@@ -300,7 +298,7 @@ const process = {
         try {
             const response = await BoardStorage.updatePost(postId, { title, contents });
             if (response.success) {
-                res.redirect("/myposts"); // 수정 후 마이페이지로 리다이렉트
+                res.redirect("/myposts"); // 리다이렉트
             } else {
                 res.status(500).send("게시글을 수정하는 데 실패했습니다.");
             }
@@ -312,8 +310,8 @@ const process = {
     
     // 댓글 추가
     createComment: async (req, res) => {
-        const postId = req.params.id;  // URL에서 게시글 ID를 가져옴
-        const userId = req.session.username;  // 현재 로그인된 사용자의 ID
+        const postId = req.params.id;  // 게시글 아이디 가져옴
+        const userId = req.session.username;  // 로그인 사용자의 아이디
         const { content } = req.body;  // 댓글 내용
 
         if (!userId) {
@@ -325,12 +323,11 @@ const process = {
         }
 
         try {
-            // Board 클래스의 createComment 메서드 호출
             const board = new Board();
             const response = await board.createComment(postId, userId, content);
 
             if (response.success) {
-                res.redirect(`/post/${postId}`);  // 댓글 작성 후 해당 게시물로 다시 리다이렉트
+                res.redirect(`/post/${postId}`);  // 댓글 작성 후 리다이렉트
             } else {
                 res.status(400).send(response.msg);
             }

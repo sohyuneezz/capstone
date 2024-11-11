@@ -5,18 +5,13 @@ const router = express.Router();
 const ctrl = require("./home.ctrl");
 
 // router 는 클라이언트의 요청을 연결해주는 부분
-// "/login" 이 요청, (req, res)~ 부터가 실제 수행하는 부분 = 컨트롤러  
-// router.get("/login", (req, res) => { // 앞에 슬래시(루트) 뺴먹으면 작동 안됨
-//     res.render("home/login");
-// });
 
 router.get("/", ctrl.output.home);
 router.get("/login", ctrl.output.login);
 router.get("/register", ctrl.output.register);
 router.get("/logout", ctrl.process.logout); // 로그아웃 경로 설정
 router.get("/welcome", ctrl.output.welcome); // 회원가입 완료 페이지 추가
-
-router.get("/deletePost/:id", ctrl.process.deletePost);
+router.get("/editprofile", ctrl.output.editProfile);
 
 router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);
@@ -27,30 +22,26 @@ router.post("/submit", ctrl.process.submitPost);
 // 메뉴 라우팅
 router.get("/employment_info", ctrl.output.employmentInfo);
 router.get("/careerMap", ctrl.output.careerMap);
-
 router.get("/research_info", ctrl.output.researchInfo);
-router.get("/contest_schedule", ctrl.output.contestSchedule);
 router.get("/academic", ctrl.output.academicSites);
-
 router.get("/community", ctrl.output.community);
 router.get("/document", ctrl.output.document);
 router.get("/share", ctrl.output.topicShare);
-router.get("/write", ctrl.output.write);
-router.get("/post/:id", ctrl.output.viewPost);
-router.get("/delete/:id", ctrl.process.deletePost); // 삭제 라우트 추가
-router.get("/edit/:id", ctrl.output.editPost); // 수정 페이지 로드
-router.post("/edit/:id", ctrl.process.updatePost); // 수정 요청 처리
-
-router.get("/job_pre", ctrl.output.jobPreparation);
-router.get("/test", ctrl.output.test);
-
 router.get("/guide", ctrl.output.guide);
 router.get("/mypage", ctrl.output.myPage);
 router.get("/myposts", ctrl.output.myPosts);
-router.get("/editprofile", ctrl.output.editProfile);
-// 댓글 작성 라우트
-router.post("/post/:id/comment", ctrl.process.createComment); // 댓글 추가 요청 처리 (함수명 변경 반영)
-router.delete("/comment/:id", ctrl.process.deleteComment); // 댓글 삭제 요청 처리 (이름은 동일)
+router.get("/job_pre", ctrl.output.jobPreparation); 
+router.get("/test", ctrl.output.test);
+
+router.get("/write", ctrl.output.write);
+router.get("/post/:id", ctrl.output.viewPost);
+router.get("/delete/:id", ctrl.process.deletePost); 
+router.get("/edit/:id", ctrl.output.editPost); 
+router.post("/edit/:id", ctrl.process.updatePost); 
+
+// 댓글
+router.post("/post/:id/comment", ctrl.process.createComment); 
+router.delete("/comment/:id", ctrl.process.deleteComment);
 
 
 module.exports = router;

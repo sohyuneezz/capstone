@@ -1262,19 +1262,19 @@ body.scroll-lock {
 }
 .paging-wrap .move.first {
     margin-left: 0;
-    background-image: url(../image/ico_paging_first.svg);
+    background-image: url(/image/ico_paging_first.svg);
 }
 .paging-wrap .move.prev {
     margin-right: 1.2rem;
-    background-image: url(../image/ico_paging_prev.svg);
+    background-image: url(/image/ico_paging_prev.svg);
 }
 .paging-wrap .move.next {
     margin-left: 1.2rem;
-    background-image: url(../image/ico_paging_next.svg);
+    background-image: url(/image/ico_paging_next.svg);
 }
 .paging-wrap .move.last {
     margin-right: 0;
-    background-image: url(../image/ico_paging_last.svg);
+    background-image: url(/image/ico_paging_last.svg);
 } 
 .paging-wrap .page {
   width: 1.9rem;

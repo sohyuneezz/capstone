@@ -1,93 +1,92 @@
 <%- include('../partials/header', { title: '대진 On 정보-주제공유' }) %>
 
-            <main id="container" class="container">
+<main id="container" class="container">
+    <form method="post" action="/share" id="form">
+        <input type="hidden" name="pageIndex" id="index">
+        <input type="hidden" name="searchtype" id="type">
+        <input type="hidden" name="searchtxt" id="txt">
+    </form>
+
+    <section id="content" class="content">
+        <header class="tit-area">
+            <h1 class="tit-type1">커뮤니티</h1>
+        </header>
+
+        <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
+            <div class="swiper-wrapper">
+                <a href="/document" class="swiper-slide swiper-slide-active">
+                    <span class="txt">자료실</span>
+                </a>
+                <a href="/share" class="swiper-slide current swiper-slide-next">
+                    <span class="txt">주제공유</span>
+                </a>
+                <a href="/community" class="swiper-slide swiper-slide">
+                    <span class="txt">자유게시판</span>
+                </a>
+            </div>
+            <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="search-area">
+            <fieldset class="form-area">
+                <legend>주제공유 검색어 입력</legend>
+                <select class="select" id="searchtype" name="searchtype">
+                    <option value="CONTENT_TITLE" selected="selected">전체</option>
+                    <option value="TITLE">제목</option>
+                    <option value="CONTENT">내용</option>
+                </select>
+                <input type="text" class="input" value="" id="searchtxt" name="searchtxt" placeholder="검색어 입력" onkeypress="if(event.key === 'Enter') { fnCSearch(); }">
+                <button type="button" class="btn" onclick="fncSearch();">검색</button>
+            </fieldset>
+        </div>
+
+        <br>
+
+        <table class="board-list">
+            <caption>자료실에 대한 번호, 제목, 등록일 안내 리스트입니다.</caption>
+            <thead>
+                <tr>
+                    <th class="list-num">NO</th>
+                    <th class="list-tit">제목</th>
+                    <th class="list-date">등록일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% posts.forEach((post, index) => { %>
+                    <tr>
+                        <td class="list-num"><%= index + 1 %></td>
+                        <td class="list-tit" style="padding-left: 50px;"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
+                        <td class="list-date"><%= post.created_at %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
         
-                <form method="post" action="/share" id="form">
-                    <input type="hidden" name="pageIndex" id="index">
-                    <input type="hidden" name="searchtype" id="type">
-                    <input type="hidden" name="searchtxt" id="txt">
-                </form>
+        <div class="paging-wrap">
+            <div class="btn-con">
+                <a href="#" onclick="fncSearch(1);" class="move first"><span class="hidden">처음</span></a>
+                <a href="#" onclick="fncSearch(-1);" class="move prev"><span class="hidden">이전</span></a>
+            </div>
+            <div class="paging-con"><!-- D : pc는 최대 10개까지 모바일은 3개만 나옵니다. -->
+                <ul>
+                    <strong class="page current"><span class="hidden">현재페이지</span><a onclick="return false;">1</a></strong>
+                </ul>
+            </div>
             
-                <section id="content" class="content">
-                    <header class="tit-area">
-                        <h1 class="tit-type1">커뮤니티</h1>
-                    </header>
+            <div class="btn-con">
+                <a href="#" onclick="fncSearch(1);" class="move next"><span class="hidden">다음</span></a>
+                <a href="#" onclick="fncSearch(1);" class="move last"><span class="hidden">마지막</span></a>
+            </div>
+        </div>
 
-                    <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
-                        <div class="swiper-wrapper">
-                            <a href="/document" class="swiper-slide swiper-slide-active">
-                                <span class="txt">자료실</span>
-                            </a>
-                            <a href="/share" class="swiper-slide current swiper-slide-next">
-                                <span class="txt">주제공유</span>
-                            </a>
-                            <a href="/community" class="swiper-slide swiper-slide">
-                                <span class="txt">자유게시판</span>
-                            </a>
-                        </div>
-                        <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
-                    </div>
+        <div class="sharebutton">
+            <button class="sb" onclick="location.href='/write'">글쓰기</button>
+        </div>
 
-                    <br>
-                    <br>
+    </section>
+</main>
 
-                    <div class="search-area">
-                        <fieldset class="form-area">
-                            <legend>주제공유 검색어 입력</legend>
-                            <select class="select" id="searchtype" name="searchtype">
-                                <option value="CONTENT_TITLE" selected="selected">전체</option>
-                                <option value="TITLE">제목</option>
-                                <option value="CONTENT">내용</option>
-                            </select>
-                            <input type="text" class="input" value="" id="searchtxt" name="searchtxt" placeholder="검색어 입력" onkeypress="if(event.key === 'Enter') { fnCSearch(); }">
-                            <button type="button" class="btn" onclick="fncSearch();">검색</button>
-                        </fieldset>
-                    </div>
-
-                    <br>
-
-                    <table class="board-list">
-                        <caption>자료실에 대한 번호, 제목, 등록일 안내 리스트입니다.</caption>
-                        <thead>
-                            <tr>
-                                <th class="list-num">NO</th>
-                                <th class="list-tit">제목</th>
-                                <th class="list-date">등록일</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% posts.forEach((post, index) => { %>
-                                <tr>
-                                    <td class="list-num"><%= index + 1 %></td>
-                                    <td class="list-tit" style="padding-left: 150px;"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
-                                    <td class="list-date"><%= post.created_at %></td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
-                    </table>
-                    
-                    <div class="paging-wrap">
-                        <div class="btn-con">
-                            <a href="#" onclick="fncSearch(1);" class="move first"><span class="hidden">처음</span></a>
-                            <a href="#" onclick="fncSearch(-1);" class="move prev"><span class="hidden">이전</span></a>
-                        </div>
-                        <div class="paging-con"><!-- D : pc는 최대 10개까지 모바일은 3개만 나옵니다. -->
-                            <ul>
-                                <strong class="page current"><span class="hidden">현재페이지</span><a onclick="return false;">1</a></strong>
-        
-                            </ul>
-                        </div>
-                        
-                        <div class="btn-con">
-                            <a href="#" onclick="fncSearch(1);" class="move next"><span class="hidden">다음</span></a>
-                            <a href="#" onclick="fncSearch(1);" class="move last"><span class="hidden">마지막</span></a>
-                        </div>
-                    </div>
-
-                    <div class="sharebutton">
-                        <button class="sb" onclick="location.href='/write'">글쓰기</button>
-                    </div>
-
-                </section>
-            </main>
 <%- include('../partials/footer') %>

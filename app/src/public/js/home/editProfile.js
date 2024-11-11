@@ -17,17 +17,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const editForm = document.getElementById('editForm'); // 기존 editProfileForm을 editForm으로 변경
+    const editForm = document.getElementById('editForm'); 
     console.log("editForm:", editForm); // 폼 요소가 제대로 불러와졌는지 확인
 
     if (editForm) {
         editForm.addEventListener('submit', function (event) {
-            event.preventDefault(); // 폼 기본 제출 방지
+            event.preventDefault(); // 기본 폼 제출 방지
 
             const formData = {
                 id: document.getElementById('userId').value,
                 password: document.getElementById('userPw').value,
-                grade: document.getElementById('grade-select').value, // grade-select ID 사용
+                grade: document.getElementById('grade-select').value, 
                 email: document.getElementById('email').value + '@' + document.getElementById('domain').value
             };
 

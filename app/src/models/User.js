@@ -1,5 +1,5 @@
-// UserStorage 데이터 검증 및 조작
 "use strict";
+// UserStorage 데이터 검증 및 조작
 
 const { response } = require("express");
 const UserStorage = require("./UserStorage");
@@ -9,7 +9,7 @@ class User {
         this.body = body;
     }
     
-    // 로그인 메서드
+    // 로그인
     async login() {
         const client = this.body;
         try {
@@ -27,7 +27,7 @@ class User {
         }
     }
 
-    // 회원가입 메서드
+    // 회원가입
     async register() {
         const client = this.body;
         try {
@@ -45,7 +45,7 @@ class User {
             return { success: false, msg: err };
         }
     }
-     // 아이디 중복 확인 메서드
+     // 아이디 중복 확인
     async checkId() {
         const client = this.body;
         try {
@@ -58,7 +58,7 @@ class User {
             return { success: false, msg: "서버 오류가 발생했습니다." };
         }
     }
-    // 아이디로 회원 정보 가져오기 메서드
+    // 아이디로 회원 정보 가져오기
     static async findById(id) {
         try {
             return await UserStorage.findById(id);
@@ -66,7 +66,7 @@ class User {
             throw new Error("사용자 정보를 불러오는 데 실패했습니다.");
         }
     }
-    // 사용자 정보 업데이트 메서드
+    // 사용자 정보 업데이트
     static async update(id, userData) {
         try {
             return await UserStorage.update(id, userData);

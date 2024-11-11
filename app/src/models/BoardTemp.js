@@ -1,4 +1,3 @@
-// Board.js
 "use strict";
 
 const BoardStorage = require("./BoardStorage");

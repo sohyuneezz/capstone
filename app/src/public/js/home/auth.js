@@ -2,28 +2,29 @@
 
 // 정보 입력 받은 후 로그인 버튼을 누를 때 서버로 전달, 로직 처리
 // 자바에서 제어하기 위한 객체 DOM(문서객체모델, 일종의 인터페이스)
-// DOM을 이용해서 자바스크립트에서 html을 제어할 수 있게 함
+// DOM을 이용해서 자바스크립트에서 html을 제어할 수 있게 함1
+
 const id = document.querySelector("#id"), // 태그 정보를 개발자 임의로 선택자로 부여
     psword = document.querySelector("#psword"),
     loginBtn = document.querySelector("#btnLogin"),
     name = document.querySelector("#name"),
     confirmPsword = document.querySelector("#confirm-psword"),
-    grade = document.querySelector("#grade-select"),  // 학년 선택 필드
-    email = document.querySelector("#emailId"),       // 이메일 필드
+    grade = document.querySelector("#grade-select"),  
+    email = document.querySelector("#emailId"),      
     domain = document.querySelector("#domain"),
     registerBtn = document.querySelector("#register"),
     idChkBtn = document.querySelector("#idchk"),
-    domainSelect = document.querySelector("#select"), // 이메일 도메인 선택 필드
+    domainSelect = document.querySelector("#select"), 
     editInfo = document.querySelector("#editInfo"); 
 
 let isIdChecked = false; // 아이디 중복 확인 여부
 
 // 페이지가 로드된 후 이벤트 핸들러 추가
 document.addEventListener("DOMContentLoaded", () => {
-    if (loginBtn) loginBtn.addEventListener("click", login); // 로그인 버튼 클릭 이벤트
-    if (registerBtn) registerBtn.addEventListener("click", register); // 회원가입 버튼 클릭 이벤트
-    if (idChkBtn) idChkBtn.addEventListener("click", checkIdDuplication); // 아이디 중복 확인 버튼 클릭 이벤트
-    if (domainSelect) domainSelect.addEventListener("change", updateDomain); // 이메일 도메인 자동 채우기
+    if (loginBtn) loginBtn.addEventListener("click", login); 
+    if (registerBtn) registerBtn.addEventListener("click", register); 
+    if (idChkBtn) idChkBtn.addEventListener("click", checkIdDuplication); 
+    if (domainSelect) domainSelect.addEventListener("change", updateDomain); 
     if (editInfo) editInfo.addEventListener("click", updateProfile);
 });
 
@@ -48,7 +49,6 @@ function login() {
     .then((res) => res.json())
     .then((res) => {
         if (res.success) {
-            // 로그인 성공 시, 관리자 여부에 따라 리다이렉트
             window.location.href = res.redirectUrl; // 서버에서 받은 redirectUrl로 리다이렉트
         } else {
             alert(res.msg); // 로그인 실패 시 서버에서 보내는 메시지 표시

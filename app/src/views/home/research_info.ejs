@@ -5,18 +5,17 @@
         <header class="tit-area">
             <h1 class="tit-type1">연구정보</h1>
         </header>
-
-        <div class="swiper tab type1">
+        <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
             <div class="swiper-wrapper">
-                <a href="/research_contest" class="swiper-slide current"><span class="txt">공모전 일정</span></a>
-                <a href="" class="swiper-slide"><span class="txt">학회 일정</span></a>
+                <a href="/research_info" class="swiper-slide current swiper-slide-active"><span class="txt">공모전 일정</span></a>
                 <a href="/academic" class="swiper-slide"><span class="txt">학술사이트</span></a>
             </div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
         </div>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
+
         <div class="wrapper">
             <header>
                 <div class="nav">
@@ -25,20 +24,35 @@
                     <button id="next" class="material-icons"> chevron_right </button>
                 </div>
             </header>
-            <div class="calendar">
-                <ul class="weeks">
-                    <li>Sun</li>
-                    <li>Mon</li>
-                    <li>Tue</li>
-                    <li>Wed</li>
-                    <li>Thu</li>
-                    <li>Fri</li>
-                    <li>Sat</li>
-                </ul>
-                <ul class="days"></ul>
+            <table>
+                <caption class="blind">달력</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">일</th>
+                        <th scope="col">월</th>
+                        <th scope="col">화</th>
+                        <th scope="col">수</th>
+                        <th scope="col">목</th>
+                        <th scope="col">금</th>
+                        <th scope="col">토</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    <!-- 자바스크립트로 날짜가 동적으로 생성 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 팝업 창 추가 -->
+        <div id="popup" class="popup-overlay" style="display: none;">
+            <div class="popup-content">
+                <span class="close-btn">&times;</span>
+                <h2 id="popup-title">공모전 정보</h2>
+                <p id="popup-details">공모전 세부 정보가 여기에 표시됩니다.</p>
             </div>
         </div>
 
+        <!-- 공모전 일정 테이블 (필요에 따라 사용) -->
         <div class="contest-schedule-box">
             <h3>공모전 일정</h3>
             <table id="contestTable">
@@ -54,6 +68,7 @@
                 </tbody>
             </table>
         </div>
+
     </section>
 </main>
 

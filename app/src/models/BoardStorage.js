@@ -1,4 +1,3 @@
-// BoardStorage.js
 "use strict";
 
 const db = require("../config/db");
@@ -22,12 +21,12 @@ class BoardStorage {
             });
         });
     }
+    // 모든 게시글 조회
     static async getAllPosts() {
-        // 게시글을 최신순으로 가져오는 쿼리 (created_at 내림차순 정렬)
         const query = `
             SELECT id, title, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at 
             FROM posts 
-            ORDER BY created_at DESC`;  // 최신순으로 정렬 (DESC가 내림차순)
+            ORDER BY created_at DESC`; 
         return new Promise((resolve, reject) => {
             db.query(query, (err, results) => {
                 if (err) {
@@ -39,10 +38,12 @@ class BoardStorage {
             });
         });
     }
-
-    // 게시글 조회
+    // 특정 사용자 게시글 조회
     static async getPostsByUserId(userId) {
-        const query = "SELECT id, title, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at FROM posts WHERE user_id = ? ORDER BY created_at DESC";
+        const query = `
+                SELECT id, title, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at 
+                FROM posts 
+                WHERE user_id = ? ORDER BY created_at DESC`;
         return new Promise((resolve, reject) => {
             db.query(query, [userId], (err, results) => {
                 if (err) {
@@ -58,9 +59,9 @@ class BoardStorage {
         const query = `
             SELECT posts.id, posts.title, posts.contents, 
                 DATE_FORMAT(posts.created_at, '%Y-%m-%d') AS created_at, 
-                users.name AS author_name  -- 작성자 이름 가져오기
+                users.name AS author_name 
             FROM posts 
-            JOIN users ON posts.user_id = users.id  -- users 테이블과 조인
+            JOIN users ON posts.user_id = users.id 
             WHERE posts.id = ?
         `;
         return new Promise((resolve, reject) => {
@@ -128,7 +129,9 @@ class BoardStorage {
 
     // 특정 게시글의 댓글 조회
     static async getCommentsByPostId(postId) {
-        const query = "SELECT id, user_id, content, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS created_at FROM comments WHERE post_id = ? ORDER BY created_at ASC";
+        const query = `
+            SELECT id, user_id, content, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS created_at 
+            FROM comments WHERE post_id = ? ORDER BY created_at ASC`;
         return new Promise((resolve, reject) => {
             db.query(query, [postId], (err, results) => {
                 if (err) {
