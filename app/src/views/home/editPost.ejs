@@ -1,4 +1,5 @@
-<%- include('../partials/header', { title: '대진 On 정보-게시글 수정' }) %>
+<%- include('../partials/header', { title: '대진 On 정보-검사' }) %>
+
 <main class="writeb">
     <form action="/edit/<%= post.id %>" method="post" onsubmit="return handleSubmit()">
         <table class="writet">
@@ -27,11 +28,13 @@
         </table>
     </form>
 
+    <!--폼 제출-->
     <script>
         function handleSubmit() {
             alert('작성 완료!');
-            return true; // 폼 제출을 허용
+            return true;
         }
     </script>
 </main>
+
 <%- include('../partials/footer') %>

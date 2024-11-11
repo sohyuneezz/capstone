@@ -1,91 +1,87 @@
 <%- include('../partials/header', { title: '대진 on 정보-메인' }) %>
-    <!-- content -->
-	<main id="container" class="container">
-		<div class="mm con01">
-			<div class="banner_wrap">
-				<div class="swiper mySwiper">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<a href="https://www.com2us.com/gamecontest">
-								<img src="image/img_1.jpg" alt="슬라이드1" />
-							</a>
-						</div>
-						<div class="swiper-slide">
-							<a href="https://uplusshgs.com/">
-								<img src="image/img_2.jpg" alt="슬라이드2" />
-							</a>
-						</div>
+
+<main id="container" class="container">
+	<div class="mm con01">
+		<div class="banner_wrap">
+			<div class="swiper mySwiper">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<a href="https://www.com2us.com/gamecontest">
+							<img src="image/img_1.jpg" alt="슬라이드1" />
+						</a>
 					</div>
-					<!-- 페이지네이션 -->
-					<div class="swiper-pagination"></div>
+					<div class="swiper-slide">
+						<a href="https://uplusshgs.com/">
+							<img src="image/img_2.jpg" alt="슬라이드2" />
+						</a>
+					</div>
 				</div>
+				<!-- 페이지네이션 -->
+				<div class="swiper-pagination"></div>
+			</div>
+		</div>
+		        <!-- 검색창 -->
+			<div class="search_area">
+				<p>
+					<span>SEARCH</span>
+					<input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" onkeyup="fnKeyUp();">
+					<label for="searchKeyword">통합검색</label>
+					<a href="javascript:search();" class="search_btn">검색</a>
+				</p>
 			</div>
 			
-				<div class="search_area">
-					<p>
-						<span>SEARCH</span>
-						<input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" onkeyup="fnKeyUp();">
-						<label for="searchKeyword">통합검색</label>
-						<a href="javascript:search();" class="search_btn">검색</a>
-					</p>
-
-				</div><!-- //search_area -->
-				
-				<ul class="quick">
-					<li>
-						<a href="/guide">
-							<span>
-								<span class="tt">가이드북</span>
-								<span class="text">대진 On 정보 활용법</span>
-							</span>
-						</a>
-					</li>
-					<li>
-						<a href="/careerMap">
-							<span>
-								<span class="tt">CareeMap</span>
-								<span class="text">취업 로드맵 제공</span>
-							</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<span>
-								<span class="tt">AI 학습플래너</span>
-								<span class="text">AI가 도와주는 학습계획</span>
-							</span>
-						</a>
-					</li>
-					<li>
-						<a href="/employment_info">
-							<span>
-								<span class="tt">취업사이트</span>
-								<span class="text">취업 관련 사이트</span>
-							</span>
-						</a>
-					</li>
-					<li>
-						<a href="/share">
-							<span>
-								<span class="tt">주제공유</span>
-								<span class="text">학우들의 지식 공유</span>
-							</span>
-						</a>
-					</li>
-					<li>
-						<a href="/research_info"> 
-							<span>
-								<span class="tt">일정</span>
-								<span class="text">학회, 공모전 일정</span>
-							</span>
-						</a>
-					</li>
-				</ul>
-		</div>
-	</main>
-<!-- content 끝 -->
-		
-	<!--===================================bottom=start==========================-->
+			<ul class="quick">
+				<li>
+					<a href="/guide">
+						<span>
+							<span class="tt">가이드북</span>
+							<span class="text">대진 On 정보 활용법</span>
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="/careerMap">
+						<span>
+							<span class="tt">CareeMap</span>
+							<span class="text">취업 로드맵 제공</span>
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span>
+							<span class="tt">AI 학습플래너</span>
+							<span class="text">AI가 도와주는 학습계획</span>
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="/employment_info">
+						<span>
+							<span class="tt">취업사이트</span>
+							<span class="text">취업 관련 사이트</span>
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="/share">
+						<span>
+							<span class="tt">주제공유</span>
+							<span class="text">학우들의 지식 공유</span>
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="/research_info"> 
+						<span>
+							<span class="tt">일정</span>
+							<span class="text">학회, 공모전 일정</span>
+						</span>
+					</a>
+				</li>
+			</ul>
+	</div>
+</main>
 
 <%- include('../partials/footer') %>
 	
