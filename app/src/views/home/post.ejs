@@ -11,9 +11,9 @@
             <div class="board-header">
                 <h2 class="tit"><%= post.title %></h2>
                 <ul class="info">
-                    <li class="writer">
+                    <!-- <li class="writer">
                         <em>작성자</em> <%= post.author_name %>
-                    </li>
+                    </li> -->
                     <li class="date-area">
                         <em class="tit">작성일 :</em>
                         <em><%= post.created_at %></em>
@@ -35,7 +35,7 @@
             <ul class="comment-list">
                 <% (comments || []).forEach(comment => { %>
                     <li class="comment-item">
-                        <strong><%= comment.author_name %></strong>
+                        <!-- <strong><%= comment.author_name %></strong> -->
                         <p><%= comment.content %></p>
                         <small><%= comment.created_at %></small>
                         

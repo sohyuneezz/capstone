@@ -1005,7 +1005,7 @@ a:-webkit-any-link {
   color: var(--gray1);
 }
 .board-view .board-header .info > li::before {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   top: 50%;
@@ -1020,6 +1020,13 @@ a:-webkit-any-link {
 }
 .board-view .board-header .info > li:first-child::before {
   display: none;
+}
+.board-view .board-header .info > li.progress {
+  font-weight: 700;
+  color: var(--green2);
+}
+.board-view .board-header .info > li.progress.end {
+  color: var(--gray4);
 }
 .board-view .board-con {
   min-height: 10rem;
@@ -1255,19 +1262,19 @@ body.scroll-lock {
 }
 .paging-wrap .move.first {
     margin-left: 0;
-    background-image: url(/image/ico_paging_first.svg);
+    background-image: url(../image/ico_paging_first.svg);
 }
 .paging-wrap .move.prev {
     margin-right: 1.2rem;
-    background-image: url(/image/ico_paging_prev.svg);
+    background-image: url(../image/ico_paging_prev.svg);
 }
 .paging-wrap .move.next {
     margin-left: 1.2rem;
-    background-image: url(/image/ico_paging_next.svg);
+    background-image: url(../image/ico_paging_next.svg);
 }
 .paging-wrap .move.last {
     margin-right: 0;
-    background-image: url(/image/ico_paging_last.svg);
+    background-image: url(../image/ico_paging_last.svg);
 } 
 .paging-wrap .page {
   width: 1.9rem;
@@ -1496,58 +1503,6 @@ input[type="submit"]:active {
   height: 35px;
 }
 /* 임시 코드 - 11.10 */
-/* 게시글 상세 정보 스타일 */
-.board-view {
-  border: 1px solid #ddd;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.board-header .tit {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.info {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 20px;
-  font-size: 14px;
-}
-
-.info li em {
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-.board-con p {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-top: 10px;
-}
-
-/* 버튼 스타일 */
-.btn-area .btn {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  color: white;
-  background-color: #4b79ee;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.btn-area .btn:hover {
-  background-color: #3a62cc;
-}
-
 /* 댓글 목록 스타일 */
 .comment-list {
   list-style: none;
@@ -1607,7 +1562,7 @@ input[type="submit"]:active {
 }
 
 .comment-form button {
-  background-color: #4b79ee;
+  background-color: #1F4E9C;
   color: white;
   border: none;
   padding: 10px 20px;
