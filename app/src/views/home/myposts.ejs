@@ -16,27 +16,30 @@
         </div>
         <h2 class="tit-type2">나의 게시물</h2>
         
-    <!-- 게시물 테이블 -->
-    <table class="tbl-view">
-        <thead>
-            <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>날짜</th>
-                <th>수정/삭제</th>
-            </tr>
-        </thead>
-        <tbody>
+        <!-- 게시물 테이블 -->
+        <table class="board-list">
+            <caption>나의 게시물에 대한 번호, 제목, 등록일 안내 리스트입니다.</caption>
+            <thead>
+                <tr>
+                    <th class="list-num">NO</th>
+                    <th class="list-tit">제목</th>
+                    <th class="list-category">카테고리</th>
+                    <th class="list-date">등록일</th>
+                    <th class="list-action">수정/삭제</th>
+                </tr>
+            </thead>
+            <tbody>
             <% if (posts && posts.length > 0) { %>
                 <% posts.forEach((post, index) => { %>
-                    <tr class="banner_list">
-                        <th><%= index + 1 %></th>
-                        <th><a href="/post/<%= post.id %>"><%= post.title %></a></th>
-                        <th><%= post.created_at %></th>
-                        <th>
+                    <tr>
+                        <td class="list-num"><%= index + 1 %></td>
+                        <td class="list-tit"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
+                        <td class="list-category"></td>
+                        <td class="list-date"><%= post.created_at %></td>
+                        <td class="list-action">
                             <a href="/edit/<%= post.id %>">수정</a> /
                             <a href="/delete/<%= post.id %>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
-                        </th>
+                        </td>
                     </tr>
                 <% }) %>
             <% } else { %>
@@ -46,6 +49,36 @@
             <% } %>
         </tbody>
     </table>
+
+    <h2 class="tit-type2">나의 댓글</h2>
+				
+				<!-- 나의 댓글 테이블 -->
+				<table class="board-list">
+					<caption>나의 댓글에 대한 번호, 내용, 카테고리, 등록일 안내 리스트입니다.</caption>
+					<thead>
+						<tr>
+							<th class="list-num">NO</th>
+							<th class="list-tit">댓글</th>
+							<th class="list-category">카테고리</th>
+							<th class="list-date">등록일</th>
+							<th class="list-action">수정/삭제</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- 예시 행 -->
+						<tr>
+							<td class="list-num"></td>
+							<td class="list-tit"><a href="#"></a></td>
+							<td class="list-category"></td>
+							<td class="list-date"></td>
+							<td class="list-action">
+								<a href="#" class="edit-link">수정</a> / 
+								<a href="#" class="delete-link">삭제</a>
+							</td>
+						</tr>
+                    </tbody>
+				</table>
+
     </section>
 </main>
 
