@@ -1,111 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@charset "UTF-8";
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+.blind {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
 }
 
-button {
-    /* button 요소에 기본적으로 설정되는 스타일 속성 초기화 */
-    border: none;
-    outline: none;
-    background-color: transparent;
-    padding: 0;
-    cursor: pointer;
+/* 테이블 스타일 */
+table, th {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
 }
 
+td {
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    text-align: left; /* 왼쪽 정렬 */
+    padding: 5px; /* 여백 설정 */
+    box-sizing: border-box; /* 패딩 포함 */
+    height: 80px; /* 높이 설정 */
+}
+
+/* 이전/다음 달 날짜 스타일 */
+td.inactive {
+    color: #aaa; /* 현재 달이 아닌 날짜의 색상 */
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+}
+
+th {
+    height: 25px;
+    color: #777;
+    border-bottom: 0;
+    text-align: center; /* 가운데 정렬 */
+    vertical-align: middle; /* 위아래 가운데 정렬 */
+}
+
+.date {
+    font-weight: bold;
+}
+
+.today {
+    border: 1px solid #e0e0bf;
+    background-color: #008aff;
+    color: #000; /* 현재 날짜의 글씨 색 */
+}
 
 .wrapper {
-    width: 450px;
+    width: 100%; 
+    height: 100%; 
     background: #fff;
     border-radius: 10px;
     padding: 25px;
-    border: 2px solid #ddd; /* 테두리 추가 */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 (선택 사항) */
-    }
+    border: 2px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
 
 .wrapper .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
-    }
+}
+
 .wrapper .nav .current-date {
     font-size: 24px;
     font-weight: 600;
-    }
+}
+
 .wrapper .nav button {
     width: 38px;
     height: 38px;
     font-size: 30px;
     color: #878787;
 }
-.calendar ul {
-    display: flex;
-    list-style: none;
-    flex-wrap: wrap;
-    text-align: center;
-}
-.calendar .weeks li {
-    font-weight: 500;
-}
-.calendar .days {
-    margin-bottom: 20px;
-}
-.calendar ul li {
-    width: calc(100% / 7);
-    position: relative;
-}
-.calendar .days li {
-    z-index: 1;
-    margin-top: 30px;
-    cursor: pointer;
-}
-.days li.inactive {
-    color: #aaa;
-}
-.days li.active {
-    color: #fff;
-}
-.calendar .days li::before {
-    position: absolute;
-    content: '';
-    height: 40px;
-    width: 40px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    z-index: -1;
-}
-.days li:hover::before {
-    background: #f2f2f2;
-}
-.days li.active::before {
-    background: #008aff; /* 현재 날짜 배경색 (파란색) */
-}
+
 
 /* 공모전 일정 하이라이트 스타일 */
-.calendar .days .highlight::before {
+td.highlight {
+    color: #fff;
     background-color: #00bcd4; /* 하늘색 배경 */
-    border-radius: 50%; /* 원형 모양 유지 */
-    position: absolute;
-    content: '';
-    height: 40px;
-    width: 40px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1; /* 배경을 텍스트 뒤로 */
+}
+/* 팝업 */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* 다른 요소 위에 팝업이 보이게 설정 */
 }
 
-.calendar .days .highlight {
-    color: #fff; /* 글자 색상 */
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    width: 300px; /* 팝업 창 너비 */
+    max-width: 90%; /* 화면이 작을 때 팝업 크기 제한 */
     position: relative;
-    z-index: 1;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
 }
+
+
+
+/* 닫기 버튼 */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+}
+
+#popup-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#popup-details {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+
 .contest-schedule {
     flex: 1; /* 공모전 박스도 일정 비율의 공간 차지 */
     border: 2px solid #ddd; 
@@ -124,7 +157,8 @@ button {
 #contestTable th, #contestTable td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: center;
+    text-align: center; /* 가로 정렬 */
+    vertical-align: middle; /* 세로 정렬 */
 }
 
 #contestTable th {
