@@ -48,35 +48,34 @@
         </tbody>
     </table>
     <h2 class="tit-type2">나의 댓글</h2>
-    <!-- 게시물 테이블 -->
+    <!-- 댓글 테이블 -->
     <table class="tbl-view">
+        <caption>나의 댓글에 대한 목록입니다.</caption>
         <thead>
             <tr>
                 <th>번호</th>
-                <th>제목</th>
+                <th>게시글 제목</th>
+                <th>댓글 내용</th>
                 <th>날짜</th>
-                <th>수정/삭제</th>
             </tr>
         </thead>
         <tbody>
-            <% if (posts && posts.length > 0) { %>
-                <% posts.forEach((post, index) => { %>
+            <% if (comments && comments.length > 0) { %>
+                <% comments.forEach((comment, index) => { %>
                     <tr class="banner_list">
                         <th><%= index + 1 %></th>
-                        <th><a href="/post/<%= post.id %>"><%= post.title %></a></th>
-                        <th><%= post.created_at %></th>
-                        <th>
-                            <a href="/edit/<%= post.id %>">수정</a> /
-                            <a href="/delete/<%= post.id %>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
-                        </th>
+                        <th><a href="/post/<%= comment.post_id %>"><%= comment.post_title %></a></th>
+                        <th><%= comment.content %></th>
+                        <th><%= comment.created_at %></th>
                     </tr>
                 <% }) %>
             <% } else { %>
                 <tr>
-                    <td colspan="4" style="text-align: center;">작성한 게시글이 없습니다.</td>
+                    <td colspan="5" style="text-align: center;">작성한 댓글이 없습니다.</td>
                 </tr>
             <% } %>
         </tbody>
+        
     </table>
     </section>
 </main>

@@ -71,36 +71,48 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    //커뮤니티
-    community: (req, res) => { //자유게시판
-        const isLoggedIn = req.session.isLoggedIn || false; // 세션에서 로그인 상태를 확인
-        const notices = [
-            { title: "회원 퇴출 규칙", url: "/notice/1", date: "2024-11-05" },
-            { title: "대진 On 정보 이용 수칙", url: "/notice/2", date: "2024-11-04" }
-        ];
-        res.render("home/community", { isLoggedIn, notices });
-    },  
     document: (req, res) => { //자료실
         res.render("home/document", { 
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    topicShare: async (req, res) => { //주제공유
+    //커뮤니티
+    community: async (req, res) => {
+        const isLoggedIn = req.session.isLoggedIn || false;
         try {
-            const posts = await BoardStorage.getAllPosts();
-            res.render("home/share", { posts, isLoggedIn: req.session.isLoggedIn || false });
+            const posts = await BoardStorage.getPostsByCategory('community'); // 'community' 카테고리의 게시글 조회
+            res.render("home/community", { 
+                isLoggedIn, 
+                posts
+            });
         } catch (err) {
             console.error("게시글 조회 오류:", err);
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
     },
+    
+    
+    topicShare: async (req, res) => { // 주제공유
+        try {
+            const posts = await BoardStorage.getPostsByCategory('share'); // 'share' 카테고리의 게시글 조회
+            res.render("home/share", { posts, isLoggedIn: req.session.isLoggedIn || false });
+        } catch (err) {
+            console.error("게시글 조회 오류:", err);
+            res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
+        }
+    },    
+
     //글쓰기
     write: (req, res) => {
         if (!req.session.isLoggedIn) {
             return res.redirect("/login");
         }
-        res.render("home/write", { isLoggedIn: true, title: "글 작성" });
+        const userId = req.session.username;
+        const category = req.query.category || "share"; // 카테고리를 URL 쿼리로 받음
+        res.render("home/write", { isLoggedIn: true, userId, category, title: "글 작성" });
     },
+    
+    
     //취업준비
     jobPreparation: (req, res) => { // 상담
         res.render("home/job_pre", { 
@@ -127,28 +139,31 @@ const output = {
         });
     },
 
-    myPosts: async (req, res) => {  // 나의 기록
+    myPosts: async (req, res) => {
         if (!req.session.isLoggedIn) return res.redirect("/login");
 
         const userId = req.session.username; 
+        const username = req.session.username; // 세션에서 username 가져오기
         try {
             const posts = await BoardStorage.getPostsByUserId(userId);
-            res.render("home/myposts", { isLoggedIn: true, posts });
+            const comments = await BoardStorage.getCommentsByUserId(userId); // 사용자 댓글 가져오기
+            res.render("home/myposts", { isLoggedIn: true, posts, comments, username });
         } catch (err) {
             console.error("게시글 조회 오류:", err);
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
     },
     
-    // 게시글 상세 페이지 보기
+    
     viewPost: async (req, res) => {
         const postId = req.params.id;  // URL에서 게시물 ID 가져오기
         try {
-            const post = await Board.getPostById(postId);
-            const comments = await Board.getCommentsByPostId(postId);  // 댓글 목록 가져오기
+            // BoardStorage를 사용하여 게시글과 댓글을 조회
+            const post = await BoardStorage.getPostById(postId);
+            const comments = await BoardStorage.getCommentsByPostId(postId);  // 댓글 목록 가져오기
             const isLoggedIn = req.session.isLoggedIn || false;
             const username = req.session.username || null;  
-
+    
             if (post) {
                 res.render("home/post", { 
                     post, 
@@ -205,7 +220,7 @@ const process = {
             req.session.isLoggedIn = true; // 로그인 상태를 세션에 저장
             req.session.username = userInfo.id; // 사용자 ID를 세션에 저장
             req.session.isAdmin = userInfo.isAdmin; // 사용자 관리자인지 여부를 세션에 저장
-        
+
             
             // 관리자 여부에 따른 응답을 JSON 형태로 반환
             if (userInfo.isAdmin) {
@@ -257,26 +272,32 @@ const process = {
     },
     
     submitPost: async (req, res) => {
-        const { title, contents } = req.body;
-        const userId = req.session.username;
-
-        if (!title || !contents) {
-            return res.status(400).send("제목과 내용을 모두 입력하세요.");
+        const userId = req.session.username; // 로그인된 사용자의 ID 가져오기
+        const { title, contents, category } = req.body; // 폼에서 받은 데이터
+        
+        if (!userId || !title || !contents || !category) {
+            return res.status(400).send("제목, 내용, 카테고리 모두 입력해야 합니다.");
         }
 
         try {
-            const board = new Board({ userId, title, contents });
-            const response = await board.create();
+            const postData = { userId, title, contents, category };
+            const response = await BoardStorage.createPost(postData); // 게시글 저장
             if (response.success) {
-                res.redirect("/share"); // 리다이렉트
+                // 저장 성공 후 카테고리에 맞는 페이지로 리다이렉트
+                if (category === "share") {
+                    res.redirect("/share");
+                } else {
+                    res.redirect("/community");
+                }
             } else {
                 res.status(500).send(response.msg);
             }
         } catch (err) {
-            console.error("게시글 생성 오류:", err);
-            res.status(500).send(err);
+            console.error("게시글 작성 중 오류:", err);
+            res.status(500).send("게시글 작성에 실패했습니다.");
         }
     },
+    
     deletePost: async (req, res) => {
         const postId = req.params.id;
 
@@ -337,27 +358,22 @@ const process = {
         }
     },
 
-    // 댓글 삭제
     deleteComment: async (req, res) => {
         const commentId = req.params.id;
-        const user_id = req.session.username;
-
-        if (!user_id) {
-            return res.status(401).send("로그인이 필요합니다.");
-        }
-
+        const userId = req.session.username; // 로그인한 사용자의 아이디
         try {
-            const response = await Board.deleteComment(commentId, user_id);
+            const response = await BoardStorage.deleteComment(commentId, userId);
             if (response.success) {
-                res.redirect("back"); // 현재 페이지로 리다이렉트
+                res.redirect("back"); // 삭제 후 원래 페이지로 리다이렉트
             } else {
-                res.status(403).send(response.msg);
+                res.status(500).send(response.msg);
             }
         } catch (error) {
             console.error("댓글 삭제 중 오류:", error);
             res.status(500).send("댓글 삭제 중 오류가 발생했습니다.");
         }
-    },
+    }
+    
 };
 
 // 객체를 꼭 모듈로 내보내줘야 함 그래야 밖에서 사용 가능

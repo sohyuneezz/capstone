@@ -5,13 +5,13 @@ const db = require("../config/db");
 class BoardStorage {
     // 게시글 생성
     static async createPost(postData) {
-        const { title, contents, userId } = postData;
+        const { title, contents, userId, category } = postData;
         if (!title || !contents) {
             return { success: false, msg: "제목과 내용을 모두 입력하세요." };
         }
-        const query = "INSERT INTO posts (user_id, title, contents, created_at) VALUES (?, ?, ?, NOW())";
+        const query = "INSERT INTO posts (user_id, title, contents, created_at, category) VALUES (?, ?, ?, NOW(), ?)";
         return new Promise((resolve, reject) => {
-            db.query(query, [userId, title, contents], (err, result) => {
+            db.query(query, [userId, title, contents, category], (err, result) => {
                 if (err) {
                     console.error("게시글 생성 오류:", err);
                     reject({ success: false, msg: "게시글을 작성하는 데 실패했습니다." });
@@ -21,14 +21,21 @@ class BoardStorage {
             });
         });
     }
-    // 모든 게시글 조회
-    static async getAllPosts() {
+    
+
+    // 모든 게시글 조회 (카테고리별)
+    static async getPostsByCategory(category, page = 1, limit = 10) {
+        const offset = (page - 1) * limit;
         const query = `
-            SELECT id, title, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at 
-            FROM posts 
-            ORDER BY created_at DESC`; 
+            SELECT posts.id, posts.title, DATE_FORMAT(posts.created_at, '%Y-%m-%d') AS created_at, users.name AS author_name
+            FROM posts
+            JOIN users ON posts.user_id = users.id
+            WHERE posts.category = ?
+            ORDER BY posts.created_at DESC
+            LIMIT ? OFFSET ?
+        `;
         return new Promise((resolve, reject) => {
-            db.query(query, (err, results) => {
+            db.query(query, [category, limit, offset], (err, results) => {
                 if (err) {
                     console.error("게시글 조회 오류:", err);
                     reject("게시글 목록을 불러오는 데 실패했습니다.");
@@ -38,6 +45,8 @@ class BoardStorage {
             });
         });
     }
+
+
     // 특정 사용자 게시글 조회
     static async getPostsByUserId(userId) {
         const query = `
@@ -77,13 +86,14 @@ class BoardStorage {
             });
         });
     }
+    
 
     // 게시글 수정
     static async updatePost(postId, postData) {
-        const { title, contents } = postData;
-        const query = "UPDATE posts SET title = ?, contents = ?, updated_at = NOW() WHERE id = ?";
+        const { title, contents, category } = postData;
+        const query = "UPDATE posts SET title = ?, contents = ?, category = ?, updated_at = NOW() WHERE id = ?";
         return new Promise((resolve, reject) => {
-            db.query(query, [title, contents, postId], (err, result) => {
+            db.query(query, [title, contents, category, postId], (err, result) => {
                 if (err) {
                     console.error("게시글 수정 오류:", err);
                     reject({ success: false, msg: "게시글을 수정하는 데 실패했습니다." });
@@ -150,9 +160,8 @@ class BoardStorage {
         });
     }
 
-    // 댓글 삭제
     static async deleteComment(commentId, userId) {
-        const query = "DELETE FROM comments WHERE id = ? AND user_id = ?";
+        const query = "DELETE FROM comments WHERE id = ? AND user_id = ?"; // 댓글 삭제 쿼리
         return new Promise((resolve, reject) => {
             db.query(query, [commentId, userId], (err, result) => {
                 if (err) {
@@ -166,6 +175,7 @@ class BoardStorage {
             });
         });
     }
+    
     // 모든 댓글 조회 - 추가할 부분
     static async getAllComments() {
         const query = `
@@ -178,6 +188,28 @@ class BoardStorage {
         `;
         return new Promise((resolve, reject) => {
             db.query(query, (err, results) => {
+                if (err) {
+                    console.error("댓글 조회 오류:", err);
+                    reject("댓글 목록을 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    // 특정 사용자가 작성한 댓글 조회
+    static async getCommentsByUserId(userId) {
+        const query = `
+            SELECT comments.id, comments.content, 
+                DATE_FORMAT(comments.created_at, '%Y-%m-%d') AS created_at,  -- 날짜 포맷팅
+                posts.title AS post_title, posts.id AS post_id
+            FROM comments
+            JOIN posts ON comments.post_id = posts.id
+            WHERE comments.user_id = ?
+            ORDER BY comments.created_at DESC
+        `;
+        return new Promise((resolve, reject) => {
+            db.query(query, [userId], (err, results) => {
                 if (err) {
                     console.error("댓글 조회 오류:", err);
                     reject("댓글 목록을 불러오는 데 실패했습니다.");

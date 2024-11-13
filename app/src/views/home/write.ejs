@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title: '대진 On 정보-글쓰기' }) %>
+<%- include('../partials/header', { title: '대진 On 정보 - 글쓰기' }) %>
 <main class="writeb">
     <form action="/submit" method="post" onsubmit="return handleSubmit()">
         <table class="writet">
@@ -12,21 +12,31 @@
                 <td class="w3"><input type="text" placeholder="제목을 입력하세요" name="title" required></td>
             </tr>
             <tr>
-                <td class="w4">Comment</td>
+                <td class="w4">Category</td>
             </tr>
             <tr>
                 <td class="w5">
+                    <select name="category" required>
+                        <option value="share" <%= category === 'share' ? 'selected' : '' %>>주제공유</option>
+                        <option value="community" <%= category === 'community' ? 'selected' : '' %>>자유게시판</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="w4">Comment</td>
+            </tr>
+            <tr>
+                <td class="w7">
                     <textarea placeholder="내용을 입력하세요" name="contents" required></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="w6">
+                <td class="w8">
                     <button type="submit" class="submit-button">등록</button>
                 </td>
             </tr>
         </table>
     </form>
-
     <script>
         function handleSubmit() {
             alert('작성 완료!');
@@ -34,5 +44,4 @@
         }
     </script>
 </main>
-
 <%- include('../partials/footer') %>

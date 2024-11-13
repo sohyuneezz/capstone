@@ -11,9 +11,9 @@
             <div class="board-header">
                 <h2 class="tit"><%= post.title %></h2>
                 <ul class="info">
-                    <!-- <li class="writer">
-                        <em>작성자</em> <%= post.author_name %>
-                    </li> -->
+                    <li class="writer">
+                        <em>작성자</em> <em><%= post.author_name %></em>
+                    </li>
                     <li class="date-area">
                         <em class="tit">작성일 :</em>
                         <em><%= post.created_at %></em>
@@ -39,12 +39,12 @@
                         <strong><%= comment.author_name %></strong>
                         <p><%= comment.content %></p>
                         <small><%= comment.created_at %></small>
-                        
                         <% if (isLoggedIn && String(username) === String(comment.user_id)) { %> <!-- 작성자만 삭제 가능 -->
                             <form action="/comment/<%= comment.id %>?_method=DELETE" method="POST" style="display:inline;">
                                 <button type="submit" class="delete-comment-btn">삭제</button>
                             </form>                            
                         <% } %>
+                        
                     </li>
                 <% }) %>
             </ul>

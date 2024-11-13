@@ -42,27 +42,25 @@
                     </fieldset>
                 </div>
 
+                <!-- 게시글 목록 -->
                 <table class="board-list">
-                    <caption>자유게시판에 대한 번호, 제목, 등록일 안내 리스트입니다.</caption>
-                        <thead>
-                            <tr>
-                                <th class="list-num">NO</th>
-                                <th class="list-tit">제목</th>
-                                <th class="list-date">등록일</th>
-                            </tr>
-                        </thead>
+                    <thead>
+                        <tr>
+                            <th class="list-num">NO</th>
+                            <th class="list-tit">제목</th>
+                            <th class="list-author">작성자</th>
+                            <th class="list-date">등록일</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <td class="list-num">2</td>
-                            <td class="list-tit"><a href="#">컴공 3학년인데 진로고민</a></td>
-                            <td class="list-date">2024-11-10</td>
-                        </tr>
-                    
-                        <tr>
-                            <td class="list-num">1</td>
-                            <td class="list-tit"><a href="#">정보처리기사 자격증 꿀팁 있나요</a></td>
-                            <td class="list-date">2024-10-23</td>
-                        </tr>
+                        <% posts.forEach((post, index) => { %>
+                            <tr>
+                                <td class="list-num"><%= index + 1 %></td>
+                                <td class="list-tit"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
+                                <td class="list-author"><%= post.author_name %></td>
+                                <td class="list-date"><%= post.created_at %></td>
+                            </tr>
+                        <% }) %>
                     </tbody>
                 </table>
 
@@ -84,7 +82,9 @@
                 </div>
 
                 <div class="sharebutton">
-                    <button class="sb" onclick="location.href='/write'">글쓰기</button>
+                    <a href="/write?category=community" class="sb">
+                        글쓰기
+                    </a>                    
                 </div>
             </section>
         </main>

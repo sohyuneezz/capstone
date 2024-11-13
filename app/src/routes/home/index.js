@@ -41,7 +41,9 @@ router.post("/edit/:id", ctrl.process.updatePost);
 
 // 댓글
 router.post("/post/:id/comment", ctrl.process.createComment); 
+// 라우터에 댓글 삭제 경로 추가
 router.delete("/comment/:id", ctrl.process.deleteComment);
+
 
 
 module.exports = router;
