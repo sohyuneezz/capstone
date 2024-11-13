@@ -89,7 +89,7 @@
     width: 4.5rem;
     height: 4.5rem;
     margin: var(--margin--auto) 1.6rem;
-    background: url(../image/ico_txt_check.svg) no-repeat 0 0 / 100%; 
+    background: url(/image/ico_txt_check.svg) no-repeat 0 0 / 100%; 
 }
 .join-form dt {
     margin: 1.5rem 0 0.4rem;
@@ -344,7 +344,7 @@
     padding: 0 2.2rem 0 0.8rem;
     border: 1px solid var(--gray4);
     border-radius: 0.4rem;
-    background: url(../image/select-arrow.svg) no-repeat right 0.6rem top 50% var(--white);
+    background: url(/image/select-arrow.svg) no-repeat right 0.6rem top 50% var(--white);
     font-size: 0.8rem;
     color: var(--gray3);
     line-height: 2rem;

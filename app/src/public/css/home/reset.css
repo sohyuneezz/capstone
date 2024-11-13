@@ -183,3 +183,11 @@ a,a:active,a:focus,a:hover,a:link,a:visited{
     outline:none;
     border:solid 3px #00ff00
 }
+
+.categorybtn {
+    height: 35px;
+    border: 1.5px rgb(68, 136, 244) solid;
+    border-radius: 5px;
+    width: 600px;
+    padding-left: 10px;
+}

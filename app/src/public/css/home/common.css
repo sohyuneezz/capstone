@@ -225,7 +225,8 @@ li {
 #a3,
 #a4,
 #a5,
-#a6 {
+#a6,
+#a7 {
   display: block;
   height: auto;
   padding: 15px 5px;
@@ -253,7 +254,7 @@ a:-webkit-any-link {
   cursor: pointer;
 }
 
-/* a7 닫힘 */
+/* a8 닫힘 */
 #toggle-button {
   border: none;
   background: #1F4E9C;
@@ -1376,6 +1377,7 @@ ul.quick_list > li > a {
   line-height: 40px;
   padding: 0;
   color: white;
+  padding: 10px 15px 10px 15px;
 }
 
 .sb:active {
@@ -1544,6 +1546,18 @@ input[type="submit"]:active {
 .delete-comment-btn:hover {
   background-color: #d43a3a;
 }
+.pbtn {
+  color: #ff4b4b;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pbtn:hover {
+  font-weight: bold;
+}
 
 /* 댓글 작성 폼 스타일 */
 .comment-form {
@@ -1575,4 +1589,17 @@ input[type="submit"]:active {
 
 .comment-form button:hover {
   background-color: #3a62cc;
+}
+
+.pbtn {
+  color: #ff4b4b;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pbtn:hover {
+  font-weight: bold;
 }

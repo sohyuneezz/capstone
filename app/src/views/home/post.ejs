@@ -41,7 +41,7 @@
                         <small><%= comment.created_at %></small>
                         <% if (isLoggedIn && String(username) === String(comment.user_id)) { %> <!-- 작성자만 삭제 가능 -->
                             <form action="/comment/<%= comment.id %>?_method=DELETE" method="POST" style="display:inline;">
-                                <button type="submit" class="delete-comment-btn">삭제</button>
+                                <button type="submit" class="pbtn">삭제</button>
                             </form>                            
                         <% } %>
                         
