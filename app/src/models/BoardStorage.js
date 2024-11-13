@@ -130,8 +130,14 @@ class BoardStorage {
     // 특정 게시글의 댓글 조회
     static async getCommentsByPostId(postId) {
         const query = `
-            SELECT id, user_id, content, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS created_at 
-            FROM comments WHERE post_id = ? ORDER BY created_at ASC`;
+            SELECT comments.id, comments.user_id, comments.content, 
+            DATE_FORMAT(comments.created_at, '%Y-%m-%d %H:%i') AS created_at,
+            users.name AS author_name
+            FROM comments
+            JOIN users ON comments.user_id = users.id
+            WHERE comments.post_id = ?
+            ORDER BY comments.created_at ASC
+        `;
         return new Promise((resolve, reject) => {
             db.query(query, [postId], (err, results) => {
                 if (err) {

@@ -28,14 +28,15 @@
         <div class="btn-area">
             <a href="/share" class="btn">목록</a>
         </div>
-
+        <br>
+        <br>
         <!-- 댓글 목록 -->
         <div class="board-view">
-            <h3>댓글</h3>
+            <h3 class = "tit-type3">댓글</h3>
             <ul class="comment-list">
                 <% (comments || []).forEach(comment => { %>
                     <li class="comment-item">
-                        <!-- <strong><%= comment.author_name %></strong> -->
+                        <strong><%= comment.author_name %></strong>
                         <p><%= comment.content %></p>
                         <small><%= comment.created_at %></small>
                         
