@@ -965,7 +965,7 @@ a:-webkit-any-link {
 }
 .board-list tbody .list-tit {
   padding-left: 0.5rem;
-  text-align: left;
+  text-align: center;
 }
 .board-list .list-tit a {
   margin-right: 0.85rem;

@@ -17,27 +17,27 @@
         <h2 class="tit-type2">나의 게시물</h2>
         
     <!-- 게시물 테이블 -->
-    <table class="tbl-view">
+    <table class="board-list">
         <caption>나의 게시물에 대한 번호, 제목, 등록일 안내 리스트입니다.</caption>
         <thead>
             <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>날짜</th>
-                <th>수정/삭제</th>
+                <th class="list-num">번호</th>
+                <th class="list-tit">제목</th>
+                <th class="list-date">날짜</th>
+                <th class="list-action">수정/삭제</th>
             </tr>
         </thead>
         <tbody>
             <% if (posts && posts.length > 0) { %>
                 <% posts.forEach((post, index) => { %>
-                    <tr class="banner_list">
-                        <th><%= index + 1 %></th>
-                        <th><a href="/post/<%= post.id %>"><%= post.title %></a></th>
-                        <th><%= post.created_at %></th>
-                        <th>
+                    <tr>
+                        <td class="list-num"><%= index + 1 %></td>
+                        <td class="list-tit"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
+                        <td class="list-date"><%= post.created_at %></td>
+                        <td class="list-action">
                             <a href="/edit/<%= post.id %>">수정</a> /
                             <a href="/delete/<%= post.id %>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
-                        </th>
+                        </td>
                     </tr>
                 <% }) %>
             <% } else { %>
@@ -49,24 +49,24 @@
     </table>
     <h2 class="tit-type2">나의 댓글</h2>
     <!-- 댓글 테이블 -->
-    <table class="tbl-view">
+    <table class="board-list custom-class">
         <caption>나의 댓글에 대한 목록입니다.</caption>
         <thead>
             <tr>
-                <th>번호</th>
-                <th>게시글 제목</th>
-                <th>댓글 내용</th>
-                <th>날짜</th>
+                <th class="list-num">번호</th>
+                <th class="list-tit">게시글 제목</th>
+                <th class="list-tit">댓글 내용</th>
+                <th class="list-date">날짜</th>
             </tr>
         </thead>
         <tbody>
             <% if (comments && comments.length > 0) { %>
                 <% comments.forEach((comment, index) => { %>
-                    <tr class="banner_list">
-                        <th><%= index + 1 %></th>
-                        <th><a href="/post/<%= comment.post_id %>"><%= comment.post_title %></a></th>
-                        <th><%= comment.content %></th>
-                        <th><%= comment.created_at %></th>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><a href="/post/<%= comment.post_id %>"><%= comment.post_title %></a></td>
+                        <td><%= comment.content %></td>
+                        <td><%= comment.created_at %></td>
                     </tr>
                 <% }) %>
             <% } else { %>
