@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title: '대진 On 정보-검사' }) %>
+<%- include('../partials/header', { title: '대진 On 정보-글 수정' }) %>
 
 <main class="writeb">
     <form action="/edit/<%= post.id %>" method="post" onsubmit="return handleSubmit()">
@@ -11,6 +11,17 @@
             </tr>
             <tr>
                 <td class="w3"><input type="text" value="<%= post.title %>" placeholder="제목을 입력하세요" name="title" required></td>
+            </tr>
+            <tr>
+                <td class="w4">Category</td>
+            </tr>
+            <tr>
+                <td class="w5">
+                    <select name="category" required>
+                        <option value="share" <%= post.category === 'share' ? 'selected' : '' %>>주제공유</option>
+                        <option value="community" <%= post.category === 'community' ? 'selected' : '' %>>자유게시판</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td class="w4">Comment</td>

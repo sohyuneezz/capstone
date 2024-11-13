@@ -315,11 +315,11 @@ const process = {
     },
     updatePost: async (req, res) => {
         const postId = req.params.id;
-        const { title, contents } = req.body;
+        const { title, contents, category } = req.body;  // 카테고리도 받아오기
         try {
-            const response = await BoardStorage.updatePost(postId, { title, contents });
+            const response = await BoardStorage.updatePost(postId, { title, contents, category });
             if (response.success) {
-                res.redirect("/myposts"); // 리다이렉트
+                res.redirect(`/${category}`); // 수정 후 해당 카테고리 페이지로 리다이렉트
             } else {
                 res.status(500).send("게시글을 수정하는 데 실패했습니다.");
             }
@@ -328,6 +328,7 @@ const process = {
             res.status(500).send("게시글을 수정하는 도중 오류가 발생했습니다.");
         }
     },
+    
     
     // 댓글 추가
     createComment: async (req, res) => {
