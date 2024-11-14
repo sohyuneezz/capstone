@@ -67,21 +67,36 @@
                         </tbody>
                     </table>
                     
+                    <!-- 페이지네이션 -->
                     <div class="paging-wrap">
                         <div class="btn-con">
-                            <a href="#" onclick="fncSearch(1);" class="move first"><span class="hidden">처음</span></a>
-                            <a href="#" onclick="fncSearch(-1);" class="move prev"><span class="hidden">이전</span></a>
+                            <a href="/share?page=1" class="move first <%= currentPage === 1 ? 'disabled' : '' %>">
+                                <span class="hidden">처음</span>
+                            </a>
+                            <a href="/share?page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="move prev <%= currentPage === 1 ? 'disabled' : '' %>">
+                                <span class="hidden">이전</span>
+                            </a>
                         </div>
-                        <div class="paging-con"><!-- D : pc는 최대 10개까지 모바일은 3개만 나옵니다. -->
+
+                        <div class="paging-con">
                             <ul>
-                                <strong class="page current"><span class="hidden">현재페이지</span><a onclick="return false;">1</a></strong>
-        
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <% if (i === currentPage) { %>
+                                        <strong class="page current"><%= i %></strong>
+                                    <% } else { %>
+                                        <a href="/share?page=<%= i %>" class="page"><%= i %></a>
+                                    <% } %>
+                                <% } %>
                             </ul>
                         </div>
-                        
+
                         <div class="btn-con">
-                            <a href="#" onclick="fncSearch(1);" class="move next"><span class="hidden">다음</span></a>
-                            <a href="#" onclick="fncSearch(1);" class="move last"><span class="hidden">마지막</span></a>
+                            <a href="/share?page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" class="move next <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                <span class="hidden">다음</span>
+                            </a>
+                            <a href="/share?page=<%= totalPages %>" class="move last <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                <span class="hidden">마지막</span>
+                            </a>
                         </div>
                     </div>
 

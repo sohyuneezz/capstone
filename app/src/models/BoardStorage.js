@@ -45,6 +45,24 @@ class BoardStorage {
             });
         });
     }
+    
+    // 전체 게시글 수를 가져오는 메서드 추가
+    static async countPostsByCategory(category) {
+        const query = `
+            SELECT COUNT(*) AS total FROM posts WHERE category = ?
+        `;
+        return new Promise((resolve, reject) => {
+            db.query(query, [category], (err, results) => {
+                if (err) {
+                    console.error("게시글 수 조회 오류:", err);
+                    reject("게시글 수를 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results[0].total);
+                }
+            });
+        });
+    }
+    
 
 
     // 특정 사용자 게시글 조회

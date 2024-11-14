@@ -78,12 +78,24 @@ const output = {
     },
     //커뮤니티
     community: async (req, res) => {
-        const isLoggedIn = req.session.isLoggedIn || false;
+        const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+        const limit = 10; // 페이지당 게시글 수
+        const offset = (page - 1) * limit;
+
         try {
-            const posts = await BoardStorage.getPostsByCategory('community'); // 'community' 카테고리의 게시글 조회
+            // 현재 페이지의 게시글 가져오기
+            const posts = await BoardStorage.getPostsByCategory('community', page, limit);
+            
+            // 전체 게시글 수 가져오기
+            const totalPosts = await BoardStorage.countPostsByCategory('community');
+            const totalPages = Math.ceil(totalPosts / limit); // 전체 페이지 수 계산
+
+            // EJS로 데이터 전달 (currentPage와 totalPages를 추가)
             res.render("home/community", { 
-                isLoggedIn, 
-                posts
+                posts, 
+                currentPage: page, 
+                totalPages,
+                isLoggedIn: req.session.isLoggedIn || false 
             });
         } catch (err) {
             console.error("게시글 조회 오류:", err);
@@ -91,16 +103,31 @@ const output = {
         }
     },
     
-    
-    topicShare: async (req, res) => { // 주제공유
+    topicShare: async (req, res) => {
+        const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+        const limit = 10; // 페이지당 게시글 수
+        const offset = (page - 1) * limit;
+
         try {
-            const posts = await BoardStorage.getPostsByCategory('share'); // 'share' 카테고리의 게시글 조회
-            res.render("home/share", { posts, isLoggedIn: req.session.isLoggedIn || false });
+            // 현재 페이지의 게시글 가져오기
+            const posts = await BoardStorage.getPostsByCategory('share', page, limit);
+            
+            // 전체 게시글 수 가져오기
+            const totalPosts = await BoardStorage.countPostsByCategory('share');
+            const totalPages = Math.ceil(totalPosts / limit); // 전체 페이지 수 계산
+
+            // EJS로 데이터 전달
+            res.render("home/share", { 
+                posts, 
+                currentPage: page, 
+                totalPages,
+                isLoggedIn: req.session.isLoggedIn || false 
+            });
         } catch (err) {
             console.error("게시글 조회 오류:", err);
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
-    },    
+    },
 
     //글쓰기
     write: (req, res) => {

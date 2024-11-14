@@ -1283,7 +1283,7 @@ body.scroll-lock {
   color: var(--black2);
 }
 .paging-wrap .page.current {
-  font-weight: 400;
+  font-weight: bold;
 }
 
 
