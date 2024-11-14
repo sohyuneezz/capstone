@@ -26,6 +26,8 @@ router.get("/research_info", ctrl.output.researchInfo);
 router.get("/academic", ctrl.output.academicSites);
 router.get("/community", ctrl.output.community);
 router.get("/document", ctrl.output.document);
+router.get("/documents/:id", ctrl.output.documentDetail);
+
 router.get("/share", ctrl.output.topicShare);
 router.get("/guide", ctrl.output.guide);
 router.get("/mypage", ctrl.output.myPage);

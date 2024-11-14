@@ -30,38 +30,38 @@
         </div>
         <br>
         <br>
-        <!-- 댓글 목록 -->
-        <div class="board-view">
-            <h3 class = "tit-type3">댓글</h3>
-            <ul class="comment-list">
-                <% (comments || []).forEach(comment => { %>
-                    <li class="comment-item">
-                        <strong><%= comment.author_name %></strong>
-                        <p><%= comment.content %></p>
-                        <small><%= comment.created_at %></small>
-                        <% if (isLoggedIn && String(username) === String(comment.user_id)) { %> <!-- 작성자만 삭제 가능 -->
-                            <form action="/comment/<%= comment.id %>?_method=DELETE" method="POST" style="display:inline;">
-                                <button type="submit" class="pbtn">삭제</button>
-                            </form>                            
-                        <% } %>
-                        
-                    </li>
-                <% }) %>
-            </ul>
-        </div>
-        
-        <!-- 댓글 작성 폼 -->
-        <% if (isLoggedIn) { %>
-            <div class="comment-form">
-                <form action="/post/<%= post.id %>/comment" method="POST">
-                    <textarea name="content" placeholder="댓글을 작성하세요" required></textarea>
-                    <button type="submit">댓글 작성</button>
-                </form>
+        <!-- 댓글 섹션은 자료실 글이 아닌 경우에만 보여주기 -->
+        <% if (post.category !== 'document' && typeof comments !== 'undefined') { %>
+            <div class="board-view">
+                <h3 class="tit-type3">댓글</h3>
+                <ul class="comment-list">
+                    <% comments.forEach(comment => { %>
+                        <li class="comment-item">
+                            <strong><%= comment.author_name %></strong>
+                            <p><%= comment.content %></p>
+                            <small><%= comment.created_at %></small>
+                            <% if (isLoggedIn && String(username) === String(comment.user_id)) { %> <!-- 작성자만 삭제 가능 -->
+                                <form action="/comment/<%= comment.id %>?_method=DELETE" method="POST" style="display:inline;">
+                                    <button type="submit" class="pbtn">삭제</button>
+                                </form>                            
+                            <% } %>
+                        </li>
+                    <% }) %>
+                </ul>
             </div>
-        <% } else { %>
-            <p>댓글을 작성하려면 <a href="/login">로그인</a>하세요.</p>
-        <% } %>
 
+            <!-- 댓글 작성 폼 -->
+            <% if (isLoggedIn) { %>
+                <div class="comment-form">
+                    <form action="/post/<%= post.id %>/comment" method="POST">
+                        <textarea name="content" placeholder="댓글을 작성하세요" required></textarea>
+                        <button type="submit">댓글 작성</button>
+                    </form>
+                </div>
+            <% } else { %>
+                <p>댓글을 작성하려면 <a href="/login">로그인</a>하세요.</p>
+            <% } %>
+        <% } %>
     </section>
 </main>
 

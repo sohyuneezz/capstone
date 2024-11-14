@@ -21,7 +21,28 @@ class BoardStorage {
             });
         });
     }
-    
+    // 모든 게시글 조회
+    static async getAllPosts() {
+        const query = `
+            SELECT posts.id, posts.title, posts.contents, posts.category,
+            DATE_FORMAT(posts.created_at, '%Y-%m-%d %H:%i:%s') AS created_at,  -- 날짜와 시간까지 표시
+            users.name AS author_name,
+            users.id AS author_id
+            FROM posts
+            JOIN users ON posts.user_id = users.id
+            ORDER BY posts.created_at DESC
+        `;
+        return new Promise((resolve, reject) => {
+            db.query(query, (err, results) => {
+                if (err) {
+                    console.error("게시글 조회 오류:", err);
+                    reject("게시글 목록을 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
 
     // 모든 게시글 조회 (카테고리별)
     static async getPostsByCategory(category, page = 1, limit = 10) {
@@ -136,6 +157,32 @@ class BoardStorage {
             });
         });
     }    
+
+    // 모든 댓글 조회
+    static async getAllComments() {
+        const query = `
+            SELECT comments.id, comments.content, 
+            DATE_FORMAT(comments.created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
+            users.name AS author_name,
+            users.id AS author_id,
+            posts.title AS post_title,
+            posts.category AS post_category
+            FROM comments
+            JOIN users ON comments.user_id = users.id
+            JOIN posts ON comments.post_id = posts.id
+            ORDER BY comments.created_at DESC
+        `;
+        return new Promise((resolve, reject) => {
+            db.query(query, (err, results) => {
+                if (err) {
+                    console.error("댓글 조회 오류:", err);
+                    reject("댓글 목록을 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
     // 댓글 생성
     static async createComment(commentData) {
         const { postId, userId, content } = commentData;
@@ -178,15 +225,14 @@ class BoardStorage {
         });
     }
 
-    static async deleteComment(commentId, userId) {
-        const query = "DELETE FROM comments WHERE id = ? AND user_id = ?"; // 댓글 삭제 쿼리
+    // 댓글 삭제
+    static async deleteComment(commentId) {
+        const query = "DELETE FROM comments WHERE id = ?";
         return new Promise((resolve, reject) => {
-            db.query(query, [commentId, userId], (err, result) => {
+            db.query(query, [commentId], (err, result) => {
                 if (err) {
                     console.error("댓글 삭제 오류:", err);
                     reject({ success: false, msg: "댓글을 삭제하는 데 실패했습니다." });
-                } else if (result.affectedRows === 0) {
-                    resolve({ success: false, msg: "삭제 권한이 없거나 댓글이 존재하지 않습니다." });
                 } else {
                     resolve({ success: true, msg: "댓글이 삭제되었습니다." });
                 }
@@ -194,27 +240,6 @@ class BoardStorage {
         });
     }
     
-    // 모든 댓글 조회 - 추가할 부분
-    static async getAllComments() {
-        const query = `
-            SELECT comments.id, comments.content, comments.created_at, 
-                    users.name AS author_name, posts.title AS post_title 
-            FROM comments
-            JOIN users ON comments.user_id = users.id
-            JOIN posts ON comments.post_id = posts.id
-            ORDER BY comments.created_at DESC
-        `;
-        return new Promise((resolve, reject) => {
-            db.query(query, (err, results) => {
-                if (err) {
-                    console.error("댓글 조회 오류:", err);
-                    reject("댓글 목록을 불러오는 데 실패했습니다.");
-                } else {
-                    resolve(results);
-                }
-            });
-        });
-    }
     // 특정 사용자가 작성한 댓글 조회
     static async getCommentsByUserId(userId) {
         const query = `
@@ -237,6 +262,64 @@ class BoardStorage {
             });
         });
     }
+    // 모든 자료실 글 가져오기
+    static async getDocuments() {
+        const query = `
+            SELECT documents.id, documents.title,
+            DATE_FORMAT(documents.created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
+            users.name AS author_name
+            FROM documents
+            JOIN users ON documents.user_id = users.id
+            ORDER BY documents.created_at DESC
+        `;
+        return new Promise((resolve, reject) => {
+            db.query(query, (err, results) => {
+                if (err) {
+                    console.error("자료실 조회 오류:", err);
+                    reject("자료실 글 목록을 불러오는 데 실패했습니다.");
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    // 자료실 글 생성
+    static async createDocument(documentData) {
+        const { title, content, userId } = documentData;
+        if (!title || !content) {
+            return { success: false, msg: "제목과 내용을 모두 입력하세요." };
+        }
+        const query = "INSERT INTO documents (user_id, title, content, created_at) VALUES (?, ?, ?, NOW())";
+        return new Promise((resolve, reject) => {
+            db.query(query, [userId, title, content], (err, result) => {
+                if (err) {
+                    console.error("자료실 글 생성 오류:", err);
+                    reject({ success: false, msg: "자료실 글을 작성하는 데 실패했습니다." });
+                } else {
+                    resolve({ success: true, msg: "자료실 글이 생성되었습니다." });
+                }
+            });
+        });
+    }
+
+    // 자료실 글 삭제
+    static async deleteDocument(documentId) {
+        const query = "DELETE FROM documents WHERE id = ?";
+        return new Promise((resolve, reject) => {
+            db.query(query, [documentId], (err, result) => {
+                if (err) {
+                    console.error("자료실 글 삭제 오류:", err);
+                    reject({ success: false, msg: "자료실 글을 삭제하는 데 실패했습니다." });
+                } else {
+                    resolve({ success: true, msg: "자료실 글이 삭제되었습니다." });
+                }
+            });
+        });
+    }
+
+
+
 }
 
 module.exports = BoardStorage;

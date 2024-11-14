@@ -71,11 +71,58 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    document: (req, res) => { //자료실
-        res.render("home/document", { 
-            isLoggedIn: req.session.isLoggedIn || false 
-        });
+    // 자료실 페이지
+    document: async (req, res) => {
+        const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+        const limit = 10; // 페이지당 게시글 수
+        const offset = (page - 1) * limit;
+
+        try {
+            // 현재 페이지의 자료실 게시글 가져오기
+            const documents = await BoardStorage.getPostsByCategory('document', page, limit);
+            
+            // 전체 자료실 게시글 수 가져오기
+            const totalDocuments = await BoardStorage.countPostsByCategory('document');
+            const totalPages = Math.ceil(totalDocuments / limit); // 전체 페이지 수 계산
+
+            // EJS로 데이터 전달
+            res.render("home/document", { 
+                documents, 
+                currentPage: page, 
+                totalPages,
+                isLoggedIn: req.session.isLoggedIn || false,
+                isAdmin: req.session.isAdmin || false,
+                username: req.session.username || ""
+            });
+        } catch (err) {
+            console.error("자료실 글 조회 오류:", err);
+            res.status(500).send("자료실 글을 불러오는 데 실패했습니다.");
+        }
     },
+    documentDetail: async (req, res) => {
+        const postId = req.params.id;
+    
+        try {
+            // 게시글 상세 정보 가져오기
+            const post = await BoardStorage.getPostById(postId);
+    
+            if (!post) {
+                return res.status(404).send("해당 게시글을 찾을 수 없습니다.");
+            }
+    
+            // 자료실에서는 댓글 없이 게시글만 렌더링
+            res.render("home/post", {
+                post,
+                isLoggedIn: req.session.isLoggedIn || false,
+                isAdmin: req.session.isAdmin || false,
+                username: req.session.username || ""
+            });
+        } catch (err) {
+            console.error("게시글 조회 오류:", err);
+            res.status(500).send("게시글을 불러오는 도중 오류가 발생했습니다.");
+        }
+    },
+    
     //커뮤니티
     community: async (req, res) => {
         const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
