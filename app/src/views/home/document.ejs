@@ -67,37 +67,38 @@
                 <% }) %>
             </tbody>
         </table>
+        <div class="button-container">
+            <!-- 페이지네이션 -->
+            <div class="paging-wrap">
+                <div class="btn-con">
+                    <a href="/document?page=1" class="move first <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <span class="hidden">처음</span>
+                    </a>
+                    <a href="/document?page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="move prev <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <span class="hidden">이전</span>
+                    </a>
+                </div>
 
-        <!-- 페이지네이션 -->
-        <div class="paging-wrap">
-            <div class="btn-con">
-                <a href="/document?page=1" class="move first <%= currentPage === 1 ? 'disabled' : '' %>">
-                    <span class="hidden">처음</span>
-                </a>
-                <a href="/document?page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="move prev <%= currentPage === 1 ? 'disabled' : '' %>">
-                    <span class="hidden">이전</span>
-                </a>
-            </div>
-
-            <div class="paging-con">
-                <ul>
-                    <% for (let i = 1; i <= totalPages; i++) { %>
-                        <% if (i === currentPage) { %>
-                            <strong class="page current"><%= i %></strong>
-                        <% } else { %>
-                            <a href="/document?page=<%= i %>" class="page"><%= i %></a>
+                <div class="paging-con">
+                    <ul>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <% if (i === currentPage) { %>
+                                <strong class="page current"><%= i %></strong>
+                            <% } else { %>
+                                <a href="/document?page=<%= i %>" class="page"><%= i %></a>
+                            <% } %>
                         <% } %>
-                    <% } %>
-                </ul>
-            </div>
+                    </ul>
+                </div>
 
-            <div class="btn-con">
-                <a href="/document?page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" class="move next <%= currentPage === totalPages ? 'disabled' : '' %>">
-                    <span class="hidden">다음</span>
-                </a>
-                <a href="/document?page=<%= totalPages %>" class="move last <%= currentPage === totalPages ? 'disabled' : '' %>">
-                    <span class="hidden">마지막</span>
-                </a>
+                <div class="btn-con">
+                    <a href="/document?page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" class="move next <%= currentPage === totalPages ? 'disabled' : '' %>">
+                        <span class="hidden">다음</span>
+                    </a>
+                    <a href="/document?page=<%= totalPages %>" class="move last <%= currentPage === totalPages ? 'disabled' : '' %>">
+                        <span class="hidden">마지막</span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
