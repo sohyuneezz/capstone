@@ -135,12 +135,10 @@ button{
     appearance:none;
     -webkit-appearance:none;
     cursor:pointer;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
 }
 a,a:active,a:focus,a:hover,a:link,a:visited{
     text-decoration:none;
     line-height: inherit;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
 }
 /* 글쓰기 버튼 페이지네이션과 일직선상 위치 */
 .sharebutton a {
