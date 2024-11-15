@@ -31,18 +31,23 @@
                     <br>
                     <br>
 
+                    <!-- 주제공유 페이지 검색 부분 수정 -->
                     <div class="search-area">
                         <fieldset class="form-area">
                             <legend>주제공유 검색어 입력</legend>
-                            <select class="select" id="searchtype" name="searchtype">
-                                <option value="CONTENT_TITLE" selected="selected">전체</option>
-                                <option value="TITLE">제목</option>
-                                <option value="CONTENT">내용</option>
-                            </select>
-                            <input type="text" class="input" value="" id="searchtxt" name="searchtxt" placeholder="검색어 입력" onkeypress="if(event.key === 'Enter') { fnCSearch(); }">
-                            <button type="button" class="btn" onclick="fncSearch();">검색</button>
+                            <form action="/search" method="POST">
+                                <select class="select" id="searchtype" name="category">
+                                    <option value="" selected="selected">전체</option>
+                                    <option value="주제공유">주제공유</option>
+                                    <option value="자료실">자료실</option>
+                                    <option value="자유게시판">자유게시판</option>
+                                </select>
+                                <input type="text" class="input" value="" id="query" name="query" placeholder="검색어 입력" required>
+                                <button type="submit" class="btn">검색</button>
+                            </form>
                         </fieldset>
                     </div>
+
 
 
                     <!-- 게시글 목록 -->

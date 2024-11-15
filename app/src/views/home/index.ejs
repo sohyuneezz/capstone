@@ -20,15 +20,18 @@
 				<div class="swiper-pagination"></div>
 			</div>
 		</div>
-		        <!-- 검색창 -->
-			<div class="search_area">
+		<!-- 검색창 부분 -->
+		<div class="search_area">
+			<form action="/search" method="POST">
 				<p>
 					<span>SEARCH</span>
-					<input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" onkeyup="fnKeyUp();">
+					<input type="text" name="query" placeholder="검색어를 입력하세요" id="searchKeyword" required>
 					<label for="searchKeyword">통합검색</label>
-					<a href="javascript:search();" class="search_btn">검색</a>
+					<button type="submit" class="search_btn">검색</button>
 				</p>
-			</div>
+			</form>
+		</div>
+
 			
 			<ul class="quick">
 				<li>

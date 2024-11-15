@@ -1,0 +1,121 @@
+<%- include('../partials/header', { title: '대진 On 정보-가이드 북' }) %>
+<main id="container" class="container">
+    <section id="content" class="content">
+        <header class="tit-area">
+            <h1 class="tit-type1">통합 검색</h1>
+        </header>
+
+        <!-- 검색 영역 -->
+        <div class="search_area">
+            <p>
+                <select id="group_code" name="group_code" class="sel" size="1" title="검색분류">
+                    <option value="">통합검색</option>
+                    <option value="자료실">자료실</option>
+                    <option value="주제공유">주제공유</option>
+                    <option value="자유게시판">자유게시판</option>
+                </select>
+                <input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" name="query">
+                <label for="searchKeyword">통합검색</label>
+                <a href="javascript:search();" class="search_btn">검색</a>
+            </p>
+        </div>
+
+        <!-- 검색 결과 표시 영역 -->
+        <div class="map_cont total">
+            <!-- 자료실 검색 결과 -->
+            <div class="h4_flex top">
+                <h3 class="tit-type2">자료실 검색</h3>
+            </div>
+            <ul class="sear_list">
+                <% if (categorizedResults && categorizedResults['자료실'] && categorizedResults['자료실'].length > 0) { %>
+                    <% categorizedResults['자료실'].forEach(result => { %>
+                        <li>
+                            <p class="tit">
+                                <a href="/post/<%= result.id %>" target="" title=""><%= result.title %></a>
+                            </p>
+                            <p class="text"><%= result.contents.substring(0, 100) %>...</p> <!-- 내용 일부만 표시 -->
+                            <p class="date"><%= result.created_at %></p>
+                        </li>
+                    <% }); %>
+                <% } else { %>
+                    <li class="nocont">검색된 결과가 없습니다.</li>
+                <% } %>
+            </ul>
+
+            <!-- 주제공유 검색 결과 -->
+            <div class="h4_flex top">
+                <h3 class="tit-type2">주제공유 검색</h3>
+            </div>
+            <ul class="sear_list">
+                <% if (categorizedResults && categorizedResults['주제공유'] && categorizedResults['주제공유'].length > 0) { %>
+                    <% categorizedResults['주제공유'].forEach(result => { %>
+                        <li>
+                            <p class="tit">
+                                <a href="/post/<%= result.id %>" target="" title=""><%= result.title %></a>
+                            </p>
+                            <p class="text"><%= result.contents.substring(0, 100) %>...</p>
+                            <p class="date"><%= result.created_at %></p>
+                        </li>
+                    <% }); %>
+                <% } else { %>
+                    <li class="nocont">검색된 결과가 없습니다.</li>
+                <% } %>
+            </ul>
+
+            <!-- 자유게시판 검색 결과 -->
+            <div class="h4_flex top">
+                <h3 class="tit-type2">자유게시판 검색</h3>
+            </div>
+            <ul class="sear_list">
+                <% if (categorizedResults && categorizedResults['자유게시판'] && categorizedResults['자유게시판'].length > 0) { %>
+                    <% categorizedResults['자유게시판'].forEach(result => { %>
+                        <li>
+                            <p class="tit">
+                                <a href="/post/<%= result.id %>" target="" title=""><%= result.title %></a>
+                            </p>
+                            <p class="text"><%= result.contents.substring(0, 100) %>...</p>
+                            <p class="date"><%= result.created_at %></p>
+                        </li>
+                    <% }); %>
+                <% } else { %>
+                    <li class="nocont">검색된 결과가 없습니다.</li>
+                <% } %>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<script>
+    // 검색 버튼 클릭 시 JavaScript로 폼 제출
+    function search() {
+        const query = document.getElementById('searchKeyword').value.trim();
+        const category = document.getElementById('group_code').value;
+
+        if (query.length === 0) {
+            alert('검색어를 입력하세요.');
+            return;
+        }
+
+        // JavaScript를 이용해 폼을 작성하고 POST 요청 전송
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/search';
+
+        const queryInput = document.createElement('input');
+        queryInput.type = 'hidden';
+        queryInput.name = 'query';
+        queryInput.value = query;
+        form.appendChild(queryInput);
+
+        const categoryInput = document.createElement('input');
+        categoryInput.type = 'hidden';
+        categoryInput.name = 'category';
+        categoryInput.value = category;
+        form.appendChild(categoryInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+<%- include('../partials/footer') %>

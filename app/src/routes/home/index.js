@@ -18,6 +18,8 @@ router.post("/register", ctrl.process.register);
 router.post("/check-id", ctrl.process.checkId); // 아이디 중복 확인 라우트 추가
 router.post("/update-profile", ctrl.process.updateProfile);
 router.post("/submit", ctrl.process.submitPost);
+// 검색 요청 처리
+router.post("/search", ctrl.output.search);
 
 // 메뉴 라우팅
 router.get("/employment_info", ctrl.output.employmentInfo);
@@ -45,6 +47,7 @@ router.post("/edit/:id", ctrl.process.updatePost);
 router.post("/post/:id/comment", ctrl.process.createComment); 
 // 라우터에 댓글 삭제 경로 추가
 router.delete("/comment/:id", ctrl.process.deleteComment);
+
 
 
 
