@@ -10,7 +10,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.11.4",
     "node-fetch": "^3.3.2",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "xml2js": "^0.6.2"
   },
   "name": "capstone",
   "version": "1.0.0",

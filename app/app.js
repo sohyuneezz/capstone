@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session"); // 세션 모듈
 const dotenv = require("dotenv");
 const cors = require("cors"); // 외부 API 접근을 위한 CORS 설정
+const xml2js = require("xml2js"); // XML 데이터를 JSON으로 변환하는 모듈
 
 dotenv.config(); // dotenv 모듈을 사용하면 어떤 OS를 사용하든 동일하게 환경변수 등록하고 가져올수 있게 함
 

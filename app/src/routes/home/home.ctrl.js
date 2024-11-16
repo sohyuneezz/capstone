@@ -335,9 +335,10 @@ const output = {
             };
 
             results.forEach(item => {
-                if (categorizedResults[item.category]) {
-                    categorizedResults[item.category].push(item);
+                if (!categorizedResults[item.category]) {
+                  categorizedResults[item.category] = []; //빈 배열 초기화
                 }
+                categorizedResults[item.category].push(item);
             });
 
             res.render('home/search', { 

@@ -964,7 +964,7 @@ a:-webkit-any-link {
 }
 .board-list tbody .list-tit {
   padding-left: 0.5rem;
-  text-align: center;
+  text-align: left;
 }
 .board-list .list-tit a {
   margin-right: 0.85rem;
@@ -1378,7 +1378,6 @@ ul.quick_list > li > a {
   color: white;
   padding: 10px 15px 10px 15px;
 }
-
 .sb:active {
   background-color: #4b79ee;
 }
@@ -1393,12 +1392,12 @@ ul.quick_list > li > a {
 
 @media (max-width: 768px) {
   .button-container {
-      flex-direction: column; 
+      flex-direction: column; /*작은 화면에서는 수직 배치로 전환 */
       align-items: center;
   }
 
   .sharebutton {
-      position: relative;
+      position: relative; /*화면이 작아지면 고정 위치에서 벗어남 */
       bottom: auto;
       right: auto;
   }
@@ -1607,19 +1606,272 @@ input[type="submit"]:active {
   float: right;
 }
 
-.comment-form button:hover {
-  background-color: #3a62cc;
+mainside {
+  margin: 0;
+  padding: 0;
+  display: none; /* 슬라이드 메뉴에서만 활용되므로 화면에 표시되지 않도록 설정 */
 }
 
-.pbtn {
-  color: #ff4b4b;
+.all-menu {
+  background: url('/image/ico_allmenu.svg') no-repeat center;
+  background-size: contain;
   border: none;
-  padding: 5px 10px;
-  font-size: 14px;
-  border-radius: 3px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: none; /* 기본적으로 숨김 */
+}
+
+@media (max-width: 700px) {
+  .all-menu {
+      display: block; /* 화면 너비가 700px 이하일 때 햄버거 메뉴 표시 */
+  }
+  .gnb-wrap,
+  .flex-sb,
+  .util-menu {
+      display: none !important;
+  }
+
+  .gnb-wrap.active {
+      display: flex; /* 햄버거 메뉴 클릭 시 flex로 표시 */
+      flex-direction: column;
+      background-color: white;
+      position: absolute;
+      top: 60px; /* 헤더 아래로 위치 */
+      right: 0;
+      width: 100%;
+      z-index: 1000;
+  }
+
+  .home-logo {
+    margin: 0 auto; /* 중앙 정렬 */
+  }
+
+  .flex-fs {
+    margin: 10px;
+  }
+}
+
+/* 슬라이드 메뉴 스타일 */
+.slide-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 80%;
+  height: 100%;
+  background-color: #1F4E9C; /* 배경 색상 변경 */
+  color: white; /* 텍스트 색상 */
+  z-index: 1000;
+  overflow-y: auto;
+  transition: left 0.3s ease; /* 부드러운 슬라이드 효과 */
+  padding: 30px;
+}
+
+.slide-menu.active {
+  left: 0;
+}
+
+/* 닫기 버튼 */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: white;
   cursor: pointer;
 }
 
-.pbtn:hover {
+.close-btn:hover {
   font-weight: bold;
+}
+
+/* 슬라이드 메뉴 내부 항목 스타일 */
+.slide-menu .top-area {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.slide-menu .list-area ul {
+  list-style: none;
+  padding: 0;
+}
+
+.slide-menu .list-area ul li {
+  padding: 20px 0;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.lnb-list .link {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+  transition: color 0.3s;
+}
+
+.lnb-list .depth2 {
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+  transition: color 0.3s;
+}
+
+.slide-menu .list-area ul li a:hover {
+  font-weight: bold;
+  color: #001B44;
+}
+
+/* 서브 메뉴 스타일 */
+.slide-menu .list-area ul .sub-list {
+  margin-left: 20px;
+  display: none; /* 기본적으로 숨김 */
+  font-size: 14px;
+}
+
+.slide-menu .list-area ul li:hover .sub-list {
+  display: block; /* 상위 메뉴 hover 시 표시 */
+}
+/* 커리어맵 노드 색상 설명 */
+.custom-list {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 0.8rem 0;
+}
+
+.custom-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.custom-list li::before {
+  content: ""; 
+  width: 18px;
+  height: 18px; 
+  border-radius: 50%; 
+  margin-right: 10px;
+}
+
+.c1::before {
+  background-color: #34429c;
+}
+.c2::before {
+  background-color: #708090;
+}
+.c3::before {
+  background-color: #7bbaf5;
+}
+.c4::before {
+  background-color: #b0e0e6;
+}
+
+
+#chatbot-button {
+  position: fixed;
+  bottom: 190px;
+  right: 70px;
+  z-index: 100;
+
+}
+
+#chatbot-button button {
+  background-color: #1F4E9C;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  cursor: pointer;
+  box-shadow: 1px 1px 12px 0px rgb(0 0 0 / 30%);
+}
+
+#chatbot-button button img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+#chatbot-button button:hover {
+  background-color: #4b79ee;
+}
+
+
+#chatbot-popup {
+  position: fixed;
+  bottom: 160px;
+  right: 70px;
+  width: 350px;
+  height: 500px; 
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+}
+
+.chatbot-header {
+  background-color: #1F4E9C;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbot-header h4 {
+  margin: 0 0 0 5px;
+}
+
+.cbclose {
+  color: white;
+  margin: 0 5px 0 0;
+}
+
+#chat-messages {
+  flex: 1; 
+  padding: 10px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word; 
+  height: calc(100% - 60px); 
+  font-size: 14px;
+}
+
+.chat-input-area {
+  display: flex; 
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #f9f9f9;
+  flex-shrink: 0; 
+}
+
+.chat-input-area input {
+  flex: 1; 
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.chat-input-area button {
+  padding: 10px 20px;
+  background-color: #1F4E9C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-input-area button:hover {
+  background-color: #4b79ee;
 }
