@@ -102,3 +102,27 @@ function toggleContent() {
         button.textContent = "열림";
     }
 }
+
+$(document).ready(function () {
+    // 햄버거 메뉴 열기
+    $('#menuToggle').on('click', function () {
+        const mainsideContent = $('#mainsideContent').html(); // mainside 내용 가져오기
+        const slideMenu = $('#slideMenu');
+        slideMenu.html(mainsideContent + '<button id="closeMenu" class="close-btn">닫기</button>'); // 내용 복사 후 닫기 버튼 추가
+        slideMenu.addClass('active');
+
+        // 닫기 버튼 이벤트 추가
+        $('#closeMenu').on('click', function () {
+            slideMenu.removeClass('active');
+        });
+
+        // 서브 메뉴 토글
+        $('.slide-menu .list-area ul > li > a').on('click', function (e) {
+            const subList = $(this).next('.sub-list');
+            if (subList.length > 0) {
+                e.preventDefault(); // 기본 링크 동작 방지
+                subList.slideToggle();
+            }
+        });
+    });
+});

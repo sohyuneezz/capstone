@@ -1,5 +1,23 @@
 <%- include('../partials/header', { title: '대진 On 정보-연구 정보' }) %>
 <link rel="stylesheet" type="text/css" href="../css/home/calendar.css">
+<!-- Chatbot 시작 -->
+<div id="chatbot-button">
+    <button onclick="toggleChatbot()">
+        <img src="/image/cb.png" alt="Chatbot" />
+    </button>
+</div>
+<div id="chatbot-popup">
+    <div class="chatbot-header">
+        <h4>대진 On 정보 챗봇</h4>
+        <button class="cbclose" onclick="toggleChatbot()">✖</button>
+    </div>
+    <div id="chat-messages"></div>
+    <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="메시지를 입력하세요">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+<!-- Chatbot 끝 -->
 <main id="container" class="container">
     <section id="content" class="content">
         <header class="tit-area">
