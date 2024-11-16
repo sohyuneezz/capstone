@@ -126,3 +126,85 @@ $(document).ready(function () {
         });
     });
 });
+// Toggle Chatbot Visibility
+function toggleChatbot() {
+    const popup = document.getElementById("chatbot-popup");
+
+    // 현재 상태를 토글
+    if (popup.style.display === "flex") {
+        popup.style.display = "none"; // 팝업 닫기
+    } else {
+        popup.style.display = "flex"; // 팝업 열기
+    }
+}
+
+// Send Message Functionality
+function sendMessage() {
+    const input = document.getElementById("chat-input");
+    const message = input.value.trim();
+    if (message) {
+        addMessage("user", message); // 사용자 메시지 추가
+        input.value = ""; // 입력 필드 초기화
+
+        // Simulate AI Response
+        setTimeout(() => {
+            addMessage("bot", "안녕하세요 대진 On 정보 챗봇입니다.");
+        }, 500);
+    }
+}
+
+// Add Messages to Chat Window
+function addMessage(sender, text) {
+    const messagesDiv = document.getElementById("chat-messages");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = sender;
+    messageDiv.textContent = text;
+    messagesDiv.appendChild(messageDiv);
+
+    // 메시지 추가 후 스크롤 하단으로 이동
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Handle Enter Key Press
+document.getElementById("chat-input").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        sendMessage(); // Enter 키 입력 시 메시지 전송
+        event.preventDefault(); // 기본 Enter 동작(줄바꿈) 방지
+    }
+});
+
+// 초기화
+document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById("chatbot-popup");
+    popup.style.display = "none"; // 초기 상태는 숨김
+});
+
+function search() {
+    const query = document.getElementById('searchKeyword').value.trim();
+    const category = document.getElementById('group_code').value;
+
+    if (query.length === 0) {
+        alert('검색어를 입력하세요.');
+        return;
+    }
+
+    // JavaScript를 이용해 폼 작성 및 POST 요청 전송
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/search';
+
+    const queryInput = document.createElement('input');
+    queryInput.type = 'hidden';
+    queryInput.name = 'query';
+    queryInput.value = query;
+    form.appendChild(queryInput);
+
+    const categoryInput = document.createElement('input');
+    categoryInput.type = 'hidden';
+    categoryInput.name = 'category';
+    categoryInput.value = category;
+    form.appendChild(categoryInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}

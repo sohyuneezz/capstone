@@ -284,80 +284,72 @@ const output = {
     },
     // 검색 요청 처리 (변경 사항 반영)
     search: async (req, res) => {
-        const query = req.body.query.trim().toLowerCase(); // 검색어를 소문자로 변환
+        const query = req.body.query.trim().toLowerCase();
         const category = req.body.category || '';
-
+    
         if (!query) {
-            return res.render('home/search', {  // 검색 결과 페이지로 렌더링 (이전 list -> search로 변경)
+            return res.render('home/search', {  
                 categorizedResults: [], 
                 error: '검색어를 입력하세요', 
                 isLoggedIn: req.session.isLoggedIn || false, 
                 username: req.session.username || null
             });
         }
-
+    
         try {
             let sql = `
-                SELECT * FROM posts
+                SELECT * 
+                FROM posts 
                 WHERE (LOWER(title) LIKE ? OR LOWER(contents) LIKE ?)
             `;
             let params = [`%${query}%`, `%${query}%`];
-
+    
             if (category) {
                 sql += ' AND category = ?';
                 params.push(category);
             }
-
+    
             const [results] = await new Promise((resolve, reject) => {
                 db.query(sql, params, (error, results) => {
-                    if (error) {
-                        reject(error);
-                    } else {
-                        resolve([results]);
-                    }
+                    if (error) reject(error);
+                    else resolve([results]);
                 });
             });
-
-            if (results.length === 0) {
-                return res.render('home/search', {  // 검색 결과 페이지로 렌더링
-                    categorizedResults: [], 
-                    error: '검색 결과가 없습니다.',
-                    isLoggedIn: req.session.isLoggedIn || false,
-                    username: req.session.username || null
-                });
-            }
-
-            // 카테고리별로 결과를 분류
+    
             const categorizedResults = {
                 '자료실': [],
-                '주제공유': [],
+                '주제공유': [], // 기존 'share'를 '주제공유'로 변경
                 '자유게시판': []
             };
-
+            
             results.forEach(item => {
-                if (!categorizedResults[item.category]) {
-                  categorizedResults[item.category] = []; //빈 배열 초기화
+                if (item.category === 'share') {
+                    categorizedResults['주제공유'].push(item); // '주제공유'로 추가
+                } else if (item.category === 'document') {
+                    categorizedResults['자료실'].push(item);
+                } else if (item.category === 'community') {
+                    categorizedResults['자유게시판'].push(item);
                 }
-                categorizedResults[item.category].push(item);
             });
-
+            
+    
             res.render('home/search', { 
                 categorizedResults, 
-                error: null,  // 검색 결과가 존재하므로 에러 없음
+                error: null,  
                 isLoggedIn: req.session.isLoggedIn || false,
                 username: req.session.username || null
-            });            
+            });
         } catch (error) {
-            console.error('데이터베이스 오류:', error);
-            return res.render('home/search', {  // 검색 결과 페이지로 렌더링
+            console.error("Database Error:", error);
+            res.render('home/search', {  
                 categorizedResults: [], 
                 error: '검색 중 오류가 발생했습니다.',
                 isLoggedIn: req.session.isLoggedIn || false,
                 username: req.session.username || null
             });
         }
-    },
-
+    }
+    
 };
 
 
