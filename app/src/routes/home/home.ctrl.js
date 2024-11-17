@@ -6,6 +6,8 @@ const UserStorage = require("../../models/UserStorage");
 const BoardStorage = require("../../models/BoardStorage");
 const db = require("../../config/db");
 const { getUserInfo } = require("../../models/UserStorage");
+const axios = require("axios");
+
 
 // API 구축
 const output = {
@@ -348,7 +350,23 @@ const output = {
                 username: req.session.username || null
             });
         }
-    }
+    },
+    getGraph: async (req, res) => {
+        console.log("getGraph 함수 호출됨"); // 디버깅 로그
+        try {
+            // Flask 서버에서 그래프 이미지 가져오기
+            const response = await axios.get("http://127.0.0.1:5000/graph", {
+                responseType: "arraybuffer", // 이미지 데이터를 배열 버퍼 형식으로 처리
+            });
+
+            // 클라이언트에 그래프 이미지 전송
+            res.set("Content-Type", "image/png");
+            res.send(response.data);
+        } catch (error) {
+            console.error("Flask 서버에서 그래프 가져오기 실패:", error.message);
+            res.status(500).send("그래프를 가져오는 데 실패했습니다.");
+        }
+    },
     
 };
 
@@ -518,6 +536,7 @@ const process = {
     }
     
 };
+
 
 // 객체를 꼭 모듈로 내보내줘야 함 그래야 밖에서 사용 가능
 module.exports = {

@@ -49,6 +49,9 @@ router.post("/post/:id/comment", ctrl.process.createComment);
 router.delete("/comment/:id", ctrl.process.deleteComment);
 
 
+router.get("/graph", ctrl.output.getGraph); // Flask에서 그래프 가져오는 경로
+
+
 
 
 module.exports = router;
