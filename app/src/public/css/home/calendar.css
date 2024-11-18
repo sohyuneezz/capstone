@@ -49,7 +49,7 @@ th {
 
 .today {
     border: 1px solid #e0e0bf;
-    background-color: #008aff;
+    background-color:  rgba(255, 243, 176, 0.5);
     color: #000; 
 }
 
@@ -85,8 +85,8 @@ th {
 
 /* 공모전 일정 하이라이트 스타일 */
 td.highlight {
-    color: #fff;
-    background-color: #00bcd4; 
+    color: #777;
+    background-color: rgba(135, 206, 235, 0.5); 
 }
 /* 팝업 */
 .popup-overlay {
@@ -164,4 +164,50 @@ td.highlight {
 #contestTable th {
     background-color: #f4f4f4;
     font-weight: bold;
+}
+
+/* 공모전 일정 테이블 스타일 */
+.contest-schedule-box table {
+    border-top: 2px solid var(--gray1);
+    width: 100%;
+    border-collapse: collapse;
+}
+  .contest-schedule-box table * {
+    word-break: keep-all;
+}
+.contest-schedule-box thead th {
+    padding: 1rem 0;
+    border-right: 1px solid var(--gray9);
+    border-bottom: 1px solid var(--gray9);
+    background-color: var(--gray8);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--black2);
+    text-align: center;
+}
+.contest-schedule-box tbody td {
+    padding: 1rem 0;
+    border-right: 1px solid var(--gray9);
+    border-bottom: 1px solid var(--gray9);
+    color: var(--black2);
+    text-align: center;
+}
+.contest-schedule-box thead th:last-child,
+.contest-schedule-box tbody td:last-child {
+    border-right: none;
+}
+
+/* 제목 열은 왼쪽 정렬 */
+.contest-schedule-box tbody .list-tit {
+    padding-left: 0.5rem;
+    text-align: left;
+}
+.contest-schedule-box .list-tit a {
+    margin-right: 0.85rem;
+    color: var(--black2);
+    word-break: break-all;
+}
+.contest-schedule-box tbody .list-date {
+    font-size: 0.8rem;
+    color: var(--gray1);
 }

@@ -39,42 +39,47 @@ app.set("views", "./src/views");
 app.set("view engine", "ejs");
 app.use(express.static(`${__dirname}/src/public`)); // dirname은 현재 있는 파일의 위치를 반환함 그 위치 안에 있는 파일(src/public)에 정적 경로로 추가해준다
 
-// API 프록시 라우트 추가
-app.get("/api/contest", async (req, res) => {
-    const numOfRows = req.query.numOfRows || 10;
-    const pageNo = req.query.pageNo || 1;
-    const apiUrl = `https://www.chungnam.go.kr/cnbbs/openApiMainFxList.do?numOfRows=${numOfRows}&pageNo=${pageNo}`;
+// // API 프록시 라우트 추가
+// app.get("/api/contest", async (req, res) => {
+//     const numOfRows = req.query.numOfRows || 10;
+//     const pageNo = req.query.pageNo || 1;
+//     const apiUrl = `https://www.chungnam.go.kr/cnbbs/openApiMainFxList.do?numOfRows=${numOfRows}&pageNo=${pageNo}`;
 
-    try {
-        const fetch = (await import("node-fetch")).default; // 동적 import 사용
-        let textData = await (await fetch(apiUrl)).text();
+//     try {
+//         const fetch = (await import("node-fetch")).default; // 동적 import 사용
+//         let textData = await (await fetch(apiUrl)).text();
 
-        textData = textData.replace(/"sdate":([^,}]+)/g, '"sdate":"$1"');
-        textData = textData.replace(/"edate":([^,}]+)/g, '"edate":"$1"');
+//         textData = textData.replace(/"sdate":([^,}]+)/g, '"sdate":"$1"');
+//         textData = textData.replace(/"edate":([^,}]+)/g, '"edate":"$1"');
 
-        const data = JSON.parse(textData);
-        res.json(data);
-    } catch (error) {
-        console.error('Error fetching data from external API:', error.message);
-        res.status(500).json({ error: 'Failed to fetch data' });
-    }
-});
+//         const data = JSON.parse(textData);
+//         res.json(data);
+//     } catch (error) {
+//         console.error('Error fetching data from external API:', error.message);
+//         res.status(500).json({ error: 'Failed to fetch data' });
+//     }
+// });
 
-// 기존 API 라우트
-app.get("/api/contests", async (req, res) => {
-    const category = req.query.category || ""; // 선택된 카테고리
+app.get('/api/contests', (req, res) => {
+    const { year, month } = req.query;
+    
+    const targetMonth = month - 1; // JavaScript 월 인덱스를 맞추기 위해 1을 뺍니다.
 
-    try {
-        const sql = category
-            ? `SELECT title, period, status FROM contests WHERE category = ?`
-            : `SELECT title, period, status FROM contests`;
+    const query = `
+        SELECT title AS contest_name, organizer, period
+        FROM contests
+        WHERE YEAR(STR_TO_DATE(period, '%Y-%m-%d')) = ? 
+        AND MONTH(STR_TO_DATE(period, '%Y-%m-%d')) = ?
+    `;
 
-        const results = await db.query(sql, [category]);
-        res.json(results); // 결과를 JSON으로 반환
-    } catch (error) {
-        console.error("데이터 가져오기 실패:", error);
-        res.status(500).json({ error: "데이터 가져오기 실패" });
-    }
+    db.query(query, [year, month], (err, results) => {
+        if (err) {
+            console.error("DB 조회 실패:", err);
+            return res.status(500).json({ error: '공모전 일정을 가져오는 데 실패했습니다.' });
+        }
+        console.log("조회된 공모전 일정:", results);  // 데이터 확인
+        res.json(results);  // 결과 반환
+    });
 });
 
 

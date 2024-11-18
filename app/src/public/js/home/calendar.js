@@ -11,9 +11,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const prevNextIcons = document.querySelectorAll('.nav .material-icons');
 
     // 공모전 일정 데이터 가져오기
-    competitionSchedule = await fetchCompetitionSchedule(); // 전역 변수에 저장
+    competitionSchedule = await fetchCompetitionSchedule(currYear, currMonth); // 변경된 함수 호출
 
-    // 달력 렌더링 함수
     const renderCalendar = () => {
         currentDate.innerHTML = `${months[currMonth]} ${currYear}`;
         
@@ -21,15 +20,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         let lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate();
         let lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay();
         let lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
-
+    
         let tableRows = "";
-
+    
         // 이전 달의 날짜 추가
         let row = "<tr>";
         for (let i = firstDayofMonth; i > 0; i--) {
             row += `<td class="inactive">${lastDateofLastMonth - i + 1}</td>`;
         }
-
+    
         // 현재 달의 날짜 추가
         for (let i = 1; i <= lastDateofMonth; i++) {
             const isToday = 
@@ -38,37 +37,37 @@ document.addEventListener("DOMContentLoaded", async () => {
                 currYear === new Date().getFullYear() 
                 ? 'today' 
                 : '';
-
+    
             const isCompetitionDay = competitionSchedule.some(event => {
                 const startDate = new Date(event.sdate);
                 const endDate = new Date(event.edate);
-
-                // 공모전 일정이 현재 달력의 날짜와 일치하는지 확인
+    
                 return (
                     (startDate.getFullYear() === currYear && startDate.getMonth() === currMonth && startDate.getDate() === i) ||
                     (endDate && endDate.getFullYear() === currYear && endDate.getMonth() === currMonth && endDate.getDate() === i)
                 );
             });
-
+    
             row += `<td class="${isToday} ${isCompetitionDay ? 'highlight' : ''}" onclick="showPopup(${i}, ${currMonth}, ${currYear})" style="cursor: pointer;">${i}</td>`;
-
+    
             if ((i + firstDayofMonth) % 7 === 0) { // 일주일이 끝날 때마다 줄 바꿈
                 tableRows += row + "</tr>";
                 row = "<tr>";
             }
         }
-
+    
         // 다음 달의 날짜 추가
         for (let i = lastDayofMonth + 1; i <= 6; i++) {
             row += `<td class="inactive">${i - lastDayofMonth}</td>`;
         }
         tableRows += row + "</tr>";
-
+    
         calendarBody.innerHTML = tableRows;
-
+    
         // 현재 달에 해당하는 공모전 일정 표시
         displayContestSchedule(currYear, currMonth);
     };
+    
 
     // 이전/다음 버튼 클릭 이벤트
     prevNextIcons.forEach((icon) => {
@@ -91,56 +90,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCalendar();
 });
 
-// 공모전 일정을 API에서 가져오는 함수
-async function fetchCompetitionSchedule(numOfRows = 10, pageNo = 1) {
+// 공모전 일정 데이터 가져오기
+async function fetchCompetitionSchedule(year, month) {
     try {
-        const apiUrl = `http://localhost:3000/api/contest?numOfRows=${numOfRows}&pageNo=${pageNo}`;
-        const response = await fetch(apiUrl);
-        
+        // 서버의 API 엔드포인트로 요청
+        const response = await fetch(`/api/contests?year=${year}&month=${month + 1}`); // 월은 0부터 시작하므로 1을 더함
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('Failed to load competition data');
         }
 
-        // JSON 형식으로 파싱
-        const data = await response.json();
+        const data = await response.json(); // 응답 데이터를 JSON으로 변환
+        console.log('불러온 공모전 데이터:', data); // 데이터를 콘솔에 출력하여 확인
 
-        // 배열로 반환될 경우 첫 번째 요소에 접근
-        const responseData = Array.isArray(data) ? data[0] : data;
-
-        // 응답 데이터 전체 출력 (디버깅용)
-        console.log('API response data:', responseData);
-
-        // resultCode 확인 (예: 09가 성공 코드일 경우)
-        if (responseData.resultCode !== '09') {
-            console.warn('API returned an error:', responseData.resultMsg || 'Unknown error');
-            return [];
-        }
-
-        // items 필드가 빈 배열인 경우 처리
-        if (!responseData.items || responseData.items.length === 0) {
-            console.warn('No items in response data:', responseData);
-            return [];
-        }
-
-        // 각 공모전에서 시작일(sdate)과 종료일(edate)을 추출
-        const schedules = [];
-        responseData.items.forEach(item => {
-            item.schedules.forEach(schedule => {
-                schedules.push({
-                    contestName: item.contestNm,        // 공모전 이름
-                    scheduleName: schedule.contestSchedule, // 일정 이름 (예: 작품접수)
-                    sdate: schedule.sdate,             // 시작일자
-                    edate: schedule.edate              // 종료일자
-                });
-            });
-        });
-
-        return schedules;
+        // JSON 데이터를 반환하면서 날짜 형식만 남도록 수정
+        return data.map(event => ({
+            contestName: event.title, // 여기에서 title 필드를 사용합니다.
+            organizer: event.organizer,
+            sdate: new Date(event.period.split('~')[0].trim()).toISOString().split('T')[0], // 날짜만 추출
+            edate: new Date(event.period.split('~')[1]?.trim() || event.period.split('~')[0].trim()).toISOString().split('T')[0]
+        }));
     } catch (error) {
-        console.error('Failed to fetch competition schedule:', error);
+        console.error('공모전 일정을 가져오는 데 실패했습니다:', error);
         return [];
     }
 }
+
+
+
 
 // 팝업 창을 표시하는 함수
 function showPopup(day, month, year) {
@@ -160,7 +136,7 @@ function showPopup(day, month, year) {
         const popupDetails = document.getElementById('popup-details');
 
         popupTitle.textContent = event.contestName;
-        popupDetails.textContent = `${event.scheduleName}: ${event.sdate} - ${event.edate || 'N/A'}`;
+        popupDetails.textContent = `${event.organizer}: ${event.sdate} - ${event.edate || 'N/A'}`;
 
         popup.style.display = 'block';
 
@@ -171,28 +147,56 @@ function showPopup(day, month, year) {
     }
 }
 
-// 공모전 일정 데이터를 가져와서 테이블에 추가하는 함수
 function displayContestSchedule(currYear, currMonth) {
     const contestTable = document.getElementById('contestTable').querySelector('tbody');
     contestTable.innerHTML = ''; // 테이블 초기화
 
+    // 현재 날짜
+    const today = new Date();
+
     // "시작일"이 현재 달에 해당하는 일정만 필터링
     const filteredSchedule = competitionSchedule.filter(event => {
         const startDate = new Date(event.sdate);
-
-        return (
-            startDate.getFullYear() === currYear && startDate.getMonth() === currMonth
-        );
+        return startDate.getFullYear() === currYear && startDate.getMonth() === currMonth;
     });
+
+    // 날짜 순으로 정렬 (sdate 기준)
+    filteredSchedule.sort((a, b) => new Date(a.sdate) - new Date(b.sdate));
 
     // 필터링된 일정만 테이블에 표시
     filteredSchedule.forEach(event => {
+        const startDate = new Date(event.sdate);
+        const endDate = new Date(event.edate);
+
+        // 남은 기간 계산
+        const remainingDays = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)); // 일 단위로 계산
+
+        // 상태 결정 및 색상 설정
+        let status = '';
+        let statusColor = '';
+        if (remainingDays > 0) {
+            if (remainingDays <= 7) {
+                status = '마감 임박';
+                statusColor = 'red'; // 마감 임박: 빨간색
+            } else {
+                status = '진행 중';
+                statusColor = '#1F4E9C'; // 진행 중: 파란색
+            }
+        } else {
+            status = '마감 완료';
+            statusColor = 'black'; // 마감 완료: 검정색
+        }
+
+        // 테이블 행 생성
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${event.contestName}</td>
-            <td>${event.sdate}</td>
-            <td>${event.edate || 'N/A'}</td>
+            <td>${event.organizer}</td>
+            <td>${event.sdate} ~ ${event.edate || 'N/A'}</td>
+            <td>${remainingDays > 0 ? `D-${remainingDays}` : '마감'}</td>
+            <td style="color: ${statusColor}; font-weight: bold;">${status}</td>
         `;
         contestTable.appendChild(row);
     });
 }
+
