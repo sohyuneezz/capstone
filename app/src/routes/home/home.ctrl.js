@@ -127,22 +127,18 @@ const output = {
     
     //커뮤니티
     community: async (req, res) => {
-        const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
-        const limit = 10; // 페이지당 게시글 수
+        const page = parseInt(req.query.page) || 1;
+        const limit = 10;
         const offset = (page - 1) * limit;
 
         try {
-            // 현재 페이지의 게시글 가져오기
             const posts = await BoardStorage.getPostsByCategory('community', page, limit);
-            
-            // 전체 게시글 수 가져오기
             const totalPosts = await BoardStorage.countPostsByCategory('community');
-            const totalPages = Math.ceil(totalPosts / limit); // 전체 페이지 수 계산
+            const totalPages = Math.ceil(totalPosts / limit);
 
-            // EJS로 데이터 전달 (currentPage와 totalPages를 추가)
             res.render("home/community", { 
-                posts, 
-                currentPage: page, 
+                posts,  // posts 변수를 전달합니다.
+                currentPage: page,
                 totalPages,
                 isLoggedIn: req.session.isLoggedIn || false 
             });
@@ -153,8 +149,8 @@ const output = {
     },
     
     topicShare: async (req, res) => {
-        const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
-        const limit = 10; // 페이지당 게시글 수
+        const page = parseInt(req.query.page) || 1;
+        const limit = 10;
         const offset = (page - 1) * limit;
 
         try {
@@ -163,7 +159,7 @@ const output = {
             
             // 전체 게시글 수 가져오기
             const totalPosts = await BoardStorage.countPostsByCategory('share');
-            const totalPages = Math.ceil(totalPosts / limit); // 전체 페이지 수 계산
+            const totalPages = Math.ceil(totalPosts / limit);
 
             // EJS로 데이터 전달
             res.render("home/share", { 
@@ -349,6 +345,48 @@ const output = {
                 isLoggedIn: req.session.isLoggedIn || false,
                 username: req.session.username || null
             });
+        }
+    },
+    searchCommunity: async (req, res) => {
+        const query = req.body.query.trim(); // 검색어
+
+        try {
+            // 검색어로 게시글 필터링
+            const posts = await BoardStorage.searchPostsByCategory('community', query);
+            
+            // JSON 형식으로 응답
+            res.json({ posts });  // JSON 형식으로 결과 반환
+        } catch (err) {
+            console.error("게시글 검색 오류:", err);
+            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  // JSON 형식으로 오류 반환
+        }
+    },
+    searchDocument: async (req, res) => {
+        const query = req.body.query.trim(); // 검색어
+
+        try {
+            // 검색어로 게시글 필터링
+            const posts = await BoardStorage.searchPostsByCategory('document', query);
+            
+            // JSON 형식으로 응답
+            res.json({ posts });  // JSON 형식으로 결과 반환
+        } catch (err) {
+            console.error("게시글 검색 오류:", err);
+            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  // JSON 형식으로 오류 반환
+        }
+    },
+    searchShare: async (req, res) => {
+        const query = req.body.query.trim(); // 검색어
+
+        try {
+            // 검색어로 게시글 필터링
+            const posts = await BoardStorage.searchPostsByCategory('share', query);
+            
+            // JSON 형식으로 응답
+            res.json({ posts });  // JSON 형식으로 결과 반환
+        } catch (err) {
+            console.error("게시글 검색 오류:", err);
+            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  // JSON 형식으로 오류 반환
         }
     },
     getGraph: async (req, res) => {

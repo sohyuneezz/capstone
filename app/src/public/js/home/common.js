@@ -127,7 +127,7 @@ $(document).ready(function () {
     });
 });
 
-
+// 검색 
 function search() {
     const query = document.getElementById("searchKeyword").value.trim();
 
@@ -136,21 +136,62 @@ function search() {
         return;
     }
 
-    // 검색 폼 생성
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "/search";
+    const currentUrl = window.location.pathname;
 
-    // 검색어 추가
-    const queryInput = document.createElement("input");
-    queryInput.type = "hidden";
-    queryInput.name = "query";
-    queryInput.value = query;
-    form.appendChild(queryInput);
+    if (currentUrl === '/' || currentUrl === '/index' || currentUrl === '/home' || currentUrl.includes('/search')) {
+        // 메인 페이지나 통합 검색 페이지에서 검색할 경우
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/search";
+        const queryInput = document.createElement("input");
+        queryInput.type = "hidden";
+        queryInput.name = "query";
+        queryInput.value = query;
+        form.appendChild(queryInput);
+        document.body.appendChild(form);
+        form.submit();
+    } else if (currentUrl.includes('/community') || currentUrl.includes('/document') || currentUrl.includes('/share')) {
+        // 각 게시판 페이지에서는 AJAX로 검색
+        $.ajax({
+            url: currentUrl + '/search', // 검색 요청을 위한 URL
+            type: 'POST',
+            data: { query: query },
+            success: function (data) {
+                // 기존 tbody 내용 삭제
+                $('table.board-list tbody').empty();
 
-    document.body.appendChild(form);
-    form.submit();
+                // 서버에서 JSON 형식으로 반환된 데이터를 기반으로 테이블을 업데이트
+                if (data.posts && data.posts.length > 0) {
+                    data.posts.forEach(function(post, index) {
+                        const row = `
+                            <tr>
+                                <td class="list-num">${index + 1}</td>
+                                <td class="list-tit"><a href="/post/${post.id}">${post.title}</a></td>
+                                <td class="list-author">${post.author_name ? post.author_name : '익명'}</td>
+                                <td class="list-date">${new Date(post.created_at).toISOString().split('T')[0]}</td>
+                            </tr>
+                        `;
+                        $('table.board-list tbody').append(row);
+                    });
+                } else {
+                    // 검색 결과가 없을 경우의 처리
+                    $('table.board-list tbody').append(`
+                        <tr>
+                            <td colspan="4" class="no-result">검색 결과가 없습니다.</td>
+                        </tr>
+                    `);
+                }
+
+            },
+            error: function () {
+                alert("검색 중 오류가 발생했습니다.");
+            }
+        });
+    }
 }
+
+
+
 
 // 챗봇 열고 닫기 기능
 function toggleChatbot() {

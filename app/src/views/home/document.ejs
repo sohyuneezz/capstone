@@ -45,6 +45,7 @@
         </div>
 
         <br>
+        <br>
 
         <table class="board-list">
             <caption>자료실에 대한 번호, 제목, 등록일 안내 리스트입니다.</caption>
@@ -56,16 +57,7 @@
                     <th class="list-date">등록일</th>
                 </tr>
             </thead>
-            <tbody>
-                <% documents.forEach((document, index) => { %>
-                    <tr>
-                        <td class="list-num"><%= index + 1 %></td>
-                        <td class="list-tit"><a href="/documents/<%= document.id %>"><%= document.title %></a></td>
-                        <td class="list-author"><%= document.author_name %></td>
-                        <td class="list-date"><%= document.created_at %></td>
-                    </tr>
-                <% }) %>
-            </tbody>
+            <%- include('../partials/board_table', { posts: documents }) %> <!-- 부분 템플릿 사용 -->
         </table>
         <div class="button-container">
             <!-- 페이지네이션 -->

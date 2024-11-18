@@ -20,6 +20,10 @@ router.post("/update-profile", ctrl.process.updateProfile);
 router.post("/submit", ctrl.process.submitPost);
 // 검색 요청 처리
 router.post("/search", ctrl.output.search);
+// 각 게시판에서의 검색 처리 라우팅
+router.post("/community/search", ctrl.output.searchCommunity);
+router.post("/document/search", ctrl.output.searchDocument);
+router.post("/share/search", ctrl.output.searchShare);
 
 // 메뉴 라우팅
 router.get("/employment_info", ctrl.output.employmentInfo);

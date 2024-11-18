@@ -318,6 +318,27 @@ class BoardStorage {
         });
     }
 
+    static searchPostsByCategory(category, query) {
+        return new Promise((resolve, reject) => {
+            const sql = `
+                SELECT p.id, p.title, p.contents, p.created_at, u.name AS author_name
+                FROM posts p
+                JOIN users u ON p.user_id = u.id
+                WHERE p.category = ? AND (LOWER(p.title) LIKE ? OR LOWER(p.contents) LIKE ?)
+            `;
+            const params = [category, `%${query}%`, `%${query}%`];
+    
+            db.query(sql, params, (error, results) => {
+                if (error) {
+                    reject(`${error}`);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    
+    
 
 
 }

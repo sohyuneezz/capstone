@@ -1,111 +1,96 @@
 <%- include('../partials/header', { title: '대진 On 정보-자유게시판' }) %>
 
-        <main id="container" class="container">
-            <form method="post" action="/commuity" id="form">
-                <input type="hidden" name="pageIndex" id="index">
-                <input type="hidden" name="searchtype" id="type">
-                <input type="hidden" name="searchtxt" id="txt">
-            </form>
-            <section id="content" class="content">
-                <header class="tit-area">
-                    <h1 class="tit-type1">커뮤니티</h1>
-                </header>
+<main id="container" class="container">
+    <form method="post" action="/community" id="form">
+        <input type="hidden" name="pageIndex" id="index">
+        <input type="hidden" name="searchtype" id="type">
+        <input type="hidden" name="searchtxt" id="txt">
+    </form>
 
-                <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
-                    <div class="swiper-wrapper">
-                        <a href="/document" class="swiper-slide swiper-slide">
-                            <span class="txt">자료실</span>
-                        </a>
-                        <a href="/share" class="swiper-slide swiper-slide">
-                            <span class="txt">주제공유</span>
-                        </a>
-                        <a href="/community" class="swiper-slide current swiper-slide-active">
-                            <span class="txt">자유게시판</span>
-                        </a>
-                    </div>
-                    <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
+    <section id="content" class="content">
+        <header class="tit-area">
+            <h1 class="tit-type1">자유게시판</h1>
+        </header>
+
+        <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
+            <div class="swiper-wrapper">
+                <a href="/document" class="swiper-slide swiper-slide-active">
+                    <span class="txt">자료실</span>
+                </a>
+                <a href="/share" class="swiper-slide swiper-slide-next">
+                    <span class="txt">주제공유</span>
+                </a>
+                <a href="/community" class="swiper-slide current swiper-slide">
+                    <span class="txt">자유게시판</span>
+                </a>
+            </div>
+            <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
+        </div>
+
+        <br>
+        <br>
+        
+        <div class="search_area">
+            <p>
+                <select id="group_code" name="group_code" class="sel" size="1" title="검색분류">
+                    <option value="">통합검색</option>
+                    <option value="자료실">자료실</option>
+                    <option value="주제공유">주제공유</option>
+                    <option value="자유게시판">자유게시판</option>
+                </select>
+                <input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" name="query">
+                <a href="javascript:search();" class="search_btn">검색</a>
+            </p>
+        </div>
+        <br>
+        <br>
+        <table class="board-list">
+            <thead>
+                <tr>
+                    <th class="list-num">NO</th>
+                    <th class="list-tit">제목</th>
+                    <th class="list-author">작성자</th>
+                    <th class="list-date">등록일</th>
+                </tr>
+            </thead>
+            <%- include('../partials/board_table', { posts: posts }) %> <!-- 변수 이름을 posts로 변경 -->
+        </table>
+
+        <div class="button-container">
+            <!-- 페이지네이션 -->
+            <div class="paging-wrap">
+                <div class="btn-con">
+                    <a href="/community?page=1" class="move first <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <span class="hidden">처음</span>
+                    </a>
+                    <a href="/community?page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="move prev <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <span class="hidden">이전</span>
+                    </a>
                 </div>
 
-                <br>
-                <br>
-
-                <div class="search-area">
-                    <fieldset class="form-area">
-                        <legend>자유게시판 검색어 입력</legend>
-                        <form action="/search" method="POST">
-                            <select class="select" id="searchtype" name="category">
-                                <option value="" selected="selected">전체</option>
-                                <option value="주제공유">주제공유</option>
-                                <option value="자료실">자료실</option>
-                                <option value="자유게시판">자유게시판</option>
-                            </select>
-                            <input type="text" class="input" value="" id="query" name="query" placeholder="검색어 입력" required>
-                            <button type="submit" class="btn">검색</button>
-                        </form>
-                    </fieldset>
+                <div class="paging-con">
+                    <ul>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <% if (i === currentPage) { %>
+                                <strong class="page current"><%= i %></strong>
+                            <% } else { %>
+                                <a href="/community?page=<%= i %>" class="page"><%= i %></a>
+                            <% } %>
+                        <% } %>
+                    </ul>
                 </div>
-                <!-- 게시글 목록 -->
-                <table class="board-list">
-                    <thead>
-                        <tr>
-                            <th class="list-num">NO</th>
-                            <th class="list-tit">제목</th>
-                            <th class="list-author">작성자</th>
-                            <th class="list-date">등록일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% posts.forEach((post, index) => { %>
-                            <tr>
-                                <td class="list-num"><%= index + 1 %></td>
-                                <td class="list-tit"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
-                                <td class="list-author"><%= post.author_name %></td>
-                                <td class="list-date"><%= post.created_at %></td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-                
-                <div class="button-container">
-                    <!--페이지네이션 -->
-                    <div class="paging-wrap">
-                        <div class="btn-con">
-                            <a href="/community?page=1" class="move first <%= currentPage === 1 ? 'disabled' : '' %>">
-                                <span class="hidden">처음</span>
-                            </a>
-                            <a href="/community?page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="move prev <%= currentPage === 1 ? 'disabled' : '' %>">
-                                <span class="hidden">이전</span>
-                            </a>
-                        </div>
-                        <div class="paging-con">
-                            <ul>
-                                <% for (let i = 1; i <= totalPages; i++) { %>
-                                    <% if (i === currentPage) { %>
-                                        <strong class="page current"><%= i %></strong>
-                                    <% } else { %>
-                                        <a href="/community?page=<%= i %>" class="page"><%= i %></a>
-                                    <% } %>
-                                <% } %>
-                            </ul>
-                        </div>
-                        <div class="btn-con">
-                            <a href="/community?page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" class="move next <%= currentPage === totalPages ? 'disabled' : '' %>">
-                                <span class="hidden">다음</span>
-                            </a>
-                            <a href="/community?page=<%= totalPages %>" class="move last <%= currentPage === totalPages ? 'disabled' : '' %>">
-                                <span class="hidden">마지막</span>
-                            </a>
-                        </div>
-                    </div>                
 
-                    <div class="sharebutton">
-                        <a href="/write?category=community" class="sb">
-                            글쓰기
-                        </a>                    
-                    </div>
+                <div class="btn-con">
+                    <a href="/community?page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" class="move next <%= currentPage === totalPages ? 'disabled' : '' %>">
+                        <span class="hidden">다음</span>
+                    </a>
+                    <a href="/community?page=<%= totalPages %>" class="move last <%= currentPage === totalPages ? 'disabled' : '' %>">
+                        <span class="hidden">마지막</span>
+                    </a>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
+    </section>
+</main>
 
 <%- include('../partials/footer') %>
-        

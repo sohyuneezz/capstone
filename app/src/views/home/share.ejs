@@ -10,7 +10,7 @@
             
                 <section id="content" class="content">
                     <header class="tit-area">
-                        <h1 class="tit-type1">커뮤니티</h1>
+                        <h1 class="tit-type1">주제공유</h1>
                     </header>
 
                     <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
@@ -27,30 +27,24 @@
                         </div>
                         <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
                     </div>
-
+            
                     <br>
                     <br>
 
-                    <!-- 주제공유 페이지 검색 부분 수정 -->
-                    <div class="search-area">
-                        <fieldset class="form-area">
-                            <legend>주제공유 검색어 입력</legend>
-                            <form action="/search" method="POST">
-                                <select class="select" id="searchtype" name="category">
-                                    <option value="" selected="selected">전체</option>
-                                    <option value="주제공유">주제공유</option>
-                                    <option value="자료실">자료실</option>
-                                    <option value="자유게시판">자유게시판</option>
-                                </select>
-                                <input type="text" class="input" value="" id="query" name="query" placeholder="검색어 입력" required>
-                                <button type="submit" class="btn">검색</button>
-                            </form>
-                        </fieldset>
+                    <div class="search_area">
+                        <p>
+                            <select id="group_code" name="group_code" class="sel" size="1" title="검색분류">
+                                <option value="">통합검색</option>
+                                <option value="자료실">자료실</option>
+                                <option value="주제공유">주제공유</option>
+                                <option value="자유게시판">자유게시판</option>
+                            </select>
+                            <input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" name="query">
+                            <a href="javascript:search();" class="search_btn">검색</a>
+                        </p>
                     </div>
-
-
-
-                    <!-- 게시글 목록 -->
+                    <br>
+                    <br>
                     <table class="board-list">
                         <thead>
                             <tr>
@@ -60,17 +54,9 @@
                                 <th class="list-date">등록일</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <% posts.forEach((post, index) => { %>
-                                <tr>
-                                    <td class="list-num"><%= index + 1 %></td>
-                                    <td class="list-tit"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
-                                    <td class="list-author"><%= post.author_name %></td>
-                                    <td class="list-date"><%= post.created_at %></td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
+                        <%- include('../partials/board_table', { posts: posts }) %> <!-- 변수 이름을 posts로 변경 -->
                     </table>
+            
                     <div class="button-container">
                         <!-- 페이지네이션 -->
                         <div class="paging-wrap">
@@ -82,7 +68,7 @@
                                     <span class="hidden">이전</span>
                                 </a>
                             </div>
-
+            
                             <div class="paging-con">
                                 <ul>
                                     <% for (let i = 1; i <= totalPages; i++) { %>
@@ -94,7 +80,7 @@
                                     <% } %>
                                 </ul>
                             </div>
-
+            
                             <div class="btn-con">
                                 <a href="/share?page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" class="move next <%= currentPage === totalPages ? 'disabled' : '' %>">
                                     <span class="hidden">다음</span>
@@ -104,13 +90,8 @@
                                 </a>
                             </div>
                         </div>
-
-                        <div class="sharebutton">
-                            <a href="/write?category=share" class="sb">
-                                글쓰기
-                            </a>                        
-                        </div>
                     </div>
                 </section>
             </main>
+            
 <%- include('../partials/footer') %>
