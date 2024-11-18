@@ -49,9 +49,10 @@ router.post("/post/:id/comment", ctrl.process.createComment);
 router.delete("/comment/:id", ctrl.process.deleteComment);
 
 
-router.get("/graph", ctrl.output.getGraph); // Flask에서 그래프 가져오는 경로
+// Flask에서 그래프 이미지를 가져오는 경로
+router.get("/graph", ctrl.output.getGraph);
 
-
-
+// 신규 추가: /sbn 라우트
+router.get("/sbn", ctrl.output.sbn);
 
 module.exports = router;

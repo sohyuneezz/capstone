@@ -20,18 +20,14 @@
 				<div class="swiper-pagination"></div>
 			</div>
 		</div>
-		<!-- 검색창 부분 -->
-		<div class="search_area">
-			<form action="/search" method="POST">
-				<p>
-					<span>SEARCH</span>
-					<input type="text" name="query" placeholder="검색어를 입력하세요" id="searchKeyword" required>
-					<label for="searchKeyword">통합검색</label>
-					<button type="submit" class="search_btn">검색</button>
-				</p>
-			</form>
-		</div>
-
+		<!-- 검색 영역 -->
+        <div class="search_area">
+            <p>
+				<span>SEARCH</span>
+                <input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" name="query">
+                <a href="javascript:search();" class="search_btn">검색</a>
+            </p>
+        </div>
 			
 			<ul class="quick">
 				<li>
@@ -53,7 +49,7 @@
 				<li>
 					<a href="#">
 						<span>
-							<span class="tt">AI 학습플래너</span>
+							<span class="tt">취업현황</span>
 							<span class="text">AI가 도와주는 학습계획</span>
 						</span>
 					</a>

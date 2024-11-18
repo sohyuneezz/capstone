@@ -352,7 +352,7 @@ const output = {
         }
     },
     getGraph: async (req, res) => {
-        console.log("getGraph 함수 호출됨"); // 디버깅 로그
+        console.log("getGraph 함수 호출됨");
         try {
             // Flask 서버에서 그래프 이미지 가져오기
             const response = await axios.get("http://127.0.0.1:5000/graph", {
@@ -366,6 +366,12 @@ const output = {
             console.error("Flask 서버에서 그래프 가져오기 실패:", error.message);
             res.status(500).send("그래프를 가져오는 데 실패했습니다.");
         }
+    },
+    sbn: (req, res) => {
+        res.render("home/sbn", {
+            title: "대진 On 정보 - 졸업자 취업 현황",
+            isLoggedIn: req.session.isLoggedIn || false,
+        });
     },
     
 };

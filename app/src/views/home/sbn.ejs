@@ -1,0 +1,26 @@
+<%- include('../partials/header', { title: '대진 On 정보 - 취업정보' }) %>
+
+<main id="container" class="container">
+    <section id="content" class="content">
+        <header class="tit-area">
+            <h1 class="tit-type1">취업정보</h1>
+        </header>
+        
+        <div class="swiper tab type1">
+            <div class="swiper-wrapper">
+                <a href="/employment_info" class="swiper-slide"><span class="txt">취업사이트</span></a>
+                <a href="/careerMap" class="swiper-slide"><span class="txt">취업로드맵</span></a>
+                <a href="/sbn" class="swiper-slide current"><span class="txt">졸업자 취업 현황</span></a>
+            </div>
+        </div>
+        
+        <h3 class="tit-type2">연도별 졸업자 수 그래프</h3>
+        <p class="graphsm">2014년부터 2018년까지 대진대학교 컴퓨터 관련 학과 졸업생들의 취업률과 취업 분야를 시각화한 그래프입니다.</p>
+        <p class="graphsm graphsrc">경기데이터드림 데이터 셋 <졸업생의 취업현황(대학, 전문대학)> 제공</p>
+
+        <!-- Flask에서 가져온 그래프 이미지 -->
+        <img src="/graph" alt="학과별 연도별 취업 현황 그래프" style="width: 100%">
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

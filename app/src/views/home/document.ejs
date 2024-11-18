@@ -31,20 +31,17 @@
         <br>
         <br>
 
-        <div class="search-area">
-            <fieldset class="form-area">
-                <legend>자료실 검색어 입력</legend>
-                <form action="/search" method="POST">
-                    <select class="select" id="searchtype" name="category">
-                        <option value="" selected="selected">전체</option>
-                        <option value="주제공유">주제공유</option>
-                        <option value="자료실">자료실</option>
-                        <option value="자유게시판">자유게시판</option>
-                    </select>
-                    <input type="text" class="input" value="" id="query" name="query" placeholder="검색어 입력" required>
-                    <button type="submit" class="btn">검색</button>
-                </form>
-            </fieldset>
+        <div class="search_area">
+            <p>
+                <select id="group_code" name="group_code" class="sel" size="1" title="검색분류">
+                    <option value="">통합검색</option>
+                    <option value="자료실">자료실</option>
+                    <option value="주제공유">주제공유</option>
+                    <option value="자유게시판">자유게시판</option>
+                </select>
+                <input type="text" placeholder="검색어를 입력하세요" id="searchKeyword" name="query">
+                <a href="javascript:search();" class="search_btn">검색</a>
+            </p>
         </div>
 
         <br>

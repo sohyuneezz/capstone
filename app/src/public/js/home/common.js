@@ -126,6 +126,7 @@ $(document).ready(function () {
         });
     });
 });
+
 // Toggle Chatbot Visibility
 function toggleChatbot() {
     const popup = document.getElementById("chatbot-popup");
@@ -179,31 +180,26 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.style.display = "none"; // 초기 상태는 숨김
 });
 
-function search() {
-    const query = document.getElementById('searchKeyword').value.trim();
-    const category = document.getElementById('group_code').value;
 
-    if (query.length === 0) {
-        alert('검색어를 입력하세요.');
+function search() {
+    const query = document.getElementById("searchKeyword").value.trim();
+
+    if (!query) {
+        alert("검색어를 입력하세요.");
         return;
     }
 
-    // JavaScript를 이용해 폼 작성 및 POST 요청 전송
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/search';
+    // 검색 폼 생성
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/search";
 
-    const queryInput = document.createElement('input');
-    queryInput.type = 'hidden';
-    queryInput.name = 'query';
+    // 검색어 추가
+    const queryInput = document.createElement("input");
+    queryInput.type = "hidden";
+    queryInput.name = "query";
     queryInput.value = query;
     form.appendChild(queryInput);
-
-    const categoryInput = document.createElement('input');
-    categoryInput.type = 'hidden';
-    categoryInput.name = 'category';
-    categoryInput.value = category;
-    form.appendChild(categoryInput);
 
     document.body.appendChild(form);
     form.submit();
