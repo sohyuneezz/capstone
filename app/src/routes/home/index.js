@@ -55,4 +55,7 @@ router.get("/graph", ctrl.output.getGraph);
 // 신규 추가: /sbn 라우트
 router.get("/sbn", ctrl.output.sbn);
 
+router.get("/api/contests", ctrl.output.getContests);
+
+
 module.exports = router;

@@ -373,7 +373,23 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false,
         });
     },
-    
+     // 공모전 데이터 가져오기
+    getContests: async (req, res) => {
+        const category = req.query.category || ""; // 카테고리 파라미터 가져오기
+
+        try {
+            // 데이터베이스에서 카테고리에 맞는 공모전 데이터 가져오기
+            const sql = category
+                ? `SELECT * FROM contests WHERE category = ?`
+                : `SELECT * FROM contests`;
+
+            const results = await db.query(sql, [category]); // Promisify된 db.query 사용
+            res.json(results); // JSON 데이터 반환
+        } catch (error) {
+            console.error("데이터 가져오기 실패:", error.message);
+            res.status(500).json({ error: "데이터 가져오기 실패" });
+        }
+    },
 };
 
 

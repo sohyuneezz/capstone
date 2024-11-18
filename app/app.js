@@ -60,4 +60,22 @@ app.get("/api/contest", async (req, res) => {
     }
 });
 
+// 기존 API 라우트
+app.get("/api/contests", async (req, res) => {
+    const category = req.query.category || ""; // 선택된 카테고리
+
+    try {
+        const sql = category
+            ? `SELECT title, period, status FROM contests WHERE category = ?`
+            : `SELECT title, period, status FROM contests`;
+
+        const results = await db.query(sql, [category]);
+        res.json(results); // 결과를 JSON으로 반환
+    } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+        res.status(500).json({ error: "데이터 가져오기 실패" });
+    }
+});
+
+
 module.exports = app; // www.js랑 연결해주는 것. app을 내보내줌

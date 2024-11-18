@@ -1938,7 +1938,12 @@ mainside {
 .category-button:hover {
   background-color: #4b79ee; 
 }
-
+.nbcb {
+  display: flex;
+    grid-template-columns: repeat(2, 1fr); /* 2개의 열을 1:1 비율로 배치 */
+    gap: 8px; /* 버튼 간 간격 */
+    
+}
 /* 디온이 메시지 */
 .bot {
   align-self: flex-start; /* 왼쪽 정렬 */
