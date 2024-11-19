@@ -1,5 +1,5 @@
 <%- include('../partials/header', { title: '대진 On 정보-자유게시판' }) %>
-
+<link rel="stylesheet" type="text/css" href="../css/home/search.css">
 <main id="container" class="container">
     <form method="post" action="/community" id="form">
         <input type="hidden" name="pageIndex" id="index">
@@ -88,6 +88,11 @@
                         <span class="hidden">마지막</span>
                     </a>
                 </div>
+            </div>
+            <div class="sharebutton">
+                <a href="/write?category=share" class="sb">
+                    글쓰기
+                </a>                        
             </div>
         </div>
     </section>

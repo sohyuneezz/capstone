@@ -39,26 +39,6 @@ app.set("views", "./src/views");
 app.set("view engine", "ejs");
 app.use(express.static(`${__dirname}/src/public`)); // dirname은 현재 있는 파일의 위치를 반환함 그 위치 안에 있는 파일(src/public)에 정적 경로로 추가해준다
 
-// // API 프록시 라우트 추가
-// app.get("/api/contest", async (req, res) => {
-//     const numOfRows = req.query.numOfRows || 10;
-//     const pageNo = req.query.pageNo || 1;
-//     const apiUrl = `https://www.chungnam.go.kr/cnbbs/openApiMainFxList.do?numOfRows=${numOfRows}&pageNo=${pageNo}`;
-
-//     try {
-//         const fetch = (await import("node-fetch")).default; // 동적 import 사용
-//         let textData = await (await fetch(apiUrl)).text();
-
-//         textData = textData.replace(/"sdate":([^,}]+)/g, '"sdate":"$1"');
-//         textData = textData.replace(/"edate":([^,}]+)/g, '"edate":"$1"');
-
-//         const data = JSON.parse(textData);
-//         res.json(data);
-//     } catch (error) {
-//         console.error('Error fetching data from external API:', error.message);
-//         res.status(500).json({ error: 'Failed to fetch data' });
-//     }
-// });
 
 app.get('/api/contests', (req, res) => {
     const { year, month } = req.query;

@@ -116,7 +116,6 @@ td.highlight {
 }
 
 
-
 /* 팝업 닫기 버튼 */
 .close-btn {
     position: absolute;
@@ -128,14 +127,19 @@ td.highlight {
 }
 
 #popup-title {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
 #popup-details {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 20px;
+}
+
+#popup-details p {
+    text-align: left;
+    margin: 5px 0; /* 각 행 간의 여백 */
 }
 
 
@@ -171,11 +175,11 @@ td.highlight {
     border-top: 2px solid var(--gray1);
     width: 100%;
     border-collapse: collapse;
-}
+  }
   .contest-schedule-box table * {
     word-break: keep-all;
-}
-.contest-schedule-box thead th {
+  }
+  .contest-schedule-box thead th {
     padding: 1rem 0;
     border-right: 1px solid var(--gray9);
     border-bottom: 1px solid var(--gray9);
@@ -184,30 +188,31 @@ td.highlight {
     font-weight: 700;
     color: var(--black2);
     text-align: center;
-}
-.contest-schedule-box tbody td {
+  }
+  .contest-schedule-box tbody td {
     padding: 1rem 0;
     border-right: 1px solid var(--gray9);
     border-bottom: 1px solid var(--gray9);
     color: var(--black2);
     text-align: center;
-}
-.contest-schedule-box thead th:last-child,
-.contest-schedule-box tbody td:last-child {
+  }
+  .contest-schedule-box thead th:last-child,
+  .contest-schedule-box tbody td:last-child {
     border-right: none;
-}
-
-/* 제목 열은 왼쪽 정렬 */
-.contest-schedule-box tbody .list-tit {
+  }
+  
+  /* 제목 열은 왼쪽 정렬 */
+  .contest-schedule-box tbody .list-tit {
     padding-left: 0.5rem;
     text-align: left;
-}
-.contest-schedule-box .list-tit a {
+  }
+  .contest-schedule-box .list-tit a {
     margin-right: 0.85rem;
     color: var(--black2);
     word-break: break-all;
-}
-.contest-schedule-box tbody .list-date {
+  }
+  .contest-schedule-box tbody .list-date {
     font-size: 0.8rem;
     color: var(--gray1);
-}
+  }
+  

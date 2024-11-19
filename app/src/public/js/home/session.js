@@ -35,10 +35,8 @@ let timer;
 
 // 세션 타이머 초기화
 function init() {
-    console.log("세션 타이머 초기화 중...");
     objLeftTime = document.getElementById("leftTimeInfo");
     if (objLeftTime == null) {
-        console.log("leftTimeInfo 요소를 찾을 수 없습니다.");
         return;
     }
 
@@ -121,6 +119,5 @@ function logout() {
 
 // 문서가 준비되면 세션 타이머 초기화
 $(document).ready(() => {
-    console.log("문서가 준비됨, 세션 타이머 초기화 중.");
     init();
 });

@@ -3,7 +3,6 @@
 
 const db = require("../config/db");
 
-
 class UserStorage {
 
     static getUserInfo(id) {
@@ -46,7 +45,8 @@ class UserStorage {
             });
         });
     }
-    // ID로 사용자 조회
+
+    // 아이디로 사용자 조회
     static findById(id) {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM users WHERE id = ?";
@@ -56,7 +56,8 @@ class UserStorage {
             });
         });
     }
-    // 사용자 정보 업데이트
+
+    // 회원 정보 업데이트
     static update(id, { email, grade, psword }) {
         return new Promise((resolve, reject) => {
             let query = "UPDATE users SET email = ?, grade = ?";
@@ -77,6 +78,7 @@ class UserStorage {
         });
     }
     
+    // 회원 목록 불러오기
     static async getAllUsers() {
         const query = "SELECT * FROM users";
         return new Promise((resolve, reject) => {
@@ -90,9 +92,8 @@ class UserStorage {
             });
         });
     }
-    
-    // UserStorage.js
 
+    // 회원 삭제
     static async deleteUser(userId) {
         const query = "DELETE FROM users WHERE id = ?";
         return new Promise((resolve, reject) => {

@@ -3,6 +3,7 @@
 const db = require("../config/db");
 
 class BoardStorage {
+
     // 게시글 생성
     static async createPost(postData) {
         const { title, contents, userId, category } = postData;
@@ -21,6 +22,7 @@ class BoardStorage {
             });
         });
     }
+
     // 모든 게시글 조회
     static async getAllPosts() {
         const query = `
@@ -44,7 +46,7 @@ class BoardStorage {
         });
     }
 
-    // 모든 게시글 조회 (카테고리별)
+    // 카테고리별 게시글 조회 
     static async getPostsByCategory(category, page = 1, limit = 10) {
         const offset = (page - 1) * limit;
         const query = `
@@ -67,7 +69,7 @@ class BoardStorage {
         });
     }
     
-    // 전체 게시글 수를 가져오는 메서드 추가
+    // 전체 게시글 수
     static async countPostsByCategory(category) {
         const query = `
             SELECT COUNT(*) AS total FROM posts WHERE category = ?
@@ -83,8 +85,6 @@ class BoardStorage {
             });
         });
     }
-    
-
 
     // 특정 사용자 게시글 조회
     static async getPostsByUserId(userId) {
@@ -103,6 +103,8 @@ class BoardStorage {
             });
         });
     }
+
+    // 게시글 상세 조회
     static async getPostById(postId) {
         const query = `
             SELECT posts.id, posts.title, posts.contents, 
@@ -183,6 +185,7 @@ class BoardStorage {
             });
         });
     }
+
     // 댓글 생성
     static async createComment(commentData) {
         const { postId, userId, content } = commentData;
@@ -262,6 +265,7 @@ class BoardStorage {
             });
         });
     }
+
     // 모든 자료실 글 가져오기
     static async getDocuments() {
         const query = `
@@ -318,6 +322,7 @@ class BoardStorage {
         });
     }
 
+    // 카테고리별 검색
     static searchPostsByCategory(category, query) {
         return new Promise((resolve, reject) => {
             const sql = `
@@ -337,10 +342,6 @@ class BoardStorage {
             });
         });
     }
-    
-    
-
-
 }
 
 module.exports = BoardStorage;

@@ -75,7 +75,7 @@ function inputValueCheck() {
     });
 }
 
-// 페이지 네이션(main.js)
+// 페이지 네이션
 document.addEventListener("DOMContentLoaded", () => {
     const swiper = new Swiper(".mySwiper", {
         loop: true,

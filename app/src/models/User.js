@@ -45,6 +45,7 @@ class User {
             return { success: false, msg: err };
         }
     }
+
      // 아이디 중복 확인
     async checkId() {
         const client = this.body;
@@ -58,6 +59,7 @@ class User {
             return { success: false, msg: "서버 오류가 발생했습니다." };
         }
     }
+
     // 아이디로 회원 정보 가져오기
     static async findById(id) {
         try {
@@ -66,6 +68,7 @@ class User {
             throw new Error("사용자 정보를 불러오는 데 실패했습니다.");
         }
     }
+    
     // 사용자 정보 업데이트
     static async update(id, userData) {
         try {

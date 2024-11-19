@@ -11,8 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const prevNextIcons = document.querySelectorAll('.nav .material-icons');
 
     // 공모전 일정 데이터 가져오기
-    competitionSchedule = await fetchCompetitionSchedule(currYear, currMonth); // 변경된 함수 호출
-
+    competitionSchedule = await fetchCompetitionSchedule(currYear, currMonth); 
     const renderCalendar = () => {
         currentDate.innerHTML = `${months[currMonth]} ${currYear}`;
         
@@ -94,19 +93,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function fetchCompetitionSchedule(year, month) {
     try {
         // 서버의 API 엔드포인트로 요청
-        const response = await fetch(`/api/contests?year=${year}&month=${month + 1}`); // 월은 0부터 시작하므로 1을 더함
+        const response = await fetch(`/api/contests?year=${year}&month=${month + 1}`); // 0부터 시작해서 1 더함
         if (!response.ok) {
             throw new Error('Failed to load competition data');
         }
 
-        const data = await response.json(); // 응답 데이터를 JSON으로 변환
-        console.log('불러온 공모전 데이터:', data); // 데이터를 콘솔에 출력하여 확인
+        const data = await response.json(); 
 
-        // JSON 데이터를 반환하면서 날짜 형식만 남도록 수정
         return data.map(event => ({
-            contestName: event.title, // 여기에서 title 필드를 사용합니다.
+            contestName: event.title, 
             organizer: event.organizer,
-            sdate: new Date(event.period.split('~')[0].trim()).toISOString().split('T')[0], // 날짜만 추출
+            sdate: new Date(event.period.split('~')[0].trim()).toISOString().split('T')[0], // 날짜만 
             edate: new Date(event.period.split('~')[1]?.trim() || event.period.split('~')[0].trim()).toISOString().split('T')[0]
         }));
     } catch (error) {
@@ -118,7 +115,7 @@ async function fetchCompetitionSchedule(year, month) {
 
 
 
-// 팝업 창을 표시하는 함수
+// 팝업 창
 function showPopup(day, month, year) {
     const event = competitionSchedule.find(event => {
         const startDate = new Date(event.sdate);
@@ -140,7 +137,7 @@ function showPopup(day, month, year) {
 
         popup.style.display = 'block';
 
-        // 닫기 버튼 클릭 이벤트
+        // 닫기 버튼 
         document.querySelector('.close-btn').addEventListener('click', () => {
             popup.style.display = 'none';
         });
@@ -160,7 +157,7 @@ function displayContestSchedule(currYear, currMonth) {
         return startDate.getFullYear() === currYear && startDate.getMonth() === currMonth;
     });
 
-    // 날짜 순으로 정렬 (sdate 기준)
+    // 날짜 순으로 정렬 
     filteredSchedule.sort((a, b) => new Date(a.sdate) - new Date(b.sdate));
 
     // 필터링된 일정만 테이블에 표시
