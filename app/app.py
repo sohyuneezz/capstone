@@ -15,7 +15,7 @@ CSV_FILE = "employment_data.csv"
 
 # 한글 폰트 설정 함수
 def set_korean_font():
-    font_path = "C:/Windows/Fonts/malgun.ttf"  # Windows의 경우 '맑은 고딕'
+    font_path = "C:/Windows/Fonts/malgun.ttf"  
     font_prop = fm.FontProperties(fname=font_path)
     plt.rcParams["font.family"] = font_prop.get_name()
 

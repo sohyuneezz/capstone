@@ -1,18 +1,15 @@
 <%- include('../partials/header', { title: '대진 On 정보-주제공유' }) %>
 <link rel="stylesheet" type="text/css" href="../css/home/search.css">
             <main id="container" class="container">
-        
-                <form method="post" action="/share" id="form">
+                    <form method="post" action="/share" id="form">
                     <input type="hidden" name="pageIndex" id="index">
                     <input type="hidden" name="searchtype" id="type">
                     <input type="hidden" name="searchtxt" id="txt">
                 </form>
-            
                 <section id="content" class="content">
                     <header class="tit-area">
                         <h1 class="tit-type1">주제공유</h1>
                     </header>
-
                     <div class="swiper tab type1 swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
                         <div class="swiper-wrapper">
                             <a href="/document" class="swiper-slide swiper-slide-active">
@@ -27,10 +24,8 @@
                         </div>
                         <div class="swiper-button-next swiper-button-disabled swiper-button-lock"></div>
                     </div>
-            
                     <br>
                     <br>
-
                     <div class="search_area">
                         <p>
                             <select id="group_code" name="group_code" class="sel" size="1" title="검색분류">
@@ -54,9 +49,9 @@
                                 <th class="list-date">등록일</th>
                             </tr>
                         </thead>
-                        <%- include('../partials/board_table', { posts: posts }) %> <!-- 변수 이름을 posts로 변경 -->
+                        <%- include('../partials/board_table', { posts: posts }) %> 
                     </table>
-            
+        
                     <div class="button-container">
                         <!-- 페이지네이션 -->
                         <div class="paging-wrap">
@@ -68,7 +63,6 @@
                                     <span class="hidden">이전</span>
                                 </a>
                             </div>
-            
                             <div class="paging-con">
                                 <ul>
                                     <% for (let i = 1; i <= totalPages; i++) { %>
@@ -80,7 +74,6 @@
                                     <% } %>
                                 </ul>
                             </div>
-            
                             <div class="btn-con">
                                 <a href="/share?page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" class="move next <%= currentPage === totalPages ? 'disabled' : '' %>">
                                     <span class="hidden">다음</span>
@@ -97,6 +90,5 @@
                         </div>
                     </div>
                 </section>
-            </main>
-            
+            </main>  
 <%- include('../partials/footer') %>

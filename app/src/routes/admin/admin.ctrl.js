@@ -106,7 +106,7 @@ const adminCtrl = {
         }
     },
 
-    // 자료실 관리 - 목록 페이지
+    // 자료실 관리 
     manageDocuments: async (req, res) => {
         try {
             const documents = await BoardStorage.getPostsByCategory('document'); // 자료실 글 데이터 가져오기
@@ -122,7 +122,7 @@ const adminCtrl = {
         }
     },
 
-    // 자료실 글 작성 페이지 이동
+    // 자료실 글 작성 페이지
     writeDocument: (req, res) => {
         res.render("admin/writeDocument", {
             isLoggedIn: req.session.isLoggedIn,

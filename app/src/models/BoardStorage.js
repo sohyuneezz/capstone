@@ -249,10 +249,10 @@ class BoardStorage {
             SELECT comments.id, comments.content, 
                 DATE_FORMAT(comments.created_at, '%Y-%m-%d') AS created_at,  -- 날짜 포맷팅
                 posts.title AS post_title, posts.id AS post_id
-            FROM comments
-            JOIN posts ON comments.post_id = posts.id
-            WHERE comments.user_id = ?
-            ORDER BY comments.created_at DESC
+                FROM comments
+                JOIN posts ON comments.post_id = posts.id
+                WHERE comments.user_id = ?
+                ORDER BY comments.created_at DESC
         `;
         return new Promise((resolve, reject) => {
             db.query(query, [userId], (err, results) => {

@@ -1,8 +1,7 @@
 $(function () {
-    //변수 선언
     var _w = $(window);
     var $body = $("body");
-    gnbAction();// Gnb hover
+    gnbAction();
     if ( $body.find(".sticky-area").length > 0 ) { stickyListClick(); }// 스티키클릭
     $(".tab-con:first").addClass("on");//탭 첫번째 컨텐츠
 
@@ -153,14 +152,13 @@ function search() {
     } else if (currentUrl.includes('/community') || currentUrl.includes('/document') || currentUrl.includes('/share')) {
         // 각 게시판 페이지에서는 AJAX로 검색
         $.ajax({
-            url: currentUrl + '/search', // 검색 요청을 위한 URL
+            url: currentUrl + '/search', // 검색 요청
             type: 'POST',
             data: { query: query },
             success: function (data) {
-                // 기존 tbody 내용 삭제
                 $('table.board-list tbody').empty();
 
-                // 서버에서 JSON 형식으로 반환된 데이터를 기반으로 테이블을 업데이트
+                // JSON으로 반환된 데이터 기반으로 테이블 업데이트
                 if (data.posts && data.posts.length > 0) {
                     data.posts.forEach(function(post, index) {
                         const row = `
@@ -174,7 +172,7 @@ function search() {
                         $('table.board-list tbody').append(row);
                     });
                 } else {
-                    // 검색 결과가 없을 경우의 처리
+                    // 검색 결과가 없을 경우 처리
                     $('table.board-list tbody').append(`
                         <tr>
                             <td colspan="4" class="no-result">검색 결과가 없습니다.</td>

@@ -11,10 +11,10 @@ const axios = require("axios");
 
 // API 구축
 const output = {
-    home: (req, res) => { // 이크마스크립트 문법, function hello 랑 동일한 말
+    home: (req, res) => { // 이크마스크립트 문법
         res.render("home/index", {
             isLoggedIn: req.session.isLoggedIn || false, // 세션에 로그인 상태가 있으면 전달, 없으면 false
-            username: req.session.username || null // 사용자 ID도 전달 (필요에 따라 사용)
+            username: req.session.username || null // 사용자 ID 전달 
         });
     },
     login: (req, res) => { // 앞에 슬래시(루트) 뺴먹으면 작동 안됨
@@ -59,7 +59,6 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    //연구정보
     researchInfo: (req, res) => { // 공모전일정
         res.render("home/research_info", { 
             title: "대진 On 정보-연구 정보", 
@@ -73,7 +72,23 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    // 자료실 페이지
+    jobPreparation: (req, res) => { // 상담
+        res.render("home/job_pre", { 
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
+    },
+    test: (req, res) => {
+        res.render("home/test", { // 검사
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
+    },
+    guide: (req, res) => {
+        res.render("home/guide", { // 가이드북
+            isLoggedIn: req.session.isLoggedIn || false 
+        });
+    },
+
+    // 자료실 
     document: async (req, res) => {
         const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
         const limit = 10; // 페이지당 게시글 수
@@ -87,7 +102,7 @@ const output = {
             const totalDocuments = await BoardStorage.countPostsByCategory('document');
             const totalPages = Math.ceil(totalDocuments / limit); // 전체 페이지 수 계산
 
-            // EJS로 데이터 전달
+            // 데이터 전달
             res.render("home/document", { 
                 documents, 
                 currentPage: page, 
@@ -101,6 +116,7 @@ const output = {
             res.status(500).send("자료실 글을 불러오는 데 실패했습니다.");
         }
     },
+    // 자료실 글 상세
     documentDetail: async (req, res) => {
         const postId = req.params.id;
     
@@ -112,7 +128,7 @@ const output = {
                 return res.status(404).send("해당 게시글을 찾을 수 없습니다.");
             }
     
-            // 자료실에서는 댓글 없이 게시글만 렌더링
+            // 자료실에서는 댓글 없이
             res.render("home/post", {
                 post,
                 isLoggedIn: req.session.isLoggedIn || false,
@@ -137,7 +153,7 @@ const output = {
             const totalPages = Math.ceil(totalPosts / limit);
 
             res.render("home/community", { 
-                posts,  // posts 변수를 전달합니다.
+                posts,  
                 currentPage: page,
                 totalPages,
                 isLoggedIn: req.session.isLoggedIn || false 
@@ -147,7 +163,8 @@ const output = {
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
     },
-    
+
+    // 주제 공유
     topicShare: async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = 10;
@@ -161,7 +178,7 @@ const output = {
             const totalPosts = await BoardStorage.countPostsByCategory('share');
             const totalPages = Math.ceil(totalPosts / limit);
 
-            // EJS로 데이터 전달
+            // 데이터 전달
             res.render("home/share", { 
                 posts, 
                 currentPage: page, 
@@ -180,45 +197,19 @@ const output = {
             return res.redirect("/login");
         }
         const userId = req.session.username;
-        const category = req.query.category || "share"; // 카테고리를 URL 쿼리로 받음
+        const category = req.query.category || "share"; // 카테고리
         res.render("home/write", { isLoggedIn: true, userId, category, title: "글 작성" });
     },
     
-    
-    //취업준비
-    jobPreparation: (req, res) => { // 상담
-        res.render("home/job_pre", { 
-            isLoggedIn: req.session.isLoggedIn || false 
-        });
-    },
-    test: (req, res) => {
-        res.render("home/test", { // 검사
-            isLoggedIn: req.session.isLoggedIn || false 
-        });
-    },
-    guide: (req, res) => {
-        res.render("home/guide", { // 가이드북
-            isLoggedIn: req.session.isLoggedIn || false 
-        });
-    },
-    //마이페이지
-    myPage: (req, res) => { // 학습진척도 - 수정예정
-        if (!req.session.isLoggedIn) {
-            return res.redirect("/login");
-        }
-        res.render("home/mypage", { 
-                isLoggedIn: req.session.isLoggedIn || false 
-        });
-    },
-
+    // 나의기록
     myPosts: async (req, res) => {
         if (!req.session.isLoggedIn) return res.redirect("/login");
 
         const userId = req.session.username; 
-        const username = req.session.username; // 세션에서 username 가져오기
+        const username = req.session.username; 
         try {
             const posts = await BoardStorage.getPostsByUserId(userId);
-            const comments = await BoardStorage.getCommentsByUserId(userId); // 사용자 댓글 가져오기
+            const comments = await BoardStorage.getCommentsByUserId(userId); // 사용자 댓글 
             res.render("home/myposts", { isLoggedIn: true, posts, comments, username });
         } catch (err) {
             console.error("게시글 조회 오류:", err);
@@ -228,9 +219,9 @@ const output = {
     
     
     viewPost: async (req, res) => {
-        const postId = req.params.id;  // URL에서 게시물 ID 가져오기
+        const postId = req.params.id;  // 게시물 ID 가져오기
         try {
-            // BoardStorage를 사용하여 게시글과 댓글을 조회
+            // BoardStorage를 사용하여 게시글과 댓글 조회
             const post = await BoardStorage.getPostById(postId);
             const comments = await BoardStorage.getCommentsByPostId(postId);  // 댓글 목록 가져오기
             const isLoggedIn = req.session.isLoggedIn || false;
@@ -266,6 +257,7 @@ const output = {
             res.status(500).send("게시글을 삭제하는 도중 오류가 발생했습니다.");
         }
     },
+
     editPost: async (req, res) => {
         const postId = req.params.id;
         try {
@@ -280,7 +272,8 @@ const output = {
             res.status(500).send("게시글을 불러오는 데 실패했습니다.");
         }
     },
-    // 검색 요청 처리 (변경 사항 반영)
+
+    // 검색
     search: async (req, res) => {
         const query = req.body.query.trim().toLowerCase();
         const category = req.body.category || '';
@@ -293,7 +286,6 @@ const output = {
                 username: req.session.username || null
             });
         }
-    
         try {
             let sql = `
                 SELECT * 
@@ -313,24 +305,20 @@ const output = {
                     else resolve([results]);
                 });
             });
-    
             const categorizedResults = {
                 '자료실': [],
-                '주제공유': [], // 기존 'share'를 '주제공유'로 변경
+                '주제공유': [], 
                 '자유게시판': []
             };
-            
             results.forEach(item => {
                 if (item.category === 'share') {
-                    categorizedResults['주제공유'].push(item); // '주제공유'로 추가
+                    categorizedResults['주제공유'].push(item); 
                 } else if (item.category === 'document') {
                     categorizedResults['자료실'].push(item);
                 } else if (item.category === 'community') {
                     categorizedResults['자유게시판'].push(item);
                 }
             });
-            
-    
             res.render('home/search', { 
                 categorizedResults, 
                 error: null,  
@@ -347,6 +335,8 @@ const output = {
             });
         }
     },
+
+    // 게시글 카테고리별 검색
     searchCommunity: async (req, res) => {
         const query = req.body.query.trim(); // 검색어
 
@@ -354,11 +344,10 @@ const output = {
             // 검색어로 게시글 필터링
             const posts = await BoardStorage.searchPostsByCategory('community', query);
             
-            // JSON 형식으로 응답
-            res.json({ posts });  // JSON 형식으로 결과 반환
+            res.json({ posts }); 
         } catch (err) {
             console.error("게시글 검색 오류:", err);
-            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  // JSON 형식으로 오류 반환
+            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  
         }
     },
     searchDocument: async (req, res) => {
@@ -368,11 +357,10 @@ const output = {
             // 검색어로 게시글 필터링
             const posts = await BoardStorage.searchPostsByCategory('document', query);
             
-            // JSON 형식으로 응답
-            res.json({ posts });  // JSON 형식으로 결과 반환
+            res.json({ posts });  
         } catch (err) {
             console.error("게시글 검색 오류:", err);
-            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  // JSON 형식으로 오류 반환
+            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  
         }
     },
     searchShare: async (req, res) => {
@@ -382,17 +370,18 @@ const output = {
             // 검색어로 게시글 필터링
             const posts = await BoardStorage.searchPostsByCategory('share', query);
             
-            // JSON 형식으로 응답
-            res.json({ posts });  // JSON 형식으로 결과 반환
+            res.json({ posts });  
         } catch (err) {
             console.error("게시글 검색 오류:", err);
-            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  // JSON 형식으로 오류 반환
+            res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  
         }
     },
+
+    // 졸업자 현황 그래프 이미지
     getGraph: async (req, res) => {
         console.log("getGraph 함수 호출됨");
         try {
-            // Flask 서버에서 그래프 이미지 가져오기
+            // Flask에서 그래프 이미지 가져오기
             const response = await axios.get("http://127.0.0.1:5000/graph", {
                 responseType: "arraybuffer", // 이미지 데이터를 배열 버퍼 형식으로 처리
             });
@@ -405,15 +394,16 @@ const output = {
             res.status(500).send("그래프를 가져오는 데 실패했습니다.");
         }
     },
-    sbn: (req, res) => {
+    sbn: (req, res) => { // 졸업자 취업 현황
         res.render("home/sbn", {
             title: "대진 On 정보 - 졸업자 취업 현황",
             isLoggedIn: req.session.isLoggedIn || false,
         });
     },
-     // 공모전 데이터 가져오기
+
+     // 공모전 데이터
     getContests: async (req, res) => {
-        const category = req.query.category || ""; // 카테고리 파라미터 가져오기
+        const category = req.query.category || ""; // 카테고리
 
         try {
             // 데이터베이스에서 카테고리에 맞는 공모전 데이터 가져오기
@@ -421,8 +411,8 @@ const output = {
                 ? `SELECT * FROM contests WHERE category = ?`
                 : `SELECT * FROM contests`;
 
-            const results = await db.query(sql, [category]); // Promisify된 db.query 사용
-            res.json(results); // JSON 데이터 반환
+            const results = await db.query(sql, [category]); // db.query 사용
+            res.json(results);
         } catch (error) {
             console.error("데이터 가져오기 실패:", error.message);
             res.status(500).json({ error: "데이터 가져오기 실패" });
@@ -442,14 +432,14 @@ const process = {
             req.session.isAdmin = userInfo.isAdmin; // 사용자 관리자인지 여부를 세션에 저장
 
             
-            // 관리자 여부에 따른 응답을 JSON 형태로 반환
+            // 관리자 여부에 따른 응답
             if (userInfo.isAdmin) {
                 return res.json({ success: true, redirectUrl: "/admin" }); // 관리자는 관리자 페이지로 이동
             } else {
                 return res.json({ success: true, redirectUrl: "/" }); // 일반 사용자는 홈 페이지로 이동
             }
         } else {
-            // 로그인 실패 시 JSON 형태로 응답
+            // 로그인 실패 
             return res.json({ success: false, msg: response.msg });
         }
     },
@@ -492,7 +482,7 @@ const process = {
     },
     
     submitPost: async (req, res) => {
-        const userId = req.session.username; // 로그인된 사용자의 ID 가져오기
+        const userId = req.session.username; // 로그인된 사용자ID 가져오기
         const { title, contents, category } = req.body; // 폼에서 받은 데이터
         
         if (!userId || !title || !contents || !category) {
@@ -533,9 +523,10 @@ const process = {
             res.status(500).send(err);
         }
     },
+
     updatePost: async (req, res) => {
         const postId = req.params.id;
-        const { title, contents, category } = req.body;  // 카테고리도 받아오기
+        const { title, contents, category } = req.body;  // 카테고리 받아오기
         try {
             const response = await BoardStorage.updatePost(postId, { title, contents, category });
             if (response.success) {
@@ -598,7 +589,7 @@ const process = {
 };
 
 
-// 객체를 꼭 모듈로 내보내줘야 함 그래야 밖에서 사용 가능
+// 객체 모듈로 내보내줌 
 module.exports = {
     output,
     process,

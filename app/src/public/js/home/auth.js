@@ -49,7 +49,7 @@ function login() {
     .then((res) => res.json())
     .then((res) => {
         if (res.success) {
-            window.location.href = res.redirectUrl; // 서버에서 받은 redirectUrl로 리다이렉트
+            window.location.href = res.redirectUrl; // 리다이렉트
         } else {
             alert(res.msg); // 로그인 실패 시 서버에서 보내는 메시지 표시
         }
@@ -131,12 +131,12 @@ function checkIdDuplication() {
     });
 }
 
-// 이메일 도메인 자동 채우기 함수
+// 이메일 도메인 자동 채우기
 function updateDomain(e) {
-    if (!domain) return; // 도메인 필드가 없으면 실행 중지
+    if (!domain) return; // 도메인 필드가 없으면 중지
 
     if (e.target.value === "directly") {
-        domain.value = "@"; // 직접 입력 시 기본값으로 @만 남김
+        domain.value = "@"; // 기본값으로 @만 남김
         domain.disabled = false; // 직접 입력 가능
     } else {
         domain.value = "@" + e.target.value; // 선택한 도메인을 @ 뒤에 추가

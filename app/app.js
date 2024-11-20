@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session"); // 세션 모듈
 const dotenv = require("dotenv");
 const cors = require("cors"); // 외부 API 접근을 위한 CORS 설정
-const xml2js = require("xml2js"); // XML 데이터를 JSON으로 변환하는 모듈
+// const xml2js = require("xml2js"); // XML 데이터를 JSON으로 변환하는 모듈
 
 dotenv.config(); // dotenv 모듈을 사용하면 어떤 OS를 사용하든 동일하게 환경변수 등록하고 가져올수 있게 함
 
@@ -28,7 +28,7 @@ app.use(session({
 
 // 라우팅 - 사용자
 const home = require("./src/routes/home"); // home 폴더 안에 있는 자바스크립트를 읽어옴
-app.use("/", home); // use -> 미들웨어를 등록해주는 메서드.
+app.use("/", home); 
 
 // 라우팅 - 관리자
 const admin = require("./src/routes/admin/admin.routes");
@@ -37,13 +37,13 @@ app.use("/admin", admin); // 관리자 전용 경로에 대해서는 admin 라�
 // 앱세팅
 app.set("views", "./src/views");
 app.set("view engine", "ejs");
-app.use(express.static(`${__dirname}/src/public`)); // dirname은 현재 있는 파일의 위치를 반환함 그 위치 안에 있는 파일(src/public)에 정적 경로로 추가해준다
+app.use(express.static(`${__dirname}/src/public`)); // dirname은 현재 있는 파일의 위치를 반환함 그 위치 안에 있는 파일(src/public)에 정적 경로로 추가
 
 
 app.get('/api/contests', (req, res) => {
     const { year, month } = req.query;
     
-    const targetMonth = month - 1; // JavaScript 월 인덱스를 맞추기 위해 1을 뺍니다.
+    const targetMonth = month - 1;
 
     const query = `
         SELECT title AS contest_name, organizer, period

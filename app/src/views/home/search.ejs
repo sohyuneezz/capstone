@@ -1,11 +1,10 @@
-<%- include('../partials/header', { title: '대진 On 정보-가이드 북' }) %>
+<%- include('../partials/header', { title: '대진 On 정보-통합검색' }) %>
 <link rel="stylesheet" type="text/css" href="../css/home/search.css">
 <main id="container" class="container">
     <section id="content" class="content">
         <header class="tit-area">
             <h1 class="tit-type1">통합 검색</h1>
         </header>
-
         <!-- 검색 영역 -->
         <div class="search_area">
             <p>
@@ -19,7 +18,6 @@
                 <a href="javascript:search();" class="search_btn">검색</a>
             </p>
         </div>
-        
         <!-- 검색 결과 표시 영역 -->
         <div class="map_cont total">
             <!-- 자료실 검색 결과 -->
@@ -43,7 +41,6 @@
                     <li class="nocont">검색된 결과가 없습니다.</li>
                 <% } %>
             </ul>
-
             <!-- 주제공유 검색 결과 -->
             <div class="h4_flex top">
                 <h3 class="tit-type2">주제공유 검색</h3>
@@ -65,8 +62,6 @@
                     <li class="nocont">검색된 결과가 없습니다.</li>
                 <% } %>
             </ul>
-
-
             <!-- 자유게시판 검색 결과 -->
             <div class="h4_flex top">
                 <h3 class="tit-type2">자유게시판 검색</h3>

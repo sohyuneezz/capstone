@@ -1,9 +1,10 @@
+<!-- 게시글마다 검색결과 테이블 -->
 <tbody>
     <% posts.forEach((post, index) => { %>
         <tr>
             <td class="list-num"><%= index + 1 %></td>
             <td class="list-tit"><a href="/post/<%= post.id %>"><%= post.title %></a></td>
-            <td class="list-author"><%= post.author_name %></td> <!-- 작성자 이름 표시 -->
+            <td class="list-author"><%= post.author_name %></td> 
             <td class="list-date"><%= new Date(post.created_at).toLocaleDateString('ko-KR') %></td>
         </tr>
     <% }) %>

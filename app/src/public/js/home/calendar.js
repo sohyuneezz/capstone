@@ -1,4 +1,4 @@
-let competitionSchedule = []; // 전역 변수로 선언
+let competitionSchedule = []; 
 
 document.addEventListener("DOMContentLoaded", async () => {
     const date = new Date();
