@@ -23,10 +23,10 @@ def set_korean_font():
 def create_graph():
     data = pd.read_csv(CSV_FILE)
 
-    # 남자와 여자 졸업자 수를 합산하여 '취업자수' 열 생성
+    # 남자와 여자 졸업자 수를 합산
     data["취업자수"] = data["남자졸업자수(A)(명)"] + data["여자졸업자수(A)(명)"]
 
-    # 학과별 연도별 데이터 피벗 테이블 생성
+    # 학과별 연도별 데이터 테이블 생성
     pivot_data = pd.pivot_table(
         data,
         values="취업자수",
@@ -39,9 +39,10 @@ def create_graph():
     set_korean_font()
 
     # 그래프 그리기
-    plt.figure(figsize=(10, 6))  # 그래프 크기 조정
+    plt.figure(figsize=(12, 8))  # 그래프 크기 조정
     x_indexes = np.arange(len(pivot_data.index))
-    width = 0.15
+    num_columns = len(pivot_data.columns)
+    width = 0.8 / num_columns  # 전체 폭을 0.8로 제한하고 막대의 개수에 따라 분할
 
     for i, department in enumerate(pivot_data.columns):
         plt.bar(
@@ -55,7 +56,7 @@ def create_graph():
     plt.xlabel("기준년도", fontsize=12)
     plt.ylabel("취업자수", fontsize=12)
     plt.xticks(
-        ticks=x_indexes + width * (len(pivot_data.columns) - 1) / 2,
+        ticks=x_indexes + width * (num_columns - 1) / 2,
         labels=pivot_data.index,
         fontsize=10,
     )
