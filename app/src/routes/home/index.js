@@ -56,5 +56,9 @@ router.get("/graph", ctrl.output.getGraph);
 // 공모전 일정
 router.get("/api/contests", ctrl.output.getContests);
 
+// recruit 페이지와 API 라우트 추가
+router.get("/recruit", ctrl.output.recruitPage); // 채용 공고 페이지 렌더링
+router.get("/api/recruit", ctrl.process.getRecruitNoti); // 채용 공고 데이터 제공
+
 
 module.exports = router;

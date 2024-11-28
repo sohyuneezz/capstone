@@ -418,6 +418,36 @@ const output = {
             res.status(500).json({ error: "데이터 가져오기 실패" });
         }
     },
+    recruitPage: async (req, res) => {
+        const page = parseInt(req.query.page) || 1; // 현재 페이지 (기본값: 1)
+        const limit = 10; // 한 페이지당 보여줄 항목 수
+        const offset = (page - 1) * limit;
+
+        try {
+            // 데이터베이스에서 채용 정보 가져오기
+            const recruits = await db.query(
+                "SELECT * FROM recruitNoti ORDER BY date DESC LIMIT ? OFFSET ?",
+                [limit, offset]
+            );
+
+            // 전체 항목 수 계산
+            const totalCountResult = await db.query("SELECT COUNT(*) AS total FROM recruitNoti");
+            const totalCount = totalCountResult[0].total;
+
+            const totalPages = Math.ceil(totalCount / limit);
+
+            res.render("home/recruit", {
+                recruits,
+                currentPage: page,
+                totalPages,
+                isLoggedIn: req.session.isLoggedIn || false,
+                username: req.session.username || null,
+            });
+        } catch (error) {
+            console.error("채용 공고 페이지 렌더링 오류:", error);
+            res.status(500).send("채용 공고를 로드하는 데 실패했습니다.");
+        }
+    },
 };
 
 
@@ -583,6 +613,16 @@ const process = {
         } catch (error) {
             console.error("댓글 삭제 중 오류:", error);
             res.status(500).send("댓글 삭제 중 오류가 발생했습니다.");
+        }
+    },
+
+    getRecruitNoti: async (req, res) => {
+        try {
+            const recruits = await db.query("SELECT * FROM recruitNoti ORDER BY date DESC LIMIT 10");
+            res.json(recruits);
+        } catch (error) {
+            console.error("채용 공고 가져오기 오류:", error.message);
+            res.status(500).json({ error: "채용 공고를 가져오는 데 실패했습니다." });
         }
     }
     

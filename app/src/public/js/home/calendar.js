@@ -103,6 +103,7 @@ async function fetchCompetitionSchedule(year, month) {
         const data = await response.json(); 
 
         return data.map(event => ({
+            category: event.category,
             contestName: event.title, 
             organizer: event.organizer,
             sdate: new Date(event.period.split('~')[0].trim()).toISOString().split('T')[0], 
@@ -196,6 +197,7 @@ function displayContestSchedule(currYear, currMonth) {
 
         const row = document.createElement('tr');
         row.innerHTML = `
+            <td>${event.category}</td>
             <td>${event.contestName}</td>
             <td>${event.organizer}</td>
             <td>${event.sdate} ~ ${event.edate || 'N/A'}</td>
