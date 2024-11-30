@@ -59,14 +59,32 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-    researchInfo: (req, res) => { // 공모전일정
-        res.render("home/research_info", { 
-            title: "대진 On 정보-연구 정보", 
-            isLoggedIn: req.session.isLoggedIn || false });
+    researchInfo: async (req, res) => {
+        try {
+            const contests = await new Promise((resolve, reject) => {
+                db.query("SELECT * FROM contests ORDER BY period ASC", (err, results) => {
+                    if (err) reject(err);
+                    else resolve(results);
+                });
+            });
+    
+            const contestsWithCategory = contests.map(contest => ({
+                ...contest,
+                category: "기타", // 기본 카테고리 추가
+            }));
+    
+            res.render("home/research_info", {
+                contests: contestsWithCategory,
+                isLoggedIn: req.session.isLoggedIn || false,
+                username: req.session.username || null
+            });
+        } catch (error) {
+            console.error("공모전 데이터를 가져오는 중 오류 발생:", error);
+            res.status(500).send("데이터를 가져오는 데 실패했습니다.");
+        }
     },
-    contestSchedule: (req, res) => { // 학회일정
-        res.render("home/contest_schedule");
-    },
+    
+    
     academicSites: (req, res) => { //학술 사이트
         res.render("home/academic", { 
             isLoggedIn: req.session.isLoggedIn || false 
@@ -403,19 +421,12 @@ const output = {
 
      // 공모전 데이터
     getContests: async (req, res) => {
-        const category = req.query.category || ""; // 카테고리
-
         try {
-            // 데이터베이스에서 카테고리에 맞는 공모전 데이터 가져오기
-            const sql = category
-                ? `SELECT * FROM contests WHERE category = ?`
-                : `SELECT * FROM contests`;
-
-            const results = await db.query(sql, [category]); // db.query 사용
-            res.json(results);
+            const contests = await db.query("SELECT * FROM contests");
+            res.json(contests);
         } catch (error) {
-            console.error("데이터 가져오기 실패:", error.message);
-            res.status(500).json({ error: "데이터 가져오기 실패" });
+            console.error("공모전 데이터 가져오기 실패:", error.message);
+            res.status(500).json({ error: "데이터 불러오기 실패" });
         }
     },
     recruitPage: async (req, res) => {

@@ -58,17 +58,31 @@
             <table id="contestTable">
                 <thead>
                     <tr>
-                        <th>분야</th>
-                        <th>공모전 제목</th>
-                        <th>주최 기관</th>
-                        <th>접수기간</th>
-                        <th>남은 기간</th>
-                        <th>상태</th>
+                        <th>카테고리</th>
+                        <th>공모명</th>
+                        <th>주최</th>
+                        <th>진행기간</th>
+                        <th>D-day</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- API로부터 데이터를 받아 여기에 추가할 예정 -->
+                    <% if (contests.length > 0) { %>
+                        <% contests.forEach(contest => { %>
+                            <tr>
+                                <td><%= contest.category %></td>
+                                <td><%= contest.title %></td>
+                                <td><%= contest.organizer %></td>
+                                <td><%= contest.period && contest.period.trim() !== '' ? contest.period : '기간 정보 없음' %></td>
+                                <td><%= contest.days_left %></td>
+                            </tr>
+                        <% }) %>                        
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">데이터가 없습니다.</td>
+                        </tr>
+                    <% } %>
                 </tbody>
+                
             </table>
         </div>
 

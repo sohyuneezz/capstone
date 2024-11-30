@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const renderCalendar = () => {
         currentDate.innerHTML = `${months[currMonth]} ${currYear}`;
-        
+    
         let firstDayofMonth = new Date(currYear, currMonth, 1).getDay();
         let lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate();
         let lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay();
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         calendarBody.innerHTML = tableRows;
     
         // 현재 달에 해당하는 공모전 일정 표시
-        displayContestSchedule(currYear, currMonth);
+        displayContestSchedule();
     };
     
 
@@ -96,21 +96,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function fetchCompetitionSchedule(year, month) {
     try {
         const response = await fetch(`/api/contests?year=${year}&month=${month + 1}`);
-        if (!response.ok) {
-            throw new Error('Failed to load competition data');
-        }
+        if (!response.ok) throw new Error("Failed to load competition data");
 
-        const data = await response.json(); 
+        const data = await response.json();
 
-        return data.map(event => ({
-            category: event.category,
-            contestName: event.title, 
-            organizer: event.organizer,
-            sdate: new Date(event.period.split('~')[0].trim()).toISOString().split('T')[0], 
-            edate: new Date(event.period.split('~')[1]?.trim() || event.period.split('~')[0].trim()).toISOString().split('T')[0]
-        }));
+        return data.map(event => {
+            const periodParts = event.period ? event.period.split('~').map(date => date.trim()) : [];
+            const sdate = periodParts[0] || null;
+            const edate = periodParts[1] || null;
+
+            return {
+                title: event.title,
+                organizer: event.organizer,
+                sdate,
+                edate,
+                category: event.category,
+                days_left: calculateDdayAndColor(sdate, edate).dDayText
+            };
+        });
     } catch (error) {
-        console.error('공모전 일정을 가져오는 데 실패했습니다:', error);
+        console.error("공모전 일정을 가져오는 데 실패했습니다:", error);
         return [];
     }
 }
@@ -118,26 +123,20 @@ async function fetchCompetitionSchedule(year, month) {
 // D-DAY 계산 함수
 function calculateDdayAndColor(startDate, endDate) {
     const today = new Date();
-    const targetDate = new Date(endDate || startDate); 
+    const targetDate = new Date(endDate || startDate);
+
+    if (isNaN(targetDate.getTime())) return { dDayText: 'Invalid Date', dDayColor: 'gray' };
 
     const diffTime = targetDate - today;
     const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    let dDayText = '';
-    let dDayColor = '';
-
     if (remainingDays > 0) {
-        dDayText = `D-${remainingDays}`;
-        dDayColor = 'red'; 
+        return { dDayText: `D-${remainingDays}`, dDayColor: 'red' };
     } else if (remainingDays === 0) {
-        dDayText = 'D-DAY';
-        dDayColor = '#1F4E9C'; 
+        return { dDayText: 'D-DAY', dDayColor: '#1F4E9C' };
     } else {
-        dDayText = `마감 완료`;
-        dDayColor = 'black'; 
+        return { dDayText: '마감 완료', dDayColor: 'black' };
     }
-
-    return { dDayText, dDayColor };
 }
 
 // 팝업 창
@@ -159,7 +158,7 @@ function showPopup(day, month, year) {
         const popupTitle = document.getElementById('popup-title');
         const popupDetails = document.getElementById('popup-details');
 
-        popupTitle.textContent = event.contestName;
+        popupTitle.textContent = event.title;
         popupDetails.innerHTML = `
             <p><strong>주최:</strong> ${event.organizer}</p>
             <p><strong>접수 기간:</strong> ${event.sdate} - ${event.edate || 'N/A'}</p>
@@ -175,34 +174,41 @@ function showPopup(day, month, year) {
     }
 }
 
-// 공모전 일정 표시
-function displayContestSchedule(currYear, currMonth) {
-    const contestTable = document.getElementById('contestTable').querySelector('tbody');
-    contestTable.innerHTML = ''; 
+// 키워드 기반 카테고리 분류 함수
+function classifyCategory(title) {
+    const categories = {
+        "AI": ["AI", "인공지능", "머신러닝", "딥러닝", "NLP", "컴퓨터 비전"],
+        "빅데이터": ["빅데이터", "데이터 분석", "데이터 과학", "데이터 시각화"],
+        "소프트웨어": ["소프트웨어", "프로그래밍", "코딩", "알고리즘"],
+        "게임": ["게임", "VR", "AR"],
+        "앱": ["앱", "모바일", "iOS"],
+        "보안": ["보안", "해킹", "암호학"],
+    };
 
-    const today = new Date();
+    for (const [category, keywords] of Object.entries(categories)) {
+        if (keywords.some(keyword => title.includes(keyword))) {
+            return category;
+        }
+    }
+    return "기타"; // 기본 카테고리
+}
 
-    const filteredSchedule = competitionSchedule.filter(event => {
-        const startDate = new Date(event.sdate);
-        return startDate.getFullYear() === currYear && startDate.getMonth() === currMonth;
-    });
+// 공모전 일정 테이블 표시
+function displayContestSchedule() {
+    const contestTable = document.getElementById("contestTable").querySelector("tbody");
+    contestTable.innerHTML = "";
 
-    filteredSchedule.sort((a, b) => new Date(a.sdate) - new Date(b.sdate));
+    competitionSchedule.forEach(event => {
+        const category = classifyCategory(event.title);
+        const { dDayText } = calculateDdayAndColor(event.sdate, event.edate);
 
-    filteredSchedule.forEach(event => {
-        const startDate = new Date(event.sdate);
-        const endDate = new Date(event.edate);
-
-        const { dDayText, dDayColor } = calculateDdayAndColor(startDate, endDate);
-
-        const row = document.createElement('tr');
+        const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${event.category}</td>
-            <td>${event.contestName}</td>
+            <td>${category}</td>
+            <td>${event.title}</td>
             <td>${event.organizer}</td>
-            <td>${event.sdate} ~ ${event.edate || 'N/A'}</td>
+            <td>${event.sdate && event.edate ? `${event.sdate} ~ ${event.edate}` : '기간 정보 없음'}</td>
             <td>${dDayText}</td>
-            <td style="color: ${dDayColor}; font-weight: bold;">${dDayText.includes('마감') ? '마감 완료' : '진행 중'}</td>
         `;
         contestTable.appendChild(row);
     });
