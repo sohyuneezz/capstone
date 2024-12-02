@@ -9,10 +9,10 @@ from dotenv import load_dotenv
 import os
 import schedule
 
-# .env 파일 로드
+# env 로드
 load_dotenv()
 
-# MySQL 연결 설정
+# DB
 db_config = {
     'host': os.getenv('DB_HOST'),
     'user': os.getenv('DB_USER'),
@@ -21,7 +21,7 @@ db_config = {
     'port': int(os.getenv('DB_PORT', 3306))
 }
 
-# ChromeDriver 경로 설정
+# 크롬드라이버 경로
 driver_path = "C:/Users/csh88/Downloads/chromedriver-win64/chromedriver.exe"
 
 # 데이터를 저장할 리스트 생성
@@ -79,9 +79,9 @@ def save_to_db(data):
 def crawl_and_update():
     """크롤링을 실행하고 데이터를 DB에 저장"""
     global data
-    data = []  # 이전 데이터 초기화
+    data = [] 
 
-    # WebDriver 시작
+    # 웹드라이버 시작
     service = Service(driver_path)
     driver = webdriver.Chrome(service=service)
 
@@ -91,12 +91,12 @@ def crawl_and_update():
         driver.get(url)
         time.sleep(5)  # 페이지 로드 대기
 
-        # '게임/소프트웨어' 버튼 클릭
+        # 게임/소프트웨어 메뉴 버튼 클릭
         game_software_link = driver.find_element(By.XPATH, "//a[@data-value='CCFD002']")
         game_software_link.click()
         time.sleep(3)
 
-        # '대학생' 버튼 클릭
+        # 대학생 메뉴 버튼 클릭
         college_student_link = driver.find_element(By.XPATH, "//a[@data-value='PCQF006']")
         college_student_link.click()
         time.sleep(3)
@@ -118,12 +118,12 @@ def crawl_and_update():
 
     # 데이터베이스 저장
     save_to_db(data)
-    print("데이터가 데이터베이스에 저장되었습니다.")
+    print("데이터베이스에 저장 완료.")
 
-# 스케줄 설정 (매일 실행)
+# 스케줄 설정
 schedule.every().day.at("02:00").do(crawl_and_update)  # 매일 오전 2시에 실행
 
-print("스케줄러가 실행 중입니다... 종료하려면 Ctrl+C를 누르세요.")
+print("스케줄러 실행 중...")
 while True:
     schedule.run_pending()
     time.sleep(1)

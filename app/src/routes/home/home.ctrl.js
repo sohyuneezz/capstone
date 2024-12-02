@@ -83,8 +83,6 @@ const output = {
             res.status(500).send("데이터를 가져오는 데 실패했습니다.");
         }
     },
-    
-    
     academicSites: (req, res) => { //학술 사이트
         res.render("home/academic", { 
             isLoggedIn: req.session.isLoggedIn || false 
@@ -105,7 +103,6 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false 
         });
     },
-
     // 자료실 
     document: async (req, res) => {
         const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
@@ -158,7 +155,6 @@ const output = {
             res.status(500).send("게시글을 불러오는 도중 오류가 발생했습니다.");
         }
     },
-    
     //커뮤니티
     community: async (req, res) => {
         const page = parseInt(req.query.page) || 1;
@@ -181,7 +177,6 @@ const output = {
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
     },
-
     // 주제 공유
     topicShare: async (req, res) => {
         const page = parseInt(req.query.page) || 1;
@@ -208,7 +203,6 @@ const output = {
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
     },
-
     //글쓰기
     write: (req, res) => {
         if (!req.session.isLoggedIn) {
@@ -218,7 +212,6 @@ const output = {
         const category = req.query.category || "share"; // 카테고리
         res.render("home/write", { isLoggedIn: true, userId, category, title: "글 작성" });
     },
-    
     // 나의기록
     myPosts: async (req, res) => {
         if (!req.session.isLoggedIn) return res.redirect("/login");
@@ -234,8 +227,6 @@ const output = {
             res.status(500).send("게시글 목록을 불러오는 데 실패했습니다.");
         }
     },
-    
-    
     viewPost: async (req, res) => {
         const postId = req.params.id;  // 게시물 ID 가져오기
         try {
@@ -260,7 +251,6 @@ const output = {
             res.status(500).send("게시글을 불러오는 데 실패했습니다.");
         }
     },
-
     deletePost: async (req, res) => {
         const postId = req.params.id;
         try {
@@ -275,7 +265,6 @@ const output = {
             res.status(500).send("게시글을 삭제하는 도중 오류가 발생했습니다.");
         }
     },
-
     editPost: async (req, res) => {
         const postId = req.params.id;
         try {
@@ -290,7 +279,6 @@ const output = {
             res.status(500).send("게시글을 불러오는 데 실패했습니다.");
         }
     },
-
     // 검색
     search: async (req, res) => {
         const query = req.body.query.trim().toLowerCase();
@@ -353,7 +341,6 @@ const output = {
             });
         }
     },
-
     // 게시글 카테고리별 검색
     searchCommunity: async (req, res) => {
         const query = req.body.query.trim(); // 검색어
@@ -394,7 +381,6 @@ const output = {
             res.status(500).json({ error: "검색 중 오류가 발생했습니다." });  
         }
     },
-
     // 졸업자 현황 그래프 이미지
     getGraph: async (req, res) => {
         console.log("getGraph 함수 호출됨");
@@ -418,7 +404,6 @@ const output = {
             isLoggedIn: req.session.isLoggedIn || false,
         });
     },
-
      // 공모전 데이터
     getContests: async (req, res) => {
         try {
@@ -580,8 +565,6 @@ const process = {
             res.status(500).send("게시글을 수정하는 도중 오류가 발생했습니다.");
         }
     },
-    
-    
     // 댓글 추가
     createComment: async (req, res) => {
         const postId = req.params.id;  // 게시글 아이디 가져옴

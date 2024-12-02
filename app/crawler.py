@@ -6,40 +6,40 @@ import os
 import schedule
 import time
 
-# .env 파일 로드
+# env 로드
 load_dotenv()
 
-# MySQL 연결 설정
+# DB
 db_config = {
     'host': os.getenv('DB_HOST'),
     'user': os.getenv('DB_USER'),
     'password': os.getenv('DB_PSWORD'),
     'database': os.getenv('DB_DATABASE'),
-    'port': int(os.getenv('DB_PORT', 3306))  # 기본 포트 3306
+    'port': int(os.getenv('DB_PORT', 3306)) 
 }
 
-# MySQL 연결 함수
+# DB 연결
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
 # 크롤링 함수
 def scrape_notices():
-    url = 'https://www.daejin.ac.kr/daejin/1005/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGZGFlamluJTJGMTk0JTJGYXJ0Y2xMaXN0LmRvJTNG'  # 공지사항 페이지 URL
+    url = 'https://www.daejin.ac.kr/daejin/1005/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGZGFlamluJTJGMTk0JTJGYXJ0Y2xMaXN0LmRvJTNG' 
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
     notices = []
     rows = soup.select('table.board-table tbody tr')  # 공지사항 목록의 각 행 선택
 
-    base_url = 'https://www.daejin.ac.kr'  # 상대 경로를 절대 경로로 변환
+    base_url = 'https://www.daejin.ac.kr'  # 절대 경로
 
     for row in rows:
         try:
-            number = row.select_one('td.td-num').get_text(strip=True)  # 번호
+            number = row.select_one('td.td-num').get_text(strip=True)  
             title_tag = row.select_one('td.td-subject a')
-            title = title_tag.select_one('strong').get_text(strip=True)  # 제목
+            title = title_tag.select_one('strong').get_text(strip=True) 
             link = base_url + title_tag['href']  # 절대 경로로 변환
-            date = row.select_one('td.td-date').get_text(strip=True)  # 날짜
+            date = row.select_one('td.td-date').get_text(strip=True)  
 
             notices.append({
                 'number': number,
@@ -78,7 +78,6 @@ def crawl_and_update():
 
 # 스케줄링 설정
 schedule.every().day.at("03:00").do(crawl_and_update)  # 매일 새벽 3시에 실행
-
 
 if __name__ == '__main__':
     crawl_and_update()  # 초기 실행
