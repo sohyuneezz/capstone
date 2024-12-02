@@ -281,18 +281,18 @@ function showScheduleOptions() {
 
 
 async function handleCategorySelection(category) {
-    // 카테고리 맵핑 (한글 → 영어)
-    const categoryMap = {
-        "AI": "AI",
-        "빅데이터": "BigData",
-        "SW": "Software",
-        "게임": "Game",
-        "보안": "Security",
-        "앱": "App",
+    // 카테고리 맵핑 (한글 → 키워드 기반)
+    const categoryKeywords = {
+        "AI": ["AI", "인공지능", "머신러닝", "딥러닝", "NLP", "컴퓨터 비전"],
+        "빅데이터": ["빅데이터", "데이터 분석", "데이터 과학", "데이터 시각화"],
+        "SW": ["소프트웨어", "프로그래밍", "코딩", "알고리즘"],
+        "게임": ["게임", "VR", "AR"],
+        "보안": ["보안", "해킹", "암호학"],
+        "앱": ["앱", "모바일", "iOS"],
     };
 
-    const englishCategory = categoryMap[category]; // 한글 이름을 영어로 변환
-    if (!englishCategory) {
+    const keywords = categoryKeywords[category];
+    if (!keywords) {
         addMessage("bot", "잘못된 카테고리를 선택하셨습니다.");
         return;
     }
@@ -300,21 +300,23 @@ async function handleCategorySelection(category) {
     addMessage("user", `공모전 분야: ${category}`);
 
     try {
-        const response = await fetch(`/api/contests?category=${englishCategory}`);
-        const contests = await response.json();
+        // 클라이언트에 저장된 데이터를 필터링
+        const filteredContests = competitionSchedule.filter((contest) =>
+            keywords.some((keyword) => contest.title.includes(keyword))
+        );
 
-        if (contests.length === 0) {
+        if (filteredContests.length === 0) {
             addMessage("bot", `'${category}' 분야의 공모전이 없습니다.`);
         } else {
             let responseMessage = `'${category}' 분야의 공모전 일정은 다음과 같습니다:<br>`;
-            contests.forEach((contest, index) => {
-                responseMessage += `- ${index + 1}. <strong>${contest.title}</strong>: ${contest.period} (${contest.status})<br>`;
+            filteredContests.forEach((contest, index) => {
+                responseMessage += `- ${index + 1}. <strong>${contest.title}</strong>: ${contest.sdate} ~ ${contest.edate} (${contest.days_left})<br>`;
             });
             addMessage("bot", responseMessage);
         }
     } catch (error) {
-        console.error("공모전 데이터 가져오기 실패:", error);
-        addMessage("bot", "공모전 데이터를 가져오는 데 실패했습니다. 다시 시도해주세요.");
+        console.error("공모전 데이터 처리 실패:", error);
+        addMessage("bot", "공모전 데이터를 처리하는 데 실패했습니다. 다시 시도해주세요.");
     }
 }
 
